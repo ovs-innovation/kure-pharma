@@ -334,8 +334,27 @@ const ProductDrawer = ({ id }) => {
                     value={(Number(watch("basePrice") || 0) * (1 + Number(watch("gstPercentage") || 0) / 100)).toFixed(2)}
                   />
                   <p className="text-xs text-gray-400 mt-1">
-                    Auto-calculated final price including GST.
+                    Sale price after discount (auto-calculated from base + GST).
                   </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label="Price Before Discount (MRP)" />
+                <div className="col-span-8 sm:col-span-4">
+                  <InputArea
+                    register={register}
+                    label="Price Before Discount"
+                    name="originalPrice"
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    placeholder="e.g. 222 (GST inclusive, shown struck-through)"
+                  />
+                  <p className="text-xs text-gray-400 mt-1">
+                    Optional. Must be higher than final price. Shown as crossed-out MRP on the store.
+                  </p>
+                  <Error errorName={errors.originalPrice} />
                 </div>
               </div>
 

@@ -161,6 +161,14 @@ const StoreHome = () => {
     termsConditions,
     setTermsConditionsHeaderBg,
     termsConditionsHeaderBg,
+    setShippingPolicy,
+    shippingPolicy,
+    setShippingPolicyHeaderBg,
+    shippingPolicyHeaderBg,
+    setReturnAndRefundPolicy,
+    returnAndRefundPolicy,
+    setReturnAndRefundPolicyHeaderBg,
+    returnAndRefundPolicyHeaderBg,
     setFaqStatus,
     faqStatus,
     setFaqHeaderBg,
@@ -201,6 +209,10 @@ const StoreHome = () => {
     isSubmitting,
     // showChild,
     setTermsConditionsTextEdit,
+    shippingPolicyTextEdit,
+    setShippingPolicyTextEdit,
+    returnAndRefundPolicyTextEdit,
+    setReturnAndRefundPolicyTextEdit,
   } = useStoreHomeSubmit();
 
   useEffect(() => {
@@ -638,6 +650,18 @@ const StoreHome = () => {
                   termsConditionsHeaderBg={termsConditionsHeaderBg}
                   termsConditionsTextEdit={termsConditionsTextEdit}
                   setTermsConditionsTextEdit={setTermsConditionsTextEdit}
+                  shippingPolicy={shippingPolicy}
+                  setShippingPolicy={setShippingPolicy}
+                  shippingPolicyHeaderBg={shippingPolicyHeaderBg}
+                  setShippingPolicyHeaderBg={setShippingPolicyHeaderBg}
+                  shippingPolicyTextEdit={shippingPolicyTextEdit}
+                  setShippingPolicyTextEdit={setShippingPolicyTextEdit}
+                  returnAndRefundPolicy={returnAndRefundPolicy}
+                  setReturnAndRefundPolicy={setReturnAndRefundPolicy}
+                  returnAndRefundPolicyHeaderBg={returnAndRefundPolicyHeaderBg}
+                  setReturnAndRefundPolicyHeaderBg={setReturnAndRefundPolicyHeaderBg}
+                  returnAndRefundPolicyTextEdit={returnAndRefundPolicyTextEdit}
+                  setReturnAndRefundPolicyTextEdit={setReturnAndRefundPolicyTextEdit}
                   isSubmitting={isSubmitting}
                 />
               </form>

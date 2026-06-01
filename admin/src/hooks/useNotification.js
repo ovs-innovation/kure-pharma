@@ -9,7 +9,7 @@ const useNotification = () => {
 
   // useEffect(() => {
   //   setSocket(io(import.meta.env.VITE_APP_API_SOCKET_URL));
-  //   // setSocket(io("https://PowerQ-backend-theta.vercel.app"));
+  //   // setSocket(io("https://Elecmoon-backend-theta.vercel.app"));
   // }, []);
 
   // useEffect(() => {

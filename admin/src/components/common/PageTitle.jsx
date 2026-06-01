@@ -7,15 +7,15 @@ const PageTitle = ({ title, description }) => {
       <title>
         {" "}
         {title
-          ? `${title} | React eCommerce Admin Dashboard`
-          : "PowerQ | React eCommerce Admin Dashboard"}
+          ? `${title} | Elecmoon Admin`
+          : "Elecmoon | Admin Dashboard"}
       </title>
       <meta
         name="description"
         content={
           description
             ? ` ${description} `
-            : "PowerQ : React Grocery & Organic Food Store e-commerce Admin Dashboard"
+            : "Elecmoon : React Grocery & Organic Food Store e-commerce Admin Dashboard"
         }
       />
     </Helmet>

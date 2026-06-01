@@ -1,2 +1,2 @@
 
-This is updated version of powerq-admin
+This is updated version of Elecmoon-admin

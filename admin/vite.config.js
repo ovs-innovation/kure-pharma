@@ -59,10 +59,10 @@ export default defineConfig({
         scope: ".",
         start_url: ".",
         id: ".",
-        short_name: "PowerQ - E-Commerce Website",
-        name: "PowerQ | React eCommerce Admin Dashboard",
+        short_name: "Elecmoon - E-Commerce Website",
+        name: "Elecmoon | React eCommerce Admin Dashboard",
         description:
-          "PowerQ : React Grocery & Organic Food Store e-commerce Admin Dashboard",
+          "Elecmoon : React Grocery & Organic Food Store e-commerce Admin Dashboard",
         icons: [
           {
             src: "favicon.ico",

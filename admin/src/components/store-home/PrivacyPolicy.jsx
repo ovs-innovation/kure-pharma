@@ -26,6 +26,18 @@ const PrivacyPolicy = ({
   termsConditionsHeaderBg,
   termsConditionsTextEdit,
   setTermsConditionsTextEdit,
+  shippingPolicy,
+  setShippingPolicy,
+  shippingPolicyHeaderBg,
+  setShippingPolicyHeaderBg,
+  shippingPolicyTextEdit,
+  setShippingPolicyTextEdit,
+  returnAndRefundPolicy,
+  setReturnAndRefundPolicy,
+  returnAndRefundPolicyHeaderBg,
+  setReturnAndRefundPolicyHeaderBg,
+  returnAndRefundPolicyTextEdit,
+  setReturnAndRefundPolicyTextEdit,
   isSubmitting,
 }) => {
   const { t } = useTranslation();
@@ -216,6 +228,170 @@ const PrivacyPolicy = ({
                   wrapperClassName="demo-wrapper"
                   editorClassName="demo-editor"
                   onEditorStateChange={setTermsConditionsTextEdit}
+                  editorStyle={{
+                    border: "1px solid #F1F1F1",
+                    padding: "0 15px",
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr className="md:mb-12 mb-3" />
+
+        <div className="xl:px-10 flex-grow scrollbar-hide w-full max-h-full">
+          <div className="inline-flex md:text-base text-sm mb-3 text-gray-500 dark:text-gray-400">
+            <strong>Shipping Policy</strong>
+          </div>
+          <hr className="md:mb-10 mb-3" />
+
+          <div className="grid md:grid-cols-5 sm:grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 md:mb-6 mb-3">
+            <label className="block md:text-sm md:col-span-1 sm:col-span-2 text-xs font-semibold text-gray-600 dark:text-gray-400 md:mb-1">
+              {t("EnableThisBlock")}
+            </label>
+            <div className="sm:col-span-4">
+              <SwitchToggle
+                title=""
+                handleProcess={setShippingPolicy}
+                processOption={shippingPolicy}
+                name={shippingPolicy}
+              />
+            </div>
+          </div>
+
+          <div
+            style={{
+              height: shippingPolicy ? "auto" : 0,
+              transition: "all 0.5s",
+              visibility: !shippingPolicy ? "hidden" : "visible",
+              opacity: !shippingPolicy ? "0" : "1",
+            }}
+          >
+            <div className="grid md:grid-cols-5 sm:grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 md:mb-6 mb-3">
+              <label className="block md:text-sm md:col-span-1 sm:col-span-2 text-xs font-semibold text-gray-600 dark:text-gray-400 md:mb-1">
+                {t("PageHeaderBg")}
+              </label>
+              <div className="sm:col-span-4">
+                <Uploader
+                  imageUrl={shippingPolicyHeaderBg}
+                  setImageUrl={setShippingPolicyHeaderBg}
+                  targetWidth={1920}
+                  targetHeight={373}
+                />
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-5 sm:grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 md:mb-6 mb-3">
+              <label className="block md:text-sm md:col-span-1 sm:col-span-2 text-xs font-semibold text-gray-600 dark:text-gray-400 md:mb-1">
+                {t("PageTitle")}
+              </label>
+              <div className="sm:col-span-4">
+                <InputAreaTwo
+                  register={register}
+                  label="Page Title"
+                  name="shippingPolicy_page_title"
+                  type="text"
+                  placeholder={t("PageTitle")}
+                />
+                <Error errorName={errors.shippingPolicy_page_title} />
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-5 sm:grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 md:mb-6 mb-3">
+              <label className="block md:text-sm md:col-span-1 sm:col-span-2 text-xs font-semibold text-gray-600 dark:text-gray-400 md:mb-1">
+                {t("PageText")}
+              </label>
+              <div className="sm:col-span-4">
+                <Editor
+                  editorState={
+                    shippingPolicyTextEdit ? shippingPolicyTextEdit : null
+                  }
+                  wrapperClassName="demo-wrapper"
+                  editorClassName="demo-editor"
+                  onEditorStateChange={setShippingPolicyTextEdit}
+                  editorStyle={{
+                    border: "1px solid #F1F1F1",
+                    padding: "0 15px",
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr className="md:mb-12 mb-3" />
+
+        <div className="xl:px-10 flex-grow scrollbar-hide w-full max-h-full">
+          <div className="inline-flex md:text-base text-sm mb-3 text-gray-500 dark:text-gray-400">
+            <strong>Return & Refund Policy</strong>
+          </div>
+          <hr className="md:mb-10 mb-3" />
+
+          <div className="grid md:grid-cols-5 sm:grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 md:mb-6 mb-3">
+            <label className="block md:text-sm md:col-span-1 sm:col-span-2 text-xs font-semibold text-gray-600 dark:text-gray-400 md:mb-1">
+              {t("EnableThisBlock")}
+            </label>
+            <div className="sm:col-span-4">
+              <SwitchToggle
+                title=""
+                handleProcess={setReturnAndRefundPolicy}
+                processOption={returnAndRefundPolicy}
+                name={returnAndRefundPolicy}
+              />
+            </div>
+          </div>
+
+          <div
+            style={{
+              height: returnAndRefundPolicy ? "auto" : 0,
+              transition: "all 0.5s",
+              visibility: !returnAndRefundPolicy ? "hidden" : "visible",
+              opacity: !returnAndRefundPolicy ? "0" : "1",
+            }}
+          >
+            <div className="grid md:grid-cols-5 sm:grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 md:mb-6 mb-3">
+              <label className="block md:text-sm md:col-span-1 sm:col-span-2 text-xs font-semibold text-gray-600 dark:text-gray-400 md:mb-1">
+                {t("PageHeaderBg")}
+              </label>
+              <div className="sm:col-span-4">
+                <Uploader
+                  imageUrl={returnAndRefundPolicyHeaderBg}
+                  setImageUrl={setReturnAndRefundPolicyHeaderBg}
+                  targetWidth={1920}
+                  targetHeight={373}
+                />
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-5 sm:grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 md:mb-6 mb-3">
+              <label className="block md:text-sm md:col-span-1 sm:col-span-2 text-xs font-semibold text-gray-600 dark:text-gray-400 md:mb-1">
+                {t("PageTitle")}
+              </label>
+              <div className="sm:col-span-4">
+                <InputAreaTwo
+                  register={register}
+                  label="Page Title"
+                  name="returnAndRefundPolicy_page_title"
+                  type="text"
+                  placeholder={t("PageTitle")}
+                />
+                <Error errorName={errors.returnAndRefundPolicy_page_title} />
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-5 sm:grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 md:mb-6 mb-3">
+              <label className="block md:text-sm md:col-span-1 sm:col-span-2 text-xs font-semibold text-gray-600 dark:text-gray-400 md:mb-1">
+                {t("PageText")}
+              </label>
+              <div className="sm:col-span-4">
+                <Editor
+                  editorState={
+                    returnAndRefundPolicyTextEdit ? returnAndRefundPolicyTextEdit : null
+                  }
+                  wrapperClassName="demo-wrapper"
+                  editorClassName="demo-editor"
+                  onEditorStateChange={setReturnAndRefundPolicyTextEdit}
                   editorStyle={{
                     border: "1px solid #F1F1F1",
                     padding: "0 15px",

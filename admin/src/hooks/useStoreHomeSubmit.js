@@ -124,6 +124,16 @@ const useStoreHomeSubmit = () => {
   const [aboutTopContentRightImage, setAboutTopContentRightImage] =
     useState("");
   const [termsConditionsHeaderBg, setTermsConditionsHeaderBg] = useState("");
+  const [shippingPolicy, setShippingPolicy] = useState(true);
+  const [shippingPolicyHeaderBg, setShippingPolicyHeaderBg] = useState("");
+  const [shippingPolicyTextEdit, setShippingPolicyTextEdit] = useState(
+    createEditorState("")
+  );
+  const [returnAndRefundPolicy, setReturnAndRefundPolicy] = useState(true);
+  const [returnAndRefundPolicyHeaderBg, setReturnAndRefundPolicyHeaderBg] = useState("");
+  const [returnAndRefundPolicyTextEdit, setReturnAndRefundPolicyTextEdit] = useState(
+    createEditorState("")
+  );
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { handleDisableForDemo } = useDisableForDemo();
@@ -541,6 +551,40 @@ const useStoreHomeSubmit = () => {
               [language]: termsConditionsTextEdit
                 ? draftToHtml(
                     convertToRaw(termsConditionsTextEdit.getCurrentContent())
+                  )
+                : "",
+            },
+          },
+          shipping_policy: {
+            status: shippingPolicy,
+            header_bg: shippingPolicyHeaderBg,
+            title: handleRemoveEmptyKey({
+              ...resData?.shipping_policy?.title,
+              [language]: data.shippingPolicy_page_title || "",
+            }),
+
+            description: {
+              ...resData?.shipping_policy?.description,
+              [language]: shippingPolicyTextEdit
+                ? draftToHtml(
+                    convertToRaw(shippingPolicyTextEdit.getCurrentContent())
+                  )
+                : "",
+            },
+          },
+          return_and_refund_policy: {
+            status: returnAndRefundPolicy,
+            header_bg: returnAndRefundPolicyHeaderBg,
+            title: handleRemoveEmptyKey({
+              ...resData?.return_and_refund_policy?.title,
+              [language]: data.returnAndRefundPolicy_page_title || "",
+            }),
+
+            description: {
+              ...resData?.return_and_refund_policy?.description,
+              [language]: returnAndRefundPolicyTextEdit
+                ? draftToHtml(
+                    convertToRaw(returnAndRefundPolicyTextEdit.getCurrentContent())
                   )
                 : "",
             },
@@ -1874,6 +1918,34 @@ const useStoreHomeSubmit = () => {
             )
           );
 
+          //shipping policy
+          setShippingPolicy(res?.shipping_policy?.status);
+          setShippingPolicyHeaderBg(res?.shipping_policy?.header_bg);
+          setValue(
+            "shippingPolicy_page_title",
+            res?.shipping_policy?.title[language || "en"]
+          );
+
+          setShippingPolicyTextEdit(
+            createEditorState(
+              showingTranslateValue(res?.shipping_policy?.description)
+            )
+          );
+
+          //return and refund policy
+          setReturnAndRefundPolicy(res?.return_and_refund_policy?.status);
+          setReturnAndRefundPolicyHeaderBg(res?.return_and_refund_policy?.header_bg);
+          setValue(
+            "returnAndRefundPolicy_page_title",
+            res?.return_and_refund_policy?.title[language || "en"]
+          );
+
+          setReturnAndRefundPolicyTextEdit(
+            createEditorState(
+              showingTranslateValue(res?.return_and_refund_policy?.description)
+            )
+          );
+
           //faq
           setFaqStatus(res?.faq?.page_status);
           setFaqHeaderBg(res?.faq?.header_bg);
@@ -2120,6 +2192,14 @@ const useStoreHomeSubmit = () => {
     termsConditions,
     setTermsConditionsHeaderBg,
     termsConditionsHeaderBg,
+    setShippingPolicy,
+    shippingPolicy,
+    setShippingPolicyHeaderBg,
+    shippingPolicyHeaderBg,
+    setReturnAndRefundPolicy,
+    returnAndRefundPolicy,
+    setReturnAndRefundPolicyHeaderBg,
+    returnAndRefundPolicyHeaderBg,
     setFaqStatus,
     faqStatus,
     setFaqLeftColStatus,
@@ -2158,6 +2238,10 @@ const useStoreHomeSubmit = () => {
     setTextEdit,
     termsConditionsTextEdit,
     setTermsConditionsTextEdit,
+    shippingPolicyTextEdit,
+    setShippingPolicyTextEdit,
+    returnAndRefundPolicyTextEdit,
+    setReturnAndRefundPolicyTextEdit,
     isSubmitting,
   };
 };

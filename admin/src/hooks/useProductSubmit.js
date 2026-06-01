@@ -105,6 +105,17 @@ const useProductSubmit = (id, selectedServices = []) => {
         return notifyError("Default Category is required!");
       }
 
+      const finalPrice =
+        getNumber(data.basePrice) +
+        (getNumber(data.basePrice) * Number(data.gstPercentage || 0)) / 100;
+      const mrp = Number(data.originalPrice) || 0;
+      if (mrp > 0 && mrp <= finalPrice) {
+        setIsSubmitting(false);
+        return notifyError(
+          "Price Before Discount (MRP) must be higher than Final Sale Price."
+        );
+      }
+
       // const updatedVariants = variants.map((v, i) => {
       //   const newObj = {
       //     ...v,
@@ -182,6 +193,7 @@ const useProductSubmit = (id, selectedServices = []) => {
         basePrice: getNumber(data.basePrice),
         gstPercentage: Number(data.gstPercentage || 0),
         price: getNumber(data.basePrice) + (getNumber(data.basePrice) * Number(data.gstPercentage || 0)) / 100,
+        originalPrice: Number(data.originalPrice) > 0 ? getNumber(data.originalPrice) : 0,
         minOrderQuantity: Number(data.minOrderQuantity || 1),
         deliveryCharge: Number(data.deliveryCharge || 0),
         type: data.type || "normal",
@@ -385,6 +397,10 @@ const useProductSubmit = (id, selectedServices = []) => {
             setValue("basePrice", res.basePrice || res.price);
             setValue("gstPercentage", res.gstPercentage || 0);
             setValue("price", res.price);
+            setValue(
+              "originalPrice",
+              res.originalPrice || res?.prices?.originalPrice || 0
+            );
             setValue("minOrderQuantity", res.minOrderQuantity || 1);
             setValue("deliveryCharge", res.deliveryCharge || 0);
             setValue("type", res.type || "normal");

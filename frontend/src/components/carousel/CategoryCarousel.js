@@ -88,51 +88,38 @@ const CategoryCarousel = () => {
           delay: 5000,
           disableOnInteraction: false,
         }}
-        spaceBetween={8}
+        spaceBetween={28}
         navigation={true}
-        allowTouchMove={false}
+        allowTouchMove={true}
         loop={enableLoop}
         breakpoints={{
-          // when window width is >= 640px
-          375: {
-            width: 375,
+          320: {
+            slidesPerView: 1.3,
+            spaceBetween: 16,
+          },
+          480: {
             slidesPerView: 2,
+            spaceBetween: 18,
           },
-          // when window width is >= 768px
-          414: {
-            width: 414,
-            slidesPerView: 3,
+          640: {
+            slidesPerView: 2.8,
+            spaceBetween: 20,
           },
-          // when window width is >= 768px
-          660: {
-            width: 660,
-            slidesPerView: 4,
+          860: {
+            slidesPerView: 3.5,
+            spaceBetween: 22,
           },
-
-          // when window width is >= 768px
-          768: {
-            width: 768,
-            slidesPerView: 6,
+          1024: {
+            slidesPerView: 4.5,
+            spaceBetween: 24,
           },
-
-          // when window width is >= 768px
-          991: {
-            width: 991,
-            slidesPerView: 8,
+          1280: {
+            slidesPerView: 5.5,
+            spaceBetween: 26,
           },
-
-          // when window width is >= 768px
-          1140: {
-            width: 1140,
-            slidesPerView: 9,
-          },
-          1680: {
-            width: 1680,
-            slidesPerView: 10,
-          },
-          1920: {
-            width: 1920,
-            slidesPerView: 10,
+          1536: {
+            slidesPerView: 6.5,
+            spaceBetween: 28,
           },
         }}
         modules={[Autoplay, Navigation, Pagination, Controller]}
@@ -146,27 +133,38 @@ const CategoryCarousel = () => {
           </p>
         ) : (
           <>
-            {categories.map((category) => (
-              <SwiperSlide key={category._id} className="group">
-                <div
-                  onClick={() => handleCategoryClick(category?._id, category.name)}
-                  className="text-center cursor-pointer p-3 bg-white rounded-lg"
-                >
-                  <div className="bg-white p-2 mx-auto w-10 h-10 rounded-full shadow-md">
-                    <div className="relative w-6 h-8">
-                      <CategoryIcon
-                        src={category?.icon || IMAGE_PLACEHOLDER}
-                        alt={showingTranslateValue(category?.name) || "category"}
-                      />
+            {categories.map((category) => {
+              const isActive = router.query._id === category?._id || (router.query.category && showingTranslateValue(category?.name)?.toLowerCase().replace(/[^A-Z0-9]+/gi, "-") === router.query.category);
+              return (
+                <SwiperSlide key={category._id} className="group px-3 py-3">
+                  <div
+                    onClick={() => handleCategoryClick(category?._id, category.name)}
+                    className={`flex flex-col items-center justify-between text-center cursor-pointer p-4 bg-white rounded-2xl border transition-all duration-300 h-48 w-48 mx-auto hover:shadow-lg ${
+                      isActive
+                        ? "border-[#A821A8] shadow-md ring-1 ring-[#A821A8]/20"
+                        : "border-gray-100 hover:border-[#A821A8]/20 shadow-sm"
+                    }`}
+                  >
+                    <div className="bg-white p-3 mx-auto w-20 h-20 rounded-full shadow-md flex items-center justify-center transition-transform duration-300 group-hover:scale-105 mb-2 border border-gray-50">
+                      <div className="relative w-12 h-12 flex items-center justify-center">
+                        <CategoryIcon
+                          src={category?.icon || IMAGE_PLACEHOLDER}
+                          alt={showingTranslateValue(category?.name) || "category"}
+                        />
+                      </div>
                     </div>
-                  </div>
 
-                  <h3 className="text-xs text-gray-600 mt-2 font-serif group-hover:text-[#A821A8] transition-colors duration-200">
-                    {showingTranslateValue(category?.name)}
-                  </h3>
-                </div>
-              </SwiperSlide>
-            ))}
+                    <h3
+                      className={`text-xs md:text-sm font-bold uppercase tracking-wider text-center flex-grow flex items-center justify-center transition-colors duration-200 px-1 leading-snug ${
+                        isActive ? "text-[#A821A8]" : "text-gray-500 group-hover:text-[#A821A8]"
+                      }`}
+                    >
+                      {showingTranslateValue(category?.name)}
+                    </h3>
+                  </div>
+                </SwiperSlide>
+              );
+            })}
           </>
         )}
         <button ref={prevRef} className="prev">

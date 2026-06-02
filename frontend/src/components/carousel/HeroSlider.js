@@ -75,7 +75,7 @@ const HeroSlider = ({ onBookServices }) => {
 
                                 <div className="flex flex-col sm:flex-row gap-4 mt-10">
                                     <a
-                                        href="tel:+611300755096"
+                                        href="tel:+919717372217"
                                         className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-gradient-to-r from-[#051124] to-[#0b1d3d] hover:from-[#0b1d3d] hover:to-[#162542] text-white font-bold shadow-[0_0_20px_rgba(255,255,255,0.3)] transition gap-2 text-lg"
                                     >
                                         Call Us

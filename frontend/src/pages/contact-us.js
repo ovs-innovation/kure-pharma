@@ -82,9 +82,11 @@ const ContactUs = () => {
             </div>
             <h3 className="text-xl font-bold text-gray-900">Location</h3>
             <p className="text-sm text-gray-600 leading-relaxed">
-              43 Wonnangatta Cres, Melton South
+              B-1/D GROUND FLOOR SAURAV VIHAR
               <br />
-              VIC 3338, Australia
+              JAITPUR NEAR CHOKAN MANDIR B, ADARPUR
+              <br />
+              DELHI 110044, NEW DELHI, DELHI, 110044, IN
             </p>
           </div>
 
@@ -95,7 +97,7 @@ const ContactUs = () => {
               </div>
             </div>
             <h3 className="text-xl font-bold text-gray-900">Contact Us</h3>
-            <p className="text-sm text-gray-600">Phone: <a href="tel:0433723389" className="hover:text-[#ED1C24] transition">0433SAFETY / 0433723389</a></p>
+            <p className="text-sm text-gray-600">Phone: <a href="tel:+919717372217" className="hover:text-[#ED1C24] transition">+91 9717372217</a></p>
           </div>
 
           <div className="bg-white rounded-xl shadow-md border border-gray-300 p-8 text-center space-y-3 hover:shadow-lg hover:border-green-500/30 transition-all duration-300 group">
@@ -105,7 +107,7 @@ const ContactUs = () => {
               </div>
             </div>
             <h3 className="text-xl font-bold text-gray-900">Email</h3>
-            <p className="text-sm text-gray-600">info@Elecmoon.com.au</p>
+            <p className="text-sm text-gray-600">elecmoonofficial@gmail.com</p>
           </div>
         </div>
       </div>
@@ -115,7 +117,7 @@ const ContactUs = () => {
           <div className="w-full h-[520px] rounded-lg overflow-hidden shadow border">
             <iframe
               title="Elecmoon Location"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31526.2553889358!2d144.577!3d-37.688!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad6fbce4f4e0fbf%3A0x9c7c44a1e1e0e7e7!2s43%20Wonnangatta%20Cres%2C%20Melton%20South%20VIC%203338%2C%20Australia!5e0!3m2!1sen!2sau!4v1700000000000!5m2!1sen!2sau"
+              src="https://www.google.com/maps?q=B-1%2FD%20GROUND%20FLOOR%20SAURAV%20VIHAR%2C%20JAITPUR%20NEAR%20CHOKAN%20MANDIR%20B%2C%20ADARPUR%2C%20DELHI%20110044&output=embed"
               width="100%"
               height="100%"
               style={{ border: 0 }}

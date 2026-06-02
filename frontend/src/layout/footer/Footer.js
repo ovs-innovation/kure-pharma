@@ -11,6 +11,9 @@ const Footer = () => {
   const { storeCustomizationSetting } = useGetSetting();
   const { showingTranslateValue } = useUtilsFunction();
   const { services } = useContext(SidebarContext);
+  const footerPhone = "+91 9717372217";
+  const footerAddress =
+    "B-1/D GROUND FLOOR SAURAV VIHAR, JAITPUR NEAR CHOKAN MANDIR B, ADARPUR, DELHI 110044, NEW DELHI, DELHI, 110044, IN";
   return (
     <div className="bg-gray-100 text-gray-900 pt-10 pb-16 relative">
       {/* Red vertical bar on the right */}
@@ -65,19 +68,17 @@ const Footer = () => {
             <div className="text-sm space-y-3 text-gray-700">
               <div className="flex items-start gap-2">
                 <FiPhoneCall className="text-[#ED1C24] mt-1 flex-shrink-0" />
-                <a href={`tel:${storeCustomizationSetting?.navbar?.phone}`} className="font-medium hover:text-[#ED1C24] transition">
-                  {storeCustomizationSetting?.navbar?.phone || "0433723389"}
+                <a href={`tel:${footerPhone}`} className="font-medium hover:text-[#ED1C24] transition">
+                  {footerPhone}
                 </a>
               </div>
               <div className="flex items-start gap-2">
                 <FiMail className="text-[#ED1C24] mt-1 flex-shrink-0" />
-                <p className="font-medium">{storeCustomizationSetting?.contact_us?.email_box_email?.en || "info@Elecmoon.com.au"}</p>
+                <p className="font-medium">{storeCustomizationSetting?.contact_us?.email_box_email?.en || "elecmoonofficial@gmail.com"}</p>
               </div>
               <div className="flex items-start gap-2">
                 <FiMapPin className="text-[#ED1C24] mt-1 flex-shrink-0" />
-                <p>
-                  {showingTranslateValue(storeCustomizationSetting?.contact_us?.address_box_address_one) || "43 Wonnangatta Crescent, Weir Views VIC 3338"}
-                </p>
+                <p>{footerAddress}</p>
               </div>
             </div>
           </div>

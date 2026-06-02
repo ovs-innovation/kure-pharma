@@ -83,7 +83,7 @@ const setting = [
           "en": "Checkout",
           "de": "Kasse"
         },
-        "phone": "+965 505 631288",
+        "phone": "+91 9717372217",
         "logo": "https://res.cloudinary.com/ahossain/image/upload/v1697687802/settings/logo-light_hls14v.svg"
       },
       "home": {
@@ -545,10 +545,10 @@ const setting = [
         "block3_sub_link4": "/user/update-profile",
         "block4_logo": "https://res.cloudinary.com/ahossain/image/upload/v1697688576/settings/logo-color_el4zmy.svg",
         "block4_address": {
-          "en": "987 Andre Plain Suite High Street 838, Lake Hestertown, USA",
-          "de": "987 Andre Plain Suite High Street 838, Lake Hestertown, USA"
+          "en": "B-1/D GROUND FLOOR SAURAV VIHAR, JAITPUR NEAR CHOKAN MANDIR B, ADARPUR, DELHI 110044, NEW DELHI, DELHI, 110044, IN",
+          "de": "B-1/D GROUND FLOOR SAURAV VIHAR, JAITPUR NEAR CHOKAN MANDIR B, ADARPUR, DELHI 110044, NEW DELHI, DELHI, 110044, IN"
         },
-        "block4_phone": "02.356.1666",
+        "block4_phone": "+91 9717372217",
         "block4_email": "ccruidk@test.com",
         "social_facebook": "https://www.facebook.com/",
         "social_twitter": "https://twitter.com/",
@@ -556,7 +556,7 @@ const setting = [
         "social_linkedin": "https://www.linkedin.com/",
         "social_whatsapp": "https://web.whatsapp.com/",
         "payment_method_img": "https://res.cloudinary.com/ahossain/image/upload/v1697688607/settings/payment-logo_qhslgz.webp",
-        "bottom_contact": "+6599887766"
+        "bottom_contact": "+91 9717372217"
       },
       "slug": {
         "right_box_status": true,
@@ -585,8 +585,8 @@ const setting = [
           "de": "Garantiert 100 % biologisch aus Naturprodukten."
         },
         "card_description_seven": {
-          "en": "Delivery from our pick point Boho One, Bridge Street West, Middlesbrough, North Yorkshire, TS2 1AE.",
-          "de": "Lieferung von unserem Abholpunkt Boho One, Bridge Street West, Middlesbrough, North Yorkshire, TS2 1AE."
+          "en": "Delivery from our pick point B-1/D GROUND FLOOR SAURAV VIHAR, JAITPUR NEAR CHOKAN MANDIR B, ADARPUR, DELHI 110044, NEW DELHI, DELHI, 110044, IN.",
+          "de": "Delivery from our pick point B-1/D GROUND FLOOR SAURAV VIHAR, JAITPUR NEAR CHOKAN MANDIR B, ADARPUR, DELHI 110044, NEW DELHI, DELHI, 110044, IN."
         }
       },
       "seo": {

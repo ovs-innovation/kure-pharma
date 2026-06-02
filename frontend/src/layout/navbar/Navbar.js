@@ -93,9 +93,9 @@ const Navbar = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const phone = storeCustomizationSetting?.navbar?.phone || "0433723389";
-  const email = storeCustomizationSetting?.contact_us?.email_box_email?.en || "info@Elecmoon.com.au";
-  const address = showingTranslateValue(storeCustomizationSetting?.contact_us?.address_box_address_one) || "Melbourne, VIC";
+  const phone = storeCustomizationSetting?.navbar?.phone || "+91 9717372217";
+  const email = storeCustomizationSetting?.contact_us?.email_box_email?.en || "elecmoonofficial@gmail.com";
+  const address = showingTranslateValue(storeCustomizationSetting?.contact_us?.address_box_address_one) || "B-1/D GROUND FLOOR SAURAV VIHAR, JAITPUR NEAR CHOKAN MANDIR B, ADARPUR, DELHI 110044";
 
   const navLinks = [
     { name: "Home", href: "/" },

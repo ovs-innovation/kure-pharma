@@ -308,9 +308,9 @@ const InvoiceForDownload = ({
               </Text>
               <Text style={styles.topAddress}>
                 {globalSetting?.address ||
-                  "Cecilia Chapman, 561-4535 Nulla LA, United States 96522"}
+                  "B-1/D GROUND FLOOR SAURAV VIHAR, JAITPUR NEAR CHOKAN MANDIR B, ADARPUR, DELHI 110044, NEW DELHI, DELHI, 110044, IN"}
               </Text>
-              {/* <Text style={styles.info}> United States 96522</Text> */}
+              {/* <Text style={styles.info}> DELHI 110044, NEW DELHI, DELHI, 110044, IN</Text> */}
             </View>
           </View>
 

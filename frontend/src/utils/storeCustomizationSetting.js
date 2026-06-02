@@ -59,7 +59,7 @@ export const storeCustomization = {
       en: "Checkout",
       de: "Kasse",
     },
-    phone: "+965 505 631288",
+    phone: "+91 9717372217",
     logo: "https://res.cloudinary.com/ahossain/image/upload/v1697687802/settings/logo-light_hls14v.svg",
   },
   home: {
@@ -302,8 +302,8 @@ export const storeCustomization = {
       de: "Schreiben Sie uns eine E-Mail",
     },
     email_box_email: {
-      en: "info@elecmoon.com ",
-      de: "info@elecmoon.com",
+      en: "elecmoonofficial@gmail.com",
+      de: "elecmoonofficial@gmail.com",
     },
     email_box_text: {
       en: "Interactively grow empowered for process-centric total linkage. ",
@@ -314,8 +314,8 @@ export const storeCustomization = {
       de: "Rufen Sie uns an",
     },
     call_box_phone: {
-      en: "029-00124667",
-      de: "029-00124667",
+      en: "+91 9717372217",
+      de: "+91 9717372217",
     },
     call_box_text: {
       en: "Distinctively disseminate focused solutions clicks-and-mortar ministate. ",
@@ -326,16 +326,16 @@ export const storeCustomization = {
       de: "Ort",
     },
     address_box_address_one: {
-      en: "Boho One, Bridge Street West, Middlesbrough, North Yorkshire, TS2 1AE.",
-      de: "Cecilia Chapman",
+      en: "B-1/D GROUND FLOOR SAURAV VIHAR",
+      de: "B-1/D GROUND FLOOR SAURAV VIHAR",
     },
     address_box_address_two: {
-      en: "561-4535 Nulla LA ",
-      de: "561-4535 Nulla LA",
+      en: "JAITPUR NEAR CHOKAN MANDIR B, ADARPUR",
+      de: "JAITPUR NEAR CHOKAN MANDIR B, ADARPUR",
     },
     address_box_address_three: {
-      en: "United States 96522. ",
-      de: "United States 96522",
+      en: "DELHI 110044, NEW DELHI, DELHI, 110044, IN",
+      de: "DELHI 110044, NEW DELHI, DELHI, 110044, IN",
     },
     form_title: {
       en: "For any suppoort just send your query ",
@@ -789,11 +789,11 @@ export const storeCustomization = {
     block4_logo:
       "https://res.cloudinary.com/ahossain/image/upload/v1697688576/settings/logo-color_el4zmy.svg",
     block4_address: {
-      en: "Building No. 3,13/24,Samaypur Industrial area ,Street no. 9,Delhi-110042",
-      de: "Building No. 3,13/24,Samaypur Industrial area ,Street no. 9,Delhi-110042",
+      en: "B-1/D GROUND FLOOR SAURAV VIHAR, JAITPUR NEAR CHOKAN MANDIR B, ADARPUR, DELHI 110044, NEW DELHI, DELHI, 110044, IN",
+      de: "B-1/D GROUND FLOOR SAURAV VIHAR, JAITPUR NEAR CHOKAN MANDIR B, ADARPUR, DELHI 110044, NEW DELHI, DELHI, 110044, IN",
     },
-    block4_phone: "02.356.1666",
-    block4_email: "info@elecmoon.com",
+    block4_phone: "+91 9717372217",
+    block4_email: "elecmoonofficial@gmail.com",
     social_facebook: "https://www.facebook.com/",
     social_twitter: "https://twitter.com/",
     social_pinterest: "https://www.pinterest.com/",
@@ -801,7 +801,7 @@ export const storeCustomization = {
     social_whatsapp: "https://web.whatsapp.com/",
     payment_method_img:
       "https://res.cloudinary.com/ahossain/image/upload/v1697688607/settings/payment-logo_qhslgz.webp",
-    bottom_contact: "+6599887766",
+    bottom_contact: "+91 9717372217",
   },
   slug: {
     right_box_status: true,
@@ -830,8 +830,8 @@ export const storeCustomization = {
       de: "Garantiert 100 % biologisch aus Naturprodukten.",
     },
     card_description_seven: {
-      en: "Delivery from our pick point Boho One, Bridge Street West, Middlesbrough, North Yorkshire, TS2 1AE.",
-      de: "Lieferung von unserem Abholpunkt Boho One, Bridge Street West, Middlesbrough, North Yorkshire, TS2 1AE.",
+      en: "Delivery from our pick point B-1/D GROUND FLOOR SAURAV VIHAR, JAITPUR NEAR CHOKAN MANDIR B, ADARPUR, DELHI 110044, NEW DELHI, DELHI, 110044, IN.",
+      de: "Delivery from our pick point B-1/D GROUND FLOOR SAURAV VIHAR, JAITPUR NEAR CHOKAN MANDIR B, ADARPUR, DELHI 110044, NEW DELHI, DELHI, 110044, IN.",
     },
   },
   seo: {

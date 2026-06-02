@@ -583,7 +583,7 @@ const ServiceDetails = () => {
                       </div>
                       <div>
                         <p className="text-[10px] font-black uppercase text-white/40 tracking-wider">Call Directly</p>
-                        <p className="text-sm font-bold">+91 99999 00000</p>
+                        <p className="text-sm font-bold">+91 9717372217</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/10 group hover:border-white/20 transition-all cursor-pointer">
@@ -592,7 +592,7 @@ const ServiceDetails = () => {
                       </div>
                       <div>
                         <p className="text-[10px] font-black uppercase text-white/40 tracking-wider">Email Support</p>
-                        <p className="text-sm font-bold">support@Elecmoon.in</p>
+                        <p className="text-sm font-bold">elecmoonofficial@gmail.com</p>
                       </div>
                     </div>
                   </div>

@@ -333,11 +333,11 @@ const BatteryServiceSection = () => {
               Customize Battery Product
             </button>
             <a
-              href="tel:+919971271177"
+              href="tel:+919717372217"
               className="inline-flex items-center gap-2 px-6 py-4 rounded-xl border border-white/10 text-white text-sm font-bold hover:border-[#ED1C24]/50 hover:bg-white/5 transition-all duration-300"
             >
               <FiPhone className="w-4 h-4" />
-              Call: +91 9971271177
+              Call: +91 9717372217
             </a>
           </motion.div>
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -15,11 +15,15 @@ import {
   getUnitPriceForQuantity,
   getBulkDiscountInfo,
   syncCartQuantity,
+  stashBuyNowPricing,
 } from "@utils/quantityPricing";
 import BulkDiscountBadge from "@components/common/BulkDiscountBadge";
+import { UserContext } from "@context/UserContext";
+import { navigateToBuyNow } from "@utils/buyNowNavigation";
 
 const ProductCatalog = () => {
   const router = useRouter();
+  const { state: { userInfo } } = useContext(UserContext);
   const scrollRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
@@ -137,6 +141,8 @@ const ProductCatalog = () => {
         maxQty: pricing.maxQty,
         quantityTiers: pricing.quantityTiers,
         listPrice: pricing.listPrice,
+        stock: pricing.stock,
+        hsnCode: pricing.hsnCode,
         sku: product.sku || "",
         barcode: product.barcode || "",
         deliveryCharge: product.deliveryCharge || 0,
@@ -147,15 +153,18 @@ const ProductCatalog = () => {
 
   const handleBuyNow = (product) => {
     const pricing = buildCartItemFields(product);
-    router.push({
-      pathname: "/checkout",
-      query: {
+    stashBuyNowPricing(product);
+    navigateToBuyNow(router, {
+      userInfo,
+      checkoutQuery: {
         buyNow: true,
         id: product._id,
         title: getTitle(product.title),
         price: pricing.price,
         image: product.image?.[0],
         quantity: pricing.quantity,
+        stock: pricing.stock,
+        hsnCode: pricing.hsnCode,
         sku: product.sku || "",
         barcode: product.barcode || "",
         deliveryCharge: product.deliveryCharge || 0,
@@ -182,6 +191,8 @@ const ProductCatalog = () => {
         maxQty: pricing.maxQty,
         quantityTiers: pricing.quantityTiers,
         listPrice: pricing.listPrice,
+        stock: pricing.stock,
+        hsnCode: pricing.hsnCode,
         sku: product.sku || "",
         barcode: product.barcode || "",
         deliveryCharge: product.deliveryCharge || 0,
@@ -360,7 +371,7 @@ const ProductCatalog = () => {
                       key={cat._id}
                       onClick={() => {
                         setSelectedCategory(cat._id);
-                        router.push(getCategorySearchUrl(cat._id, catTitle));
+                        router.push(getCategorySearchUrl(cat._id, catTitle, cat.slug));
                       }}
                       className={`flex-shrink-0 snap-start px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all border whitespace-nowrap ${
                         isActive

@@ -1,11 +1,72 @@
 import React, { useRef, useState, useCallback } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules";
+import { Autoplay, EffectFade } from "swiper/modules";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiChevronLeft, FiChevronRight, FiArrowRight, FiMessageCircle } from "react-icons/fi";
 import useGetSetting from "@hooks/useGetSetting";
+import { resolveBannerHref, isExternalHref } from "@utils/bannerLink";
+import { optimizeImageUrl } from "@utils/cloudinaryImage";
 import "swiper/css";
+import "swiper/css/effect-fade";
+
+const BannerImagePanel = ({ slide, idx, className = "" }) => {
+  const href = resolveBannerHref(slide.href);
+  const imageSrc = optimizeImageUrl(slide.image, { width: 1600 });
+
+  const imageContent = (
+    <div className={`relative w-full h-full overflow-hidden bg-white ${className}`}>
+      {slide.image ? (
+        <>
+          <Image
+            src={imageSrc}
+            alt={slide.title || "Hero banner"}
+            fill
+            priority={idx === 0}
+            loading={idx === 0 ? "eager" : "lazy"}
+            sizes="(max-width: 1024px) 100vw, 62vw"
+            className="object-cover object-center"
+          />
+          <div
+            className="absolute inset-y-0 left-0 w-12 sm:w-16 lg:w-24 pointer-events-none bg-gradient-to-r from-white via-white/40 to-transparent"
+            aria-hidden
+          />
+          <div
+            className="absolute inset-0 pointer-events-none shadow-[inset_0_0_48px_rgba(11,29,61,0.04)]"
+            aria-hidden
+          />
+        </>
+      ) : null}
+    </div>
+  );
+
+  if (!href) return imageContent;
+
+  if (isExternalHref(href)) {
+    return (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`block w-full h-full cursor-pointer ${className}`}
+        aria-label={`View ${slide.title}`}
+      >
+        {imageContent}
+      </a>
+    );
+  }
+
+  return (
+    <Link
+      href={href}
+      className={`block w-full h-full cursor-pointer ${className}`}
+      aria-label={`View ${slide.title}`}
+    >
+      {imageContent}
+    </Link>
+  );
+};
 
 const HomeHeroBanner = () => {
   const { storeCustomizationSetting, loading, isFetched } = useGetSetting();
@@ -43,7 +104,6 @@ const HomeHeroBanner = () => {
     },
   ];
 
-  // Filter out hardcoded slides by requiring admin data
   const slides = rawSlides.filter((slide) => slide.title && slide.image);
 
   const onSwiper = useCallback((s) => { swiperRef.current = s; }, []);
@@ -55,131 +115,125 @@ const HomeHeroBanner = () => {
   }
 
   return (
-    <section className="relative w-full bg-[#f8fafc] overflow-hidden border-b border-gray-100">
+    <section className="relative w-full bg-white overflow-hidden border-b border-gray-100">
       <Swiper
-        modules={[Autoplay]}
+        modules={[Autoplay, EffectFade]}
+        effect="fade"
+        fadeEffect={{ crossFade: true }}
         slidesPerView={1}
         loop
-        speed={800}
+        speed={900}
         autoplay={{ delay: 5500, disableOnInteraction: false }}
         onSwiper={onSwiper}
         onSlideChange={onChange}
         className="w-full hero-swiper"
       >
-        {slides.map((slide, idx) => (
-          <SwiperSlide key={slide.id}>
-            <div className="w-full flex flex-col lg:flex-row bg-[#f8fafc] hero-slide-inner">
+        {slides.map((slide, idx) => {
+          const bannerHref = resolveBannerHref(slide.href);
 
-              {/* LEFT: Text Panel */}
-              <div className="flex-1 flex items-center justify-center lg:justify-start px-5 sm:px-8 lg:px-12 xl:px-16 pt-10 pb-16 lg:py-14 order-2 lg:order-1 relative">
-                <div className="absolute top-0 left-0 w-0.5 h-full bg-gradient-to-b from-[#ED1C24] to-transparent hidden lg:block opacity-40" />
+          return (
+            <SwiperSlide key={slide.id}>
+              <div className="w-full flex flex-col lg:flex-row bg-white hero-slide-inner">
+                <div className="w-full lg:hidden order-1 h-[42vh] min-h-[240px] max-h-[380px]">
+                  <BannerImagePanel slide={slide} idx={idx} className="h-full" />
+                </div>
 
-                <AnimatePresence mode="wait">
-                  {isActive(idx) && (
-                    <motion.div
-                      key={`text-${slide.id}`}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                      className="w-full max-w-lg text-center lg:text-left"
-                    >
-                      {/* Badge */}
-                      <div className="inline-flex items-center gap-2 mb-4 justify-center lg:justify-start">
-                        <span className="w-4 h-px bg-[#ED1C24]" />
-                        <span className="text-[10px] font-black text-[#ED1C24] uppercase tracking-[0.28em]">{slide.badge}</span>
-                      </div>
+                <div className="w-full lg:w-[38%] xl:w-[36%] flex items-center justify-center lg:justify-start px-5 sm:px-8 lg:px-10 xl:px-12 pt-8 pb-20 lg:py-8 order-2 lg:order-1 relative flex-shrink-0">
+                  <div className="absolute top-0 left-0 w-0.5 h-full bg-gradient-to-b from-[#ED1C24] to-transparent hidden lg:block opacity-40" />
 
-                      {/* Title */}
-                      <h1 className="font-black text-[#0b1d3d] leading-[1.08] tracking-tight mb-4 text-3xl sm:text-4xl lg:text-5xl xl:text-[52px]">
-                        {slide.title}
-                      </h1>
+                  <AnimatePresence mode="wait">
+                    {isActive(idx) && (
+                      <motion.div
+                        key={`text-${slide.id}`}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                        className="w-full max-w-lg text-center lg:text-left"
+                      >
+                        <div className="inline-flex items-center gap-2 mb-4 justify-center lg:justify-start">
+                          <span className="w-4 h-px bg-[#ED1C24]" />
+                          <span className="text-[10px] font-black text-[#ED1C24] uppercase tracking-[0.28em]">{slide.badge}</span>
+                        </div>
 
-                      {/* Divider */}
-                      <div className="flex items-center gap-2 mb-4 justify-center lg:justify-start">
-                        <div className="w-8 h-0.5 bg-[#ED1C24] rounded-full" />
-                        <div className="w-3 h-0.5 bg-gray-200 rounded-full" />
-                      </div>
+                        <h1 className="font-black text-[#0b1d3d] leading-[1.08] tracking-tight mb-4 text-3xl sm:text-4xl lg:text-[2.65rem] xl:text-5xl">
+                          {slide.title}
+                        </h1>
 
-                      {/* Description */}
-                      <p className="text-gray-500 leading-relaxed mb-7 font-medium text-[15px] xl:text-[17px] max-w-sm mx-auto lg:mx-0">
-                        {slide.body}
-                      </p>
+                        <div className="flex items-center gap-2 mb-4 justify-center lg:justify-start">
+                          <div className="w-8 h-0.5 bg-[#ED1C24] rounded-full" />
+                          <div className="w-3 h-0.5 bg-gray-200 rounded-full" />
+                        </div>
 
-                      {/* CTAs */}
-                      <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
-                        <Link href={slide.href} className="group inline-flex items-center gap-2 px-6 py-3.5 bg-[#0b1d3d] hover:bg-[#ED1C24] text-white rounded-full font-black uppercase tracking-widest transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5 active:scale-[0.98] text-[12px]">
-                          {slide.cta}
-                          <FiArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-                        </Link>
-                        <Link href="/contact-us" className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full font-black uppercase tracking-widest border-2 border-gray-200 text-gray-500 hover:border-[#0b1d3d] hover:text-[#0b1d3d] hover:bg-gray-50 hover:-translate-y-0.5 transition-all duration-200 text-[12px]">
-                          <FiMessageCircle className="w-3.5 h-3.5" />
-                          Get A Quote
-                        </Link>
-                      </div>
+                        <p className="text-gray-500 leading-relaxed mb-7 font-medium text-[15px] xl:text-[17px] max-w-sm mx-auto lg:mx-0">
+                          {slide.body}
+                        </p>
 
-                      {/* Trust stats */}
-                      <div className="flex items-center gap-5 sm:gap-8 mt-8 pt-6 border-t border-gray-100 justify-center lg:justify-start">
-                        {[
-                          { value: "2,500+", label: "Clients" },
-                          { value: "15 Yrs", label: "Experience" },
-                          { value: "100%", label: "Compliant" },
-                        ].map((stat) => (
-                          <div key={stat.label} className="flex flex-col items-center lg:items-start">
-                            <span className="text-[#0b1d3d] font-black text-lg leading-none">{stat.value}</span>
-                            <span className="text-gray-400 text-[9px] font-bold uppercase tracking-widest mt-1">{stat.label}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                        <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
+                          {bannerHref ? (
+                            isExternalHref(bannerHref) ? (
+                              <a
+                                href={bannerHref}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="group inline-flex items-center gap-2 px-6 py-3.5 bg-[#0b1d3d] hover:bg-[#ED1C24] text-white rounded-full font-black uppercase tracking-widest transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5 active:scale-[0.98] text-[12px]"
+                              >
+                                {slide.cta}
+                                <FiArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                              </a>
+                            ) : (
+                              <Link
+                                href={bannerHref}
+                                className="group inline-flex items-center gap-2 px-6 py-3.5 bg-[#0b1d3d] hover:bg-[#ED1C24] text-white rounded-full font-black uppercase tracking-widest transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5 active:scale-[0.98] text-[12px]"
+                              >
+                                {slide.cta}
+                                <FiArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                              </Link>
+                            )
+                          ) : null}
+                          <Link href="/contact-us" className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full font-black uppercase tracking-widest border-2 border-gray-200 text-gray-500 hover:border-[#0b1d3d] hover:text-[#0b1d3d] hover:bg-gray-50 hover:-translate-y-0.5 transition-all duration-200 text-[12px]">
+                            <FiMessageCircle className="w-3.5 h-3.5" />
+                            Get A Quote
+                          </Link>
+                        </div>
+
+                        <div className="flex items-center gap-5 sm:gap-8 mt-8 pt-6 border-t border-gray-100 justify-center lg:justify-start">
+                          {[
+                            { value: "2,500+", label: "Clients" },
+                            { value: "15 Yrs", label: "Experience" },
+                            { value: "100%", label: "Genuine" },
+                          ].map((stat) => (
+                            <div key={stat.label} className="flex flex-col items-center lg:items-start">
+                              <span className="text-[#0b1d3d] font-black text-lg leading-none">{stat.value}</span>
+                              <span className="text-gray-400 text-[9px] font-bold uppercase tracking-widest mt-1">{stat.label}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                <div className="hidden lg:block lg:w-[62%] xl:w-[64%] order-2 relative self-stretch min-h-0 overflow-hidden bg-white">
+                  <BannerImagePanel slide={slide} idx={idx} className="absolute inset-0" />
+                </div>
               </div>
-
-              {/* RIGHT: Image Panel — only on lg+ */}
-              <div className="flex-1 items-center justify-center order-1 lg:order-2 overflow-hidden bg-white border-l border-gray-100/60 hidden lg:flex relative">
-                <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 75% 65% at 50% 50%, #eef2ff 0%, #f6f8ff 55%, white 100%)" }} />
-                <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: "radial-gradient(circle, #0b1d3d 1px, transparent 1px)", backgroundSize: "28px 28px" }} />
-
-                <AnimatePresence mode="wait">
-                  {isActive(idx) && (
-                    <motion.div
-                      key={`img-${slide.id}`}
-                      initial={{ opacity: 0, scale: 0.9, y: 12 }}
-                      animate={{ opacity: 1, scale: 1, y: 0 }}
-                      exit={{ opacity: 0, scale: 0.95 }}
-                      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                      className="relative z-10 w-full h-full flex items-center justify-center p-8 lg:p-12 xl:p-16"
-                    >
-                      <img
-                        src={slide.image}
-                        alt={slide.title}
-                        loading={idx === 0 ? "eager" : "lazy"}
-                        className="w-full h-full object-contain max-w-full max-h-full"
-                        style={{ filter: "drop-shadow(0 16px 40px rgba(11,29,61,0.10))" }}
-                      />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-
-            </div>
-          </SwiperSlide>
-        ))}
+            </SwiperSlide>
+          );
+        })}
       </Swiper>
 
-      {/* Bottom control bar */}
-      <div className="absolute bottom-0 left-0 right-0 z-40 flex items-center justify-between px-5 sm:px-8 lg:px-12 xl:px-16 py-3 bg-white/80 backdrop-blur-sm border-t border-gray-100">
+      <div className="absolute bottom-0 left-0 right-0 z-40 flex items-center justify-between px-5 sm:px-8 lg:px-12 xl:px-16 py-3 bg-white/90 backdrop-blur-sm border-t border-gray-100">
         <div className="flex items-center gap-3">
-          <button onClick={() => swiperRef.current?.slidePrev()} className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:text-[#0b1d3d] hover:border-[#0b1d3d] hover:bg-gray-50 transition-all">
+          <button type="button" onClick={() => swiperRef.current?.slidePrev()} className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:text-[#0b1d3d] hover:border-[#0b1d3d] hover:bg-gray-50 transition-all" aria-label="Previous slide">
             <FiChevronLeft className="w-4 h-4" />
           </button>
           <div className="flex items-center gap-1.5">
             {slides.map((_, i) => (
-              <button key={i} onClick={() => swiperRef.current?.slideToLoop(i)} className={`rounded-full transition-all duration-400 ${active === i ? "w-6 h-1.5 bg-[#ED1C24]" : "w-1.5 h-1.5 bg-gray-300 hover:bg-gray-400"}`} />
+              <button key={i} type="button" onClick={() => swiperRef.current?.slideToLoop(i)} className={`rounded-full transition-all duration-400 ${active === i ? "w-6 h-1.5 bg-[#ED1C24]" : "w-1.5 h-1.5 bg-gray-300 hover:bg-gray-400"}`} aria-label={`Go to slide ${i + 1}`} />
             ))}
           </div>
-          <button onClick={() => swiperRef.current?.slideNext()} className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:text-[#0b1d3d] hover:border-[#0b1d3d] hover:bg-gray-50 transition-all">
+          <button type="button" onClick={() => swiperRef.current?.slideNext()} className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:text-[#0b1d3d] hover:border-[#0b1d3d] hover:bg-gray-50 transition-all" aria-label="Next slide">
             <FiChevronRight className="w-4 h-4" />
           </button>
         </div>
@@ -198,15 +252,9 @@ const HomeHeroBanner = () => {
         @media (min-width: 1024px) {
           .hero-slide-inner {
             height: calc(100vh - 160px);
-            min-height: 540px;
-            max-height: 740px;
+            min-height: 480px;
+            max-height: 720px;
           }
-        }
-        @media (min-width: 640px) and (max-width: 1023px) {
-          .hero-slide-inner { min-height: 420px; }
-        }
-        @media (max-width: 639px) {
-          .hero-slide-inner { min-height: 380px; }
         }
       `}</style>
     </section>

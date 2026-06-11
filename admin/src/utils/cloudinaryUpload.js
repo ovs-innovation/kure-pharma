@@ -2,6 +2,7 @@ import axios from "axios";
 
 export const UPLOAD_TIMEOUT_MS = 90000;
 export const MAX_IMAGE_SIZE_BYTES = 5242880;
+export const MAX_PDF_SIZE_BYTES = 10485760;
 export const MAX_UPLOAD_RETRIES = 3;
 
 const ALLOWED_IMAGE_TYPES = new Set([
@@ -10,6 +11,8 @@ const ALLOWED_IMAGE_TYPES = new Set([
   "image/png",
   "image/webp",
 ]);
+
+const ALLOWED_PDF_TYPES = new Set(["application/pdf"]);
 
 const CLOUDINARY_UPLOAD_URL_PATTERN =
   /^https:\/\/api\.cloudinary\.com\/v1_1\/([a-z0-9_-]+)\/image\/upload\/?$/i;
@@ -235,6 +238,76 @@ export const uploadToCloudinary = async ({
         file,
         folder,
         config,
+        onProgress,
+        signal,
+      });
+    } catch (error) {
+      lastError = error;
+
+      if (
+        signal?.aborted ||
+        error?.name === "CanceledError" ||
+        error?.code === "ERR_CANCELED"
+      ) {
+        throw error;
+      }
+
+      if (!isRetryableCloudinaryError(error) || attempt === MAX_UPLOAD_RETRIES) {
+        throw error;
+      }
+
+      await sleep(getRetryDelayMs(error, attempt));
+    }
+  }
+
+  throw lastError;
+};
+
+export const validatePdfFile = (file, maxSizeBytes = MAX_PDF_SIZE_BYTES) => {
+  if (!file) {
+    return "No file selected.";
+  }
+
+  const type = (file.type || "").toLowerCase();
+  const isPdf =
+    ALLOWED_PDF_TYPES.has(type) ||
+    String(file.name || "").toLowerCase().endsWith(".pdf");
+
+  if (!isPdf) {
+    return "Only PDF files are allowed.";
+  }
+
+  if (file.size > maxSizeBytes) {
+    const maxMb = Math.round(maxSizeBytes / (1024 * 1024));
+    return `PDF must be smaller than ${maxMb} MB.`;
+  }
+
+  return null;
+};
+
+export const getRawUploadUrl = (imageUploadUrl) =>
+  normalizeEnvValue(imageUploadUrl).replace("/image/upload", "/raw/upload");
+
+export const uploadPdfToCloudinary = async ({
+  file,
+  folder = "datasheets",
+  config,
+  onProgress,
+  signal,
+}) => {
+  const rawConfig = {
+    ...config,
+    uploadUrl: getRawUploadUrl(config.uploadUrl),
+  };
+
+  let lastError;
+
+  for (let attempt = 0; attempt <= MAX_UPLOAD_RETRIES; attempt += 1) {
+    try {
+      return await postToCloudinary({
+        file,
+        folder,
+        config: rawConfig,
         onProgress,
         signal,
       });

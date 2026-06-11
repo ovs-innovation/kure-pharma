@@ -1,25 +1,34 @@
 import React, { useState, useEffect } from "react";
-import { FiStar, FiTrendingUp, FiArrowRight } from "react-icons/fi";
+import {
+  FiStar,
+  FiTrendingUp,
+  FiArrowRight,
+  FiClock,
+  FiTag,
+  FiAward,
+} from "react-icons/fi";
 import Link from "next/link";
 import ProductServices from "@services/ProductServices";
 import ProductCard from "@components/product/ProductCard";
 import ProductEnquiryModal from "@components/modal/ProductEnquiryModal";
 import { PRODUCT_GRID_CLASS, PRODUCT_GRID_ITEM_CLASS } from "@utils/productGrid";
 
-/* ══════════════════════════════════════════════════════════
-   GRID SECTION  — fills full width, no side gaps
-══════════════════════════════════════════════════════════ */
+const DEFAULT_VISIBLE = 18;
+
+const pickProducts = (primary, fallback = []) => {
+  if (Array.isArray(primary) && primary.length > 0) return primary;
+  return Array.isArray(fallback) ? fallback : [];
+};
+
 const GridSection = ({ title, icon, accent, products, onEnquire }) => {
   const [showAll, setShowAll] = useState(false);
 
   if (!products || products.length === 0) return null;
 
-  // Show 10 by default, "show all" reveals rest
-  const visible = showAll ? products : products.slice(0, 10);
+  const visible = showAll ? products : products.slice(0, DEFAULT_VISIBLE);
 
   return (
     <div className="mb-12 last:mb-0">
-      {/* Section header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <div
@@ -30,6 +39,9 @@ const GridSection = ({ title, icon, accent, products, onEnquire }) => {
           </div>
           <div>
             <h2 className="text-lg sm:text-xl font-black text-gray-900 tracking-tight">{title}</h2>
+            <p className="text-[11px] text-gray-400 font-medium mt-0.5">
+              {products.length} product{products.length === 1 ? "" : "s"}
+            </p>
             <div className="h-0.5 w-8 rounded-full mt-1" style={{ background: accent }} />
           </div>
         </div>
@@ -42,7 +54,6 @@ const GridSection = ({ title, icon, accent, products, onEnquire }) => {
         </Link>
       </div>
 
-      {/* Product grid — fills full width with no gaps */}
       <div className={PRODUCT_GRID_CLASS}>
         {visible.map((product) => (
           <div key={product._id} className={PRODUCT_GRID_ITEM_CLASS}>
@@ -51,14 +62,16 @@ const GridSection = ({ title, icon, accent, products, onEnquire }) => {
         ))}
       </div>
 
-      {/* Show more / Mobile view all */}
       <div className="flex items-center justify-between mt-5">
-        {products.length > 10 && (
+        {products.length > DEFAULT_VISIBLE && (
           <button
+            type="button"
             onClick={() => setShowAll(!showAll)}
             className="text-[11px] font-black text-gray-400 hover:text-[#0b1d3d] uppercase tracking-widest transition-colors"
           >
-            {showAll ? "Show Less ↑" : `Show All ${products.length} Products ↓`}
+            {showAll
+              ? "Show Less ↑"
+              : `Show All ${products.length} Products ↓`}
           </button>
         )}
         <Link
@@ -72,12 +85,12 @@ const GridSection = ({ title, icon, accent, products, onEnquire }) => {
   );
 };
 
-/* ══════════════════════════════════════════════════════════
-   MAIN EXPORT
-══════════════════════════════════════════════════════════ */
 const HomeProductsSection = () => {
   const [popularProducts, setPopularProducts] = useState([]);
   const [trendingProducts, setTrendingProducts] = useState([]);
+  const [latestProducts, setLatestProducts] = useState([]);
+  const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [discountProducts, setDiscountProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -91,39 +104,78 @@ const HomeProductsSection = () => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        const [popular, trending] = await Promise.all([
-          ProductServices.getProductsByType("popular"),
-          ProductServices.getProductsByType("trending"),
+
+        const [
+          typedPopular,
+          typedTrending,
+          typedNew,
+          taggedFeatured,
+          storePayload,
+        ] = await Promise.all([
+          ProductServices.getProductsByType("popular").catch(() => []),
+          ProductServices.getProductsByType("trending").catch(() => []),
+          ProductServices.getProductsByType("new").catch(() => []),
+          ProductServices.getProductsByTag("featured").catch(() => []),
+          ProductServices.getShowingStoreProducts({}).catch(() => ({})),
         ]);
-        setPopularProducts(popular || []);
-        setTrendingProducts(trending || []);
+
+        const storeAll = storePayload?.products || storePayload?.popularProducts || [];
+        const storePopular = storePayload?.popularProducts || storeAll;
+        const storeNew = storePayload?.newArrivalsProducts || [];
+        const storeDiscount = storePayload?.discountedProducts || [];
+
+        setPopularProducts(pickProducts(typedPopular, storePopular));
+        setTrendingProducts(
+          pickProducts(
+            typedTrending,
+            typedPopular?.length ? typedPopular : storePopular.slice().reverse()
+          )
+        );
+        setLatestProducts(
+          pickProducts(
+            typedNew,
+            storeNew.length ? storeNew : storeAll.slice(0, 40)
+          )
+        );
+        setFeaturedProducts(
+          pickProducts(taggedFeatured, typedPopular.length ? typedPopular : storePopular)
+        );
+        setDiscountProducts(storeDiscount);
       } catch (err) {
-        console.error("Error fetching featured products:", err);
+        console.error("Error fetching homepage products:", err);
       } finally {
         setLoading(false);
       }
     };
+
     fetchProducts();
   }, []);
 
-  if (!loading && popularProducts.length === 0 && trendingProducts.length === 0) return null;
+  const hasAnyProducts =
+    popularProducts.length > 0 ||
+    trendingProducts.length > 0 ||
+    latestProducts.length > 0 ||
+    featuredProducts.length > 0 ||
+    discountProducts.length > 0;
 
-  /* Loading skeleton */
+  if (!loading && !hasAnyProducts) return null;
+
   if (loading) {
     return (
       <section className="bg-white py-8 sm:py-10 lg:py-14 pb-24 sm:pb-14">
         <div className="max-w-screen-2xl mx-auto px-3 sm:px-4 lg:px-12">
-          {[0, 1].map((s) => (
+          {[0, 1, 2].map((s) => (
             <div key={s} className="mb-12">
-              {/* Header skeleton */}
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-9 h-9 bg-gray-100 rounded-xl animate-pulse" />
                 <div className="h-5 bg-gray-100 rounded w-40 animate-pulse" />
               </div>
-              {/* Grid skeleton */}
               <div className={PRODUCT_GRID_CLASS}>
-                {Array.from({ length: 10 }).map((_, i) => (
-                  <div key={i} className="bg-gray-50 rounded-2xl animate-pulse min-h-[360px] sm:min-h-[320px]" />
+                {Array.from({ length: DEFAULT_VISIBLE }).map((_, i) => (
+                  <div
+                    key={i}
+                    className="bg-gray-50 rounded-2xl animate-pulse min-h-[360px] sm:min-h-[320px]"
+                  />
                 ))}
               </div>
             </div>
@@ -149,6 +201,27 @@ const HomeProductsSection = () => {
             icon={<FiTrendingUp className="w-4 h-4" />}
             accent="#ED1C24"
             products={trendingProducts}
+            onEnquire={handleEnquire}
+          />
+          <GridSection
+            title="Latest Products"
+            icon={<FiClock className="w-4 h-4" />}
+            accent="#2563eb"
+            products={latestProducts}
+            onEnquire={handleEnquire}
+          />
+          <GridSection
+            title="Featured Products"
+            icon={<FiAward className="w-4 h-4" />}
+            accent="#7c3aed"
+            products={featuredProducts}
+            onEnquire={handleEnquire}
+          />
+          <GridSection
+            title="Latest Discounts"
+            icon={<FiTag className="w-4 h-4" />}
+            accent="#ea580c"
+            products={discountProducts}
             onEnquire={handleEnquire}
           />
         </div>

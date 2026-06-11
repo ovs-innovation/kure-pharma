@@ -81,8 +81,8 @@ const addOrder = async (req, res) => {
 
     const newOrder = new Order(orderPayload);
     const order = await newOrder.save();
+    await handleProductQuantity(order.cart);
     res.status(201).send(order);
-    handleProductQuantity(order.cart);
     queueOrderInvoiceEmail(order);
     queueOrderNotificationEmail(order);
   } catch (err) {
@@ -306,7 +306,7 @@ const verifyRazorpayPaymentAndAddOrder = async (req, res) => {
     });
 
     const order = await newOrder.save();
-    handleProductQuantity(order.cart);
+    await handleProductQuantity(order.cart);
     queueOrderInvoiceEmail(order);
     queueOrderNotificationEmail(order);
 

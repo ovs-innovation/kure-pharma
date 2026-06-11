@@ -1,0 +1,397 @@
+{
+  "pass": [
+    {
+      "id": "FE-PAGE-/",
+      "title": "Frontend page loads: /",
+      "detail": "HTTP 200"
+    },
+    {
+      "id": "FE-PAGE-/search",
+      "title": "Frontend page loads: /search",
+      "detail": "HTTP 200"
+    },
+    {
+      "id": "FE-PAGE-/about-us",
+      "title": "Frontend page loads: /about-us",
+      "detail": "HTTP 200"
+    },
+    {
+      "id": "FE-PAGE-/contact-us",
+      "title": "Frontend page loads: /contact-us",
+      "detail": "HTTP 200"
+    },
+    {
+      "id": "FE-PAGE-/privacy-policy",
+      "title": "Frontend page loads: /privacy-policy",
+      "detail": "HTTP 200"
+    },
+    {
+      "id": "FE-HOME-hero/slider",
+      "title": "Homepage contains hero/slider",
+      "detail": ""
+    },
+    {
+      "id": "FE-HOME-categories",
+      "title": "Homepage contains categories",
+      "detail": ""
+    },
+    {
+      "id": "FE-HOME-products",
+      "title": "Homepage contains products",
+      "detail": ""
+    },
+    {
+      "id": "FE-HOME-footer",
+      "title": "Homepage contains footer",
+      "detail": ""
+    },
+    {
+      "id": "FE-HOME-navigation",
+      "title": "Homepage contains navigation",
+      "detail": ""
+    },
+    {
+      "id": "API-CAT-SHOW",
+      "title": "GET /category/show",
+      "detail": "1 categories"
+    },
+    {
+      "id": "CAT-PROD-62c827b5a427b63741da9175",
+      "title": "Category \"Home\" products",
+      "detail": "5 products"
+    },
+    {
+      "id": "CAT-PROD-69c77e6687ee0f2814c71e4c",
+      "title": "Category \"Lithium Ion Battery Cell\" products",
+      "detail": "1 products"
+    },
+    {
+      "id": "CAT-PROD-69aff18fc39dd734e46b2fca",
+      "title": "Category \"BATTERY POWER PACKS\" products",
+      "detail": "1 products"
+    },
+    {
+      "id": "CAT-PROD-69afca65973569345c419afe",
+      "title": "Category \"BATTERY BALANCERS \" products",
+      "detail": "5 products"
+    },
+    {
+      "id": "API-PROD-SHOW",
+      "title": "GET /products/show",
+      "detail": "53 published products"
+    },
+    {
+      "id": "PDP-PAGE-elecmoon-original-jb",
+      "title": "Product page loads",
+      "detail": "elecmoon-original-jbd-32s-100a-bms-for-lifepo4-battery-packs-reliable-protection-long-battery-life"
+    },
+    {
+      "id": "PDP-API-elecmoon-original-jb",
+      "title": "Product API by slug",
+      "detail": ""
+    },
+    {
+      "id": "PDP-PAGE-elecmoon-original-jb",
+      "title": "Product page loads",
+      "detail": "elecmoon-original-jbd-23s-100a-lifepo4-bms-reliable-battery-protection-for-high-power-lfp-battery-packs"
+    },
+    {
+      "id": "PDP-API-elecmoon-original-jb",
+      "title": "Product API by slug",
+      "detail": ""
+    },
+    {
+      "id": "PDP-PAGE-elecmoon-daly-bms-lf",
+      "title": "Product page loads",
+      "detail": "elecmoon-daly-bms-lfp-24s-100a-hardware-type-battery-management-system-for-72v-lifepo4-battery-packs-original-quality-protection-board"
+    },
+    {
+      "id": "PDP-API-elecmoon-daly-bms-lf",
+      "title": "Product API by slug",
+      "detail": ""
+    },
+    {
+      "id": "PDP-PAGE-elecmoon-original-da",
+      "title": "Product page loads",
+      "detail": "elecmoon-original-daly-bms-lfp-24s-50a-hardware-type-for-72v-lifepo4-battery-pack"
+    },
+    {
+      "id": "PDP-API-elecmoon-original-da",
+      "title": "Product API by slug",
+      "detail": ""
+    },
+    {
+      "id": "PDP-PAGE-elecmoon-daly-bms-lf",
+      "title": "Product page loads",
+      "detail": "elecmoon-daly-bms-lfp-23s-100a-hardware-type-72v-lithium-battery-management-system-for-ev-e-scooter-energy-storage"
+    },
+    {
+      "id": "PDP-API-elecmoon-daly-bms-lf",
+      "title": "Product API by slug",
+      "detail": ""
+    },
+    {
+      "id": "PDP-PAGE-elecmoon-daly-bms-lf",
+      "title": "Product page loads",
+      "detail": "elecmoon-daly-bms-lfp-23s-80a-hardware-type-72v-lithium-battery-protection-board"
+    },
+    {
+      "id": "PDP-API-elecmoon-daly-bms-lf",
+      "title": "Product API by slug",
+      "detail": ""
+    },
+    {
+      "id": "PDP-PAGE-elecmoon-daly-bms-lf",
+      "title": "Product page loads",
+      "detail": "elecmoon-daly-bms-lfp-23s-60a-hardware-type-72v-original-quality-battery-management-system"
+    },
+    {
+      "id": "PDP-API-elecmoon-daly-bms-lf",
+      "title": "Product API by slug",
+      "detail": ""
+    },
+    {
+      "id": "PDP-PAGE-elecmoon-daly-bms-lf",
+      "title": "Product page loads",
+      "detail": "elecmoon-daly-bms-lfp-23s-50a-hardware-type-original-quality-lithium-battery-management-system-for-72v-ev-battery-packs"
+    },
+    {
+      "id": "PDP-API-elecmoon-daly-bms-lf",
+      "title": "Product API by slug",
+      "detail": ""
+    },
+    {
+      "id": "PDP-PAGE-elecmoon-original-da",
+      "title": "Product page loads",
+      "detail": "elecmoon-original-daly-bms-lfp-23s-40a-hardware-type-battery-management-system-for-72v-lifepo4-battery-packs-cell-balancing-advanced-protection-system"
+    },
+    {
+      "id": "PDP-API-elecmoon-original-da",
+      "title": "Product API by slug",
+      "detail": ""
+    },
+    {
+      "id": "PDP-PAGE-elecmoon-daly-bms-lf",
+      "title": "Product page loads",
+      "detail": "elecmoon-daly-bms-lfp-20s-100a-hardware-type-original-quality-battery-management-system-"
+    },
+    {
+      "id": "PDP-API-elecmoon-daly-bms-lf",
+      "title": "Product API by slug",
+      "detail": ""
+    },
+    {
+      "id": "SEARCH-JBD",
+      "title": "Search API for \"JBD\"",
+      "detail": "2 results"
+    },
+    {
+      "id": "SEARCH-Daly BMS",
+      "title": "Search API for \"Daly BMS\"",
+      "detail": "20 results"
+    },
+    {
+      "id": "SEARCH-zzznomatch12345",
+      "title": "Search API for \"zzznomatch12345\"",
+      "detail": "0 results"
+    },
+    {
+      "id": "API-STORE",
+      "title": "GET /products/store",
+      "detail": "keys: popularProducts, discountedProducts, newArrivalsProducts, products"
+    },
+    {
+      "id": "ADMIN-HOME",
+      "title": "Admin panel loads",
+      "detail": ""
+    },
+    {
+      "id": "CLD-UP-dkeceuhqb",
+      "title": "Cloudinary upload works: correct/local cloud",
+      "detail": ""
+    },
+    {
+      "id": "API-SETTINGS",
+      "title": "Store settings API",
+      "detail": ""
+    },
+    {
+      "id": "API/services/show",
+      "title": "Endpoint OK",
+      "detail": ""
+    },
+    {
+      "id": "API/blogs/show",
+      "title": "Endpoint OK",
+      "detail": ""
+    },
+    {
+      "id": "API/coupon/show",
+      "title": "Endpoint OK",
+      "detail": ""
+    }
+  ],
+  "fail": [
+    {
+      "id": "FE-PAGE-/checkout",
+      "title": "Frontend page failed: /checkout",
+      "detail": "HTTP 307"
+    },
+    {
+      "id": "CAT-ICONS",
+      "title": "6 broken category icons",
+      "detail": "https://res.cloudinary.com/dhqcwkpzp/image/upload/v1778675596/category/ChatGPTImageMay13%2C2026%2C06_02_36PM.png; https://res.cloudinary.com/dhqcwkpzp/image/upload/v1778678836/category/ChatGPTImageMay13%2C2026%2C06_54_41PM.png; https://res.cloudinary.com/dhqcwkpzp/image/upload/v1778680673/category/ChatGPTImageMay13%2C2026%2C07_27_22PM.png; https://res.cloudinary.com/dhqcwkpzp/image/upload/v1778681323/category/ChatGPTImageMay13%2C2026%2C07_38_18PM.png; https://res.cloudinary.com/dhqcwkpzp/image/upload/v1778681808/category/ChatGPTImageMay13%2C2026%2C07_46_34PM.png; https://res.cloudinary.com/dhqcwkpzp/image/upload/v1778682206/category/ChatGPTImageMay13%2C2026%2C07_52_56PM.png"
+    },
+    {
+      "id": "PROD-IMG-HTTP",
+      "title": "9 broken product images",
+      "detail": "https://res.cloudinary.com/dhqcwkpzp/image/upload/v1779368762/product/Gemini_Generated_Image_e0ae8xe0ae8xe0ae.png; https://res.cloudinary.com/dhqcwkpzp/image/upload/v1779349926/product/Gemini_Generated_Image_1cwtms1cwtms1cwt.png; https://res.cloudinary.com/dhqcwkpzp/image/upload/v1778784171/product/BlackandWhiteLuxuryCalligraphyPhotographyLogo%281%29.jpg; https://res.cloudinary.com/dhqcwkpzp/image/upload/v1775286754/product/output-onlinepngtools%281%29.png; https://res.cloudinary.com/dhqcwkpzp/image/upload/v1773483137/product/daniel-korpai.jpg.jpg; https://res.cloudinary.com/dhqcwkpzp/image/upload/v1773298465/product/6566800.jpg; https://res.cloudinary.com/dhqcwkpzp/image/upload/v1773298465/product/6566800.jpg; https://res.cloudinary.com/dhqcwkpzp/image/upload/v1773138139/product/brett-jordan-NIDPm-ltVbA-unsplash.jpg; https://res.cloudinary.com/dhqcwkpzp/image/upload/v1773138139/product/brett-jordan-NIDPm-ltVbA-unsplash.jpg"
+    },
+    {
+      "id": "ADMIN-LOGIN-PAGE",
+      "title": "Admin login page failed",
+      "detail": "404"
+    },
+    {
+      "id": "CLD-UP-dhqcwkpzp",
+      "title": "Cloudinary upload failed: production admin baked cloud",
+      "detail": "HTTP 401 {\"error\":{\"message\":\"cloud_name is disabled\"}}"
+    }
+  ],
+  "warn": [
+    {
+      "id": "CAT-PROD-69f89690b73dc100134cd144",
+      "title": "Category \"Wire\" products",
+      "detail": "0 products"
+    },
+    {
+      "id": "CAT-PROD-632aca6d4d87ff2494210c24",
+      "title": "Category \"POWER CONNECTORS\" products",
+      "detail": "0 products"
+    },
+    {
+      "id": "CAT-PROD-632aca7e4d87ff2494210c34",
+      "title": "Category \"Fish\" products",
+      "detail": "0 products"
+    },
+    {
+      "id": "CAT-PROD-632aca9b4d87ff2494210c4f",
+      "title": "Category \"Rui\" products",
+      "detail": "0 products"
+    },
+    {
+      "id": "CAT-PROD-632aca944d87ff2494210c47",
+      "title": "Category \"Tuna\" products",
+      "detail": "0 products"
+    },
+    {
+      "id": "CAT-PROD-632aca754d87ff2494210c2c",
+      "title": "Category \"Meat\" products",
+      "detail": "0 products"
+    },
+    {
+      "id": "CAT-PROD-632aca864d87ff2494210c3c",
+      "title": "Category \"Beef\" products",
+      "detail": "0 products"
+    },
+    {
+      "id": "CAT-PROD-632aca2b4d87ff2494210be8",
+      "title": "Category \"NICKLE STRIPS\" products",
+      "detail": "0 products"
+    },
+    {
+      "id": "PROD-NO-IMAGE",
+      "title": "14 published products without images",
+      "detail": "Elecmoon Original JBD 23S 100A LiFePO4 BMS – Reliable Battery Protection for High-Power LFP Battery Packs, Elecmoon DALY BMS LFP 24S 100A Hardware Type Battery Management System for 72V LiFePO4 Battery Packs – Original Quality Protection Board, Elecmoon Original DALY BMS LFP 24S 50A Hardware Type for 72V LiFePO4 Battery Pack, Elecmoon DALY BMS LFP 23S 100A Hardware Type | 72V Lithium Battery Management System for EV, E-Scooter & Energy Storage, Elecmoon DALY BMS LFP 23S 80A Hardware Type – 72V Lithium Battery Protection Board"
+    },
+    {
+      "id": "CAT-JUNK-DATA",
+      "title": "7 demo/template categories still published",
+      "detail": "Fish, Rui, Tuna, Meat, Beef, Baby Food, Orange"
+    }
+  ],
+  "tests": 61,
+  "brokenImages": [
+    {
+      "label": "category-icon",
+      "status": 401,
+      "url": "https://res.cloudinary.com/dhqcwkpzp/image/upload/v1778675596/category/ChatGPTImageMay13%2C2026%2C06_02_36PM.png"
+    },
+    {
+      "label": "category-icon",
+      "status": 401,
+      "url": "https://res.cloudinary.com/dhqcwkpzp/image/upload/v1778678836/category/ChatGPTImageMay13%2C2026%2C06_54_41PM.png"
+    },
+    {
+      "label": "category-icon",
+      "status": 401,
+      "url": "https://res.cloudinary.com/dhqcwkpzp/image/upload/v1778680673/category/ChatGPTImageMay13%2C2026%2C07_27_22PM.png"
+    },
+    {
+      "label": "category-icon",
+      "status": 401,
+      "url": "https://res.cloudinary.com/dhqcwkpzp/image/upload/v1778681323/category/ChatGPTImageMay13%2C2026%2C07_38_18PM.png"
+    },
+    {
+      "label": "category-icon",
+      "status": 401,
+      "url": "https://res.cloudinary.com/dhqcwkpzp/image/upload/v1778681808/category/ChatGPTImageMay13%2C2026%2C07_46_34PM.png"
+    },
+    {
+      "label": "category-icon",
+      "status": 401,
+      "url": "https://res.cloudinary.com/dhqcwkpzp/image/upload/v1778682206/category/ChatGPTImageMay13%2C2026%2C07_52_56PM.png"
+    },
+    {
+      "label": "product-image",
+      "status": 401,
+      "url": "https://res.cloudinary.com/dhqcwkpzp/image/upload/v1779368762/product/Gemini_Generated_Image_e0ae8xe0ae8xe0ae.png"
+    },
+    {
+      "label": "product-image",
+      "status": 401,
+      "url": "https://res.cloudinary.com/dhqcwkpzp/image/upload/v1779349926/product/Gemini_Generated_Image_1cwtms1cwtms1cwt.png"
+    },
+    {
+      "label": "product-image",
+      "status": 401,
+      "url": "https://res.cloudinary.com/dhqcwkpzp/image/upload/v1778784171/product/BlackandWhiteLuxuryCalligraphyPhotographyLogo%281%29.jpg"
+    },
+    {
+      "label": "product-image",
+      "status": 401,
+      "url": "https://res.cloudinary.com/dhqcwkpzp/image/upload/v1775286754/product/output-onlinepngtools%281%29.png"
+    },
+    {
+      "label": "product-image",
+      "status": 401,
+      "url": "https://res.cloudinary.com/dhqcwkpzp/image/upload/v1773483137/product/daniel-korpai.jpg.jpg"
+    },
+    {
+      "label": "product-image",
+      "status": 401,
+      "url": "https://res.cloudinary.com/dhqcwkpzp/image/upload/v1773298465/product/6566800.jpg"
+    },
+    {
+      "label": "product-image",
+      "status": 401,
+      "url": "https://res.cloudinary.com/dhqcwkpzp/image/upload/v1773298465/product/6566800.jpg"
+    },
+    {
+      "label": "product-image",
+      "status": 401,
+      "url": "https://res.cloudinary.com/dhqcwkpzp/image/upload/v1773138139/product/brett-jordan-NIDPm-ltVbA-unsplash.jpg"
+    },
+    {
+      "label": "product-image",
+      "status": 401,
+      "url": "https://res.cloudinary.com/dhqcwkpzp/image/upload/v1773138139/product/brett-jordan-NIDPm-ltVbA-unsplash.jpg"
+    }
+  ],
+  "apiErrors": [
+    {
+      "url": "https://elecmoon.com/checkout",
+      "status": 307
+    }
+  ]
+}

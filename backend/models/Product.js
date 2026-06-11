@@ -133,6 +133,42 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+
+    /** GST HSN code (4–8 digit numeric or alphanumeric) */
+    hsnCode: {
+      type: String,
+      required: false,
+      trim: true,
+    },
+
+    /** When false, stock is not enforced (legacy/untracked products stay purchasable) */
+    trackInventory: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+
+    /** Available inventory units */
+    stock: {
+      type: Number,
+      required: false,
+      default: 0,
+      min: 0,
+    },
+
+    /** Alert when stock falls to or below this level */
+    lowStockThreshold: {
+      type: Number,
+      required: false,
+      default: 5,
+      min: 0,
+    },
+
+    /** Cloudinary URL for product datasheet PDF */
+    datasheetUrl: {
+      type: String,
+      required: false,
+    },
   },
   {
     timestamps: true,

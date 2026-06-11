@@ -1,8 +1,30 @@
 const Category = require("../models/Category");
 
+const slugifyCategoryName = (name) => {
+  if (!name) return "";
+  const text = typeof name === "string" ? name : name.en || Object.values(name)[0] || "";
+  return String(text)
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+};
+
+const resolveCategorySlug = (body = {}, existingSlug = "") => {
+  if (body.slug && String(body.slug).trim()) {
+    return String(body.slug).trim().toLowerCase();
+  }
+  const fromName = slugifyCategoryName(body.name);
+  return fromName || existingSlug || "";
+};
+
 const addCategory = async (req, res) => {
   try {
-    const newCategory = new Category(req.body);
+    const payload = {
+      ...req.body,
+      slug: resolveCategorySlug(req.body),
+    };
+    const newCategory = new Category(payload);
     await newCategory.save();
     res.status(200).send({
       message: "Category Added Successfully!",
@@ -80,6 +102,37 @@ const getAllCategories = async (req, res) => {
   }
 };
 
+const getCategoryBySlug = async (req, res) => {
+  try {
+    const slug = String(req.params.slug || "")
+      .toLowerCase()
+      .trim();
+
+    if (!slug) {
+      return res.status(400).send({ message: "Category slug is required." });
+    }
+
+    let category = await Category.findOne({ slug, status: "show" });
+
+    if (!category) {
+      const categories = await Category.find({ status: "show" });
+      category = categories.find(
+        (cat) => slugifyCategoryName(cat.name) === slug
+      );
+    }
+
+    if (!category) {
+      return res.status(404).send({ message: "Category not found." });
+    }
+
+    res.send(category);
+  } catch (err) {
+    res.status(500).send({
+      message: err.message,
+    });
+  }
+};
+
 const getCategoryById = async (req, res) => {
   try {
     const category = await Category.findById(req.params.id);
@@ -107,6 +160,7 @@ const updateCategory = async (req, res) => {
         ? req.body.parentId
         : category.parentId;
       category.parentName = req.body.parentName;
+      category.slug = resolveCategorySlug(req.body, category.slug);
 
       await category.save();
       res.send({ message: "Category Updated Successfully!" });
@@ -240,6 +294,7 @@ const readyToParentAndChildrenCategory = (categories, parentId = null) => {
     categoryList.push({
       _id: cate._id,
       name: cate.name,
+      slug: cate.slug || slugifyCategoryName(cate.name),
       parentId: cate.parentId,
       parentName: cate.parentName,
       description: cate.description,
@@ -258,6 +313,7 @@ module.exports = {
   getAllCategory,
   getShowingCategory,
   getCategoryById,
+  getCategoryBySlug,
   updateCategory,
   updateStatus,
   deleteCategory,

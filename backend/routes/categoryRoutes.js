@@ -7,6 +7,7 @@ const {
   getAllCategories,
   getShowingCategory,
   getCategoryById,
+  getCategoryBySlug,
   updateCategory,
   updateStatus,
   deleteCategory,
@@ -17,6 +18,7 @@ const { adminOnly } = require('../config/auth');
 
 // Public storefront read
 router.get('/show', getShowingCategory);
+router.get('/slug/:slug', getCategoryBySlug);
 
 // Admin-only category management
 router.post('/add', adminOnly, addCategory);

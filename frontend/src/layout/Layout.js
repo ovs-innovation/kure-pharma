@@ -12,6 +12,7 @@ import MobileFooter from "@layout/footer/MobileFooter";
 import FeatureCard from "@components/feature-card/FeatureCard";
 import CartDrawer from "@components/drawer/CartDrawer";
 import StatsBar from "@components/common/StatsBar";
+import RouteProgressBar from "@components/common/RouteProgressBar";
 
 const Layout = ({ title, description, children }) => {
   const router = useRouter();
@@ -27,6 +28,7 @@ const Layout = ({ title, description, children }) => {
   return (
     <>
       <ToastContainer />
+      <RouteProgressBar />
 
       <div className="font-sans overflow-x-hidden">
         <Head>

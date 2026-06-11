@@ -1,0 +1,995 @@
+{
+  "meta": {
+    "startedAt": "2026-06-08T11:47:56.947Z",
+    "target": {
+      "frontend": "https://elecmoon.com",
+      "admin": "https://admin.elecmoon.com"
+    }
+  },
+  "phases": {
+    "Phase1-Login": [
+      {
+        "id": "P1-01",
+        "phase": "Phase1-Login",
+        "title": "Invalid credentials rejected",
+        "status": "PASS",
+        "expected": "401",
+        "actual": "401",
+        "at": "2026-06-08T11:47:57.520Z"
+      },
+      {
+        "id": "P1-02",
+        "phase": "Phase1-Login",
+        "title": "Admin login with provided credentials",
+        "status": "PASS",
+        "expected": "200 + token",
+        "actual": "200 token=true msg=",
+        "at": "2026-06-08T11:47:57.774Z"
+      },
+      {
+        "id": "P1-04",
+        "phase": "Phase1-Login",
+        "title": "Admin products list with valid token",
+        "status": "PASS",
+        "expected": "200",
+        "actual": "200",
+        "at": "2026-06-08T11:47:59.159Z"
+      }
+    ],
+    "Phase1-Security": [
+      {
+        "id": "P1-03",
+        "phase": "Phase1-Security",
+        "title": "Admin products list blocked without token",
+        "status": "PASS",
+        "expected": "401",
+        "actual": "401",
+        "at": "2026-06-08T11:47:57.865Z"
+      },
+      {
+        "id": "P1-05",
+        "phase": "Phase1-Security",
+        "title": "Admin categories blocked without token",
+        "status": "PASS",
+        "expected": "401",
+        "actual": "401",
+        "at": "2026-06-08T11:47:59.249Z"
+      }
+    ],
+    "Phase4-Images": [
+      {
+        "id": "P4-01",
+        "phase": "Phase4-Images",
+        "title": "Upload test image to active Cloudinary (dkeceuhqb)",
+        "status": "PASS",
+        "expected": "200 + secure_url",
+        "actual": "200 https://res.cloudinary.com/dkeceuhqb/image/upload/v1780919281/qa_e2e_1780919276947.png",
+        "at": "2026-06-08T11:48:01.342Z"
+      },
+      {
+        "id": "P4-02",
+        "phase": "Phase4-Images",
+        "title": "Production baked cloud dhqcwkpzp is disabled",
+        "status": "PASS",
+        "expected": "401/400 disabled",
+        "actual": "401",
+        "at": "2026-06-08T11:48:01.652Z"
+      },
+      {
+        "id": "P4-SCAN",
+        "phase": "Phase4-Images",
+        "title": "Broken image scan (13 of 43 URLs)",
+        "status": "FAIL",
+        "expected": "0 broken",
+        "actual": "13 broken",
+        "at": "2026-06-08T11:48:16.648Z"
+      }
+    ],
+    "Phase2-Category": [
+      {
+        "id": "P2-01",
+        "phase": "Phase2-Category",
+        "title": "Create QA category in admin",
+        "status": "PASS",
+        "expected": "Category in admin list",
+        "actual": "6a26abf2cf9bc000136c6d23",
+        "at": "2026-06-08T11:48:03.795Z"
+      },
+      {
+        "id": "P2-02",
+        "phase": "Phase2-Category",
+        "title": "QA category visible on frontend /category/show",
+        "status": "PASS",
+        "expected": "Visible with status show",
+        "actual": "id=6a26abf2cf9bc000136c6d23",
+        "at": "2026-06-08T11:48:04.034Z"
+      },
+      {
+        "id": "P2-03",
+        "phase": "Phase2-Category",
+        "title": "QA category image HTTP reachable",
+        "status": "PASS",
+        "expected": "200",
+        "actual": "200 https://res.cloudinary.com/dkeceuhqb/image/upload/v1780919281/qa_e2e_1780919276947.png",
+        "at": "2026-06-08T11:48:04.409Z"
+      },
+      {
+        "id": "P2-04",
+        "phase": "Phase2-Category",
+        "title": "QA category products listing (empty expected)",
+        "status": "PASS",
+        "expected": "0 products initially",
+        "actual": "0",
+        "at": "2026-06-08T11:48:04.567Z"
+      },
+      {
+        "id": "P2-05",
+        "phase": "Phase2-Category",
+        "title": "Hide QA category via admin API",
+        "status": "PASS",
+        "expected": "200",
+        "actual": "Category Un-Published Successfully!",
+        "at": "2026-06-08T11:48:04.801Z"
+      },
+      {
+        "id": "P2-06",
+        "phase": "Phase2-Category",
+        "title": "Hidden QA category removed from frontend menu API",
+        "status": "PASS",
+        "expected": "Not in /category/show",
+        "actual": "removed",
+        "at": "2026-06-08T11:48:05.029Z"
+      },
+      {
+        "id": "P2-07",
+        "phase": "Phase2-Category",
+        "title": "Hidden category still in admin (expected)",
+        "status": "PASS",
+        "expected": "status hide in admin",
+        "actual": "hide",
+        "at": "2026-06-08T11:48:05.260Z"
+      },
+      {
+        "id": "P2-08",
+        "phase": "Phase2-Category",
+        "title": "Re-publish QA category — reappears on frontend",
+        "status": "PASS",
+        "expected": "Back in /category/show",
+        "actual": "visible",
+        "at": "2026-06-08T11:48:05.717Z"
+      },
+      {
+        "id": "P2-09",
+        "phase": "Phase2-Category",
+        "title": "Delete QA category cleanup",
+        "status": "PASS",
+        "expected": "200",
+        "actual": "Category Deleted Successfully!",
+        "at": "2026-06-08T11:48:11.178Z"
+      },
+      {
+        "id": "P2-10",
+        "phase": "Phase2-Category",
+        "title": "QA category removed from admin after delete",
+        "status": "PASS",
+        "expected": "Not in admin",
+        "actual": "verified",
+        "at": "2026-06-08T11:48:11.475Z"
+      },
+      {
+        "id": "P2-11",
+        "phase": "Phase2-Category",
+        "title": "QA category removed from frontend after delete",
+        "status": "PASS",
+        "expected": "Not in frontend",
+        "actual": "verified",
+        "at": "2026-06-08T11:48:11.702Z"
+      }
+    ],
+    "Phase3-Product": [
+      {
+        "id": "P3-01",
+        "phase": "Phase3-Product",
+        "title": "Create QA product in admin",
+        "status": "PASS",
+        "expected": "200 + product id",
+        "actual": "200 id=6a26abf6cf9bc000136c6d34 err=",
+        "at": "2026-06-08T11:48:05.942Z"
+      },
+      {
+        "id": "P3-02",
+        "phase": "Phase3-Product",
+        "title": "QA product visible on frontend /products/show",
+        "status": "PASS",
+        "expected": "In published list",
+        "actual": "found",
+        "at": "2026-06-08T11:48:06.639Z"
+      },
+      {
+        "id": "P3-03",
+        "phase": "Phase3-Product",
+        "title": "QA product found in search API",
+        "status": "PASS",
+        "expected": "Search returns product",
+        "actual": "found",
+        "at": "2026-06-08T11:48:06.880Z"
+      },
+      {
+        "id": "P3-04",
+        "phase": "Phase3-Product",
+        "title": "QA product visible in category listing",
+        "status": "PASS",
+        "expected": "In category products",
+        "actual": "found",
+        "at": "2026-06-08T11:48:07.103Z"
+      },
+      {
+        "id": "P3-05",
+        "phase": "Phase3-Product",
+        "title": "QA product PDP page loads on frontend",
+        "status": "PASS",
+        "expected": "HTTP 200",
+        "actual": "200",
+        "at": "2026-06-08T11:48:07.491Z"
+      },
+      {
+        "id": "P3-06",
+        "phase": "Phase3-Product",
+        "title": "Hide QA product",
+        "status": "PASS",
+        "expected": "200",
+        "actual": "Product hide Successfully!",
+        "at": "2026-06-08T11:48:07.715Z"
+      },
+      {
+        "id": "P3-07",
+        "phase": "Phase3-Product",
+        "title": "Hidden QA product removed from /products/show",
+        "status": "PASS",
+        "expected": "Not in list",
+        "actual": "verified",
+        "at": "2026-06-08T11:48:08.266Z"
+      },
+      {
+        "id": "P3-08",
+        "phase": "Phase3-Product",
+        "title": "Hidden QA product removed from search",
+        "status": "PASS",
+        "expected": "Not in search",
+        "actual": "verified",
+        "at": "2026-06-08T11:48:08.434Z"
+      },
+      {
+        "id": "P3-09",
+        "phase": "Phase3-Product",
+        "title": "SECURITY: Hidden product accessible via direct slug API",
+        "status": "FAIL",
+        "expected": "404 or not returned for hidden",
+        "actual": "LEAK: hidden product returned via slug API — QA TEST PRODUCT 1780919276947",
+        "at": "2026-06-08T11:48:08.930Z"
+      },
+      {
+        "id": "P3-10",
+        "phase": "Phase3-Product",
+        "title": "Hidden product direct PDP URL still returns page",
+        "status": "FAIL",
+        "expected": "Should not be publicly accessible",
+        "actual": "HTTP 200 (SPA may still render shell)",
+        "at": "2026-06-08T11:48:09.248Z"
+      },
+      {
+        "id": "P3-11",
+        "phase": "Phase3-Product",
+        "title": "Re-publish QA product — returns to frontend list",
+        "status": "PASS",
+        "expected": "Back in list",
+        "actual": "verified",
+        "at": "2026-06-08T11:48:10.017Z"
+      },
+      {
+        "id": "P3-12",
+        "phase": "Phase3-Product",
+        "title": "Delete QA product",
+        "status": "PASS",
+        "expected": "200",
+        "actual": "Product Deleted Successfully!",
+        "at": "2026-06-08T11:48:10.245Z"
+      },
+      {
+        "id": "P3-13",
+        "phase": "Phase3-Product",
+        "title": "Deleted QA product removed from frontend",
+        "status": "PASS",
+        "expected": "Not in list",
+        "actual": "verified",
+        "at": "2026-06-08T11:48:10.714Z"
+      },
+      {
+        "id": "P3-14",
+        "phase": "Phase3-Product",
+        "title": "Deleted QA product not in search",
+        "status": "PASS",
+        "expected": "Not in search",
+        "actual": "verified",
+        "at": "2026-06-08T11:48:10.886Z"
+      }
+    ],
+    "Phase5-Search": [
+      {
+        "id": "P5-01",
+        "phase": "Phase5-Search",
+        "title": "Search existing JBD products",
+        "status": "PASS",
+        "expected": ">=1 result",
+        "actual": "2 results",
+        "at": "2026-06-08T11:48:11.931Z"
+      },
+      {
+        "id": "P5-02",
+        "phase": "Phase5-Search",
+        "title": "Deleted QA product not in search",
+        "status": "PASS",
+        "expected": "0 results",
+        "actual": "0 results",
+        "at": "2026-06-08T11:48:12.096Z"
+      },
+      {
+        "id": "P5-03",
+        "phase": "Phase5-Search",
+        "title": "Invalid keyword returns empty",
+        "status": "PASS",
+        "expected": "0 results",
+        "actual": "0 results",
+        "at": "2026-06-08T11:48:12.262Z"
+      }
+    ],
+    "Phase6-Cart": [
+      {
+        "id": "Phase6-Cart-BLOCKED",
+        "phase": "Phase6-Cart",
+        "title": "Browser UI interaction required",
+        "status": "BLOCKED",
+        "expected": "Manual browser test",
+        "actual": "Cannot automate localStorage cart / payment UI in this runner",
+        "at": "2026-06-08T11:48:12.263Z"
+      }
+    ],
+    "Phase7-Checkout": [
+      {
+        "id": "Phase7-Checkout-BLOCKED",
+        "phase": "Phase7-Checkout",
+        "title": "Browser UI interaction required",
+        "status": "BLOCKED",
+        "expected": "Manual browser test",
+        "actual": "Cannot automate localStorage cart / payment UI in this runner",
+        "at": "2026-06-08T11:48:12.263Z"
+      }
+    ],
+    "Phase8-Orders": [
+      {
+        "id": "Phase8-Orders-BLOCKED",
+        "phase": "Phase8-Orders",
+        "title": "Browser UI interaction required",
+        "status": "BLOCKED",
+        "expected": "Manual browser test",
+        "actual": "Cannot automate localStorage cart / payment UI in this runner",
+        "at": "2026-06-08T11:48:12.263Z"
+      }
+    ],
+    "Phase10-Responsive": [
+      {
+        "id": "Phase10-Responsive-BLOCKED",
+        "phase": "Phase10-Responsive",
+        "title": "Browser UI interaction required",
+        "status": "BLOCKED",
+        "expected": "Manual browser test",
+        "actual": "Cannot automate localStorage cart / payment UI in this runner",
+        "at": "2026-06-08T11:48:12.263Z"
+      }
+    ],
+    "Phase9-API": [
+      {
+        "id": "P9-/category/show",
+        "phase": "Phase9-API",
+        "title": "GET /category/show",
+        "status": "PASS",
+        "expected": "200",
+        "actual": "200",
+        "at": "2026-06-08T11:48:12.488Z"
+      },
+      {
+        "id": "P9-/products/show",
+        "phase": "Phase9-API",
+        "title": "GET /products/show",
+        "status": "PASS",
+        "expected": "200",
+        "actual": "200",
+        "at": "2026-06-08T11:48:13.110Z"
+      },
+      {
+        "id": "P9-/products/store",
+        "phase": "Phase9-API",
+        "title": "GET /products/store",
+        "status": "PASS",
+        "expected": "200",
+        "actual": "200",
+        "at": "2026-06-08T11:48:13.504Z"
+      },
+      {
+        "id": "P9-/setting/store/customization/all",
+        "phase": "Phase9-API",
+        "title": "GET /setting/store/customization/all",
+        "status": "PASS",
+        "expected": "200",
+        "actual": "200",
+        "at": "2026-06-08T11:48:13.826Z"
+      },
+      {
+        "id": "P9-/currency/show",
+        "phase": "Phase9-API",
+        "title": "GET /currency/show",
+        "status": "PASS",
+        "expected": "200",
+        "actual": "200",
+        "at": "2026-06-08T11:48:13.984Z"
+      },
+      {
+        "id": "P9-/services/show",
+        "phase": "Phase9-API",
+        "title": "GET /services/show",
+        "status": "PASS",
+        "expected": "200",
+        "actual": "200",
+        "at": "2026-06-08T11:48:14.144Z"
+      },
+      {
+        "id": "P9-/blogs/show",
+        "phase": "Phase9-API",
+        "title": "GET /blogs/show",
+        "status": "PASS",
+        "expected": "200",
+        "actual": "200",
+        "at": "2026-06-08T11:48:14.433Z"
+      }
+    ],
+    "Phase11-Security": [
+      {
+        "id": "P11-01",
+        "phase": "Phase11-Security",
+        "title": "Admin orders blocked without auth",
+        "status": "PASS",
+        "expected": "401",
+        "actual": "401",
+        "at": "2026-06-08T11:48:16.736Z"
+      },
+      {
+        "id": "P11-02",
+        "phase": "Phase11-Security",
+        "title": "Admin orders accessible with token",
+        "status": "PASS",
+        "expected": "200",
+        "actual": "200",
+        "at": "2026-06-08T11:48:17.029Z"
+      }
+    ]
+  },
+  "pass": [
+    {
+      "id": "P1-01",
+      "phase": "Phase1-Login",
+      "title": "Invalid credentials rejected",
+      "status": "PASS",
+      "expected": "401",
+      "actual": "401",
+      "at": "2026-06-08T11:47:57.520Z"
+    },
+    {
+      "id": "P1-02",
+      "phase": "Phase1-Login",
+      "title": "Admin login with provided credentials",
+      "status": "PASS",
+      "expected": "200 + token",
+      "actual": "200 token=true msg=",
+      "at": "2026-06-08T11:47:57.774Z"
+    },
+    {
+      "id": "P1-03",
+      "phase": "Phase1-Security",
+      "title": "Admin products list blocked without token",
+      "status": "PASS",
+      "expected": "401",
+      "actual": "401",
+      "at": "2026-06-08T11:47:57.865Z"
+    },
+    {
+      "id": "P1-04",
+      "phase": "Phase1-Login",
+      "title": "Admin products list with valid token",
+      "status": "PASS",
+      "expected": "200",
+      "actual": "200",
+      "at": "2026-06-08T11:47:59.159Z"
+    },
+    {
+      "id": "P1-05",
+      "phase": "Phase1-Security",
+      "title": "Admin categories blocked without token",
+      "status": "PASS",
+      "expected": "401",
+      "actual": "401",
+      "at": "2026-06-08T11:47:59.249Z"
+    },
+    {
+      "id": "P4-01",
+      "phase": "Phase4-Images",
+      "title": "Upload test image to active Cloudinary (dkeceuhqb)",
+      "status": "PASS",
+      "expected": "200 + secure_url",
+      "actual": "200 https://res.cloudinary.com/dkeceuhqb/image/upload/v1780919281/qa_e2e_1780919276947.png",
+      "at": "2026-06-08T11:48:01.342Z"
+    },
+    {
+      "id": "P4-02",
+      "phase": "Phase4-Images",
+      "title": "Production baked cloud dhqcwkpzp is disabled",
+      "status": "PASS",
+      "expected": "401/400 disabled",
+      "actual": "401",
+      "at": "2026-06-08T11:48:01.652Z"
+    },
+    {
+      "id": "P2-01",
+      "phase": "Phase2-Category",
+      "title": "Create QA category in admin",
+      "status": "PASS",
+      "expected": "Category in admin list",
+      "actual": "6a26abf2cf9bc000136c6d23",
+      "at": "2026-06-08T11:48:03.795Z"
+    },
+    {
+      "id": "P2-02",
+      "phase": "Phase2-Category",
+      "title": "QA category visible on frontend /category/show",
+      "status": "PASS",
+      "expected": "Visible with status show",
+      "actual": "id=6a26abf2cf9bc000136c6d23",
+      "at": "2026-06-08T11:48:04.034Z"
+    },
+    {
+      "id": "P2-03",
+      "phase": "Phase2-Category",
+      "title": "QA category image HTTP reachable",
+      "status": "PASS",
+      "expected": "200",
+      "actual": "200 https://res.cloudinary.com/dkeceuhqb/image/upload/v1780919281/qa_e2e_1780919276947.png",
+      "at": "2026-06-08T11:48:04.409Z"
+    },
+    {
+      "id": "P2-04",
+      "phase": "Phase2-Category",
+      "title": "QA category products listing (empty expected)",
+      "status": "PASS",
+      "expected": "0 products initially",
+      "actual": "0",
+      "at": "2026-06-08T11:48:04.567Z"
+    },
+    {
+      "id": "P2-05",
+      "phase": "Phase2-Category",
+      "title": "Hide QA category via admin API",
+      "status": "PASS",
+      "expected": "200",
+      "actual": "Category Un-Published Successfully!",
+      "at": "2026-06-08T11:48:04.801Z"
+    },
+    {
+      "id": "P2-06",
+      "phase": "Phase2-Category",
+      "title": "Hidden QA category removed from frontend menu API",
+      "status": "PASS",
+      "expected": "Not in /category/show",
+      "actual": "removed",
+      "at": "2026-06-08T11:48:05.029Z"
+    },
+    {
+      "id": "P2-07",
+      "phase": "Phase2-Category",
+      "title": "Hidden category still in admin (expected)",
+      "status": "PASS",
+      "expected": "status hide in admin",
+      "actual": "hide",
+      "at": "2026-06-08T11:48:05.260Z"
+    },
+    {
+      "id": "P2-08",
+      "phase": "Phase2-Category",
+      "title": "Re-publish QA category — reappears on frontend",
+      "status": "PASS",
+      "expected": "Back in /category/show",
+      "actual": "visible",
+      "at": "2026-06-08T11:48:05.717Z"
+    },
+    {
+      "id": "P3-01",
+      "phase": "Phase3-Product",
+      "title": "Create QA product in admin",
+      "status": "PASS",
+      "expected": "200 + product id",
+      "actual": "200 id=6a26abf6cf9bc000136c6d34 err=",
+      "at": "2026-06-08T11:48:05.942Z"
+    },
+    {
+      "id": "P3-02",
+      "phase": "Phase3-Product",
+      "title": "QA product visible on frontend /products/show",
+      "status": "PASS",
+      "expected": "In published list",
+      "actual": "found",
+      "at": "2026-06-08T11:48:06.639Z"
+    },
+    {
+      "id": "P3-03",
+      "phase": "Phase3-Product",
+      "title": "QA product found in search API",
+      "status": "PASS",
+      "expected": "Search returns product",
+      "actual": "found",
+      "at": "2026-06-08T11:48:06.880Z"
+    },
+    {
+      "id": "P3-04",
+      "phase": "Phase3-Product",
+      "title": "QA product visible in category listing",
+      "status": "PASS",
+      "expected": "In category products",
+      "actual": "found",
+      "at": "2026-06-08T11:48:07.103Z"
+    },
+    {
+      "id": "P3-05",
+      "phase": "Phase3-Product",
+      "title": "QA product PDP page loads on frontend",
+      "status": "PASS",
+      "expected": "HTTP 200",
+      "actual": "200",
+      "at": "2026-06-08T11:48:07.491Z"
+    },
+    {
+      "id": "P3-06",
+      "phase": "Phase3-Product",
+      "title": "Hide QA product",
+      "status": "PASS",
+      "expected": "200",
+      "actual": "Product hide Successfully!",
+      "at": "2026-06-08T11:48:07.715Z"
+    },
+    {
+      "id": "P3-07",
+      "phase": "Phase3-Product",
+      "title": "Hidden QA product removed from /products/show",
+      "status": "PASS",
+      "expected": "Not in list",
+      "actual": "verified",
+      "at": "2026-06-08T11:48:08.266Z"
+    },
+    {
+      "id": "P3-08",
+      "phase": "Phase3-Product",
+      "title": "Hidden QA product removed from search",
+      "status": "PASS",
+      "expected": "Not in search",
+      "actual": "verified",
+      "at": "2026-06-08T11:48:08.434Z"
+    },
+    {
+      "id": "P3-11",
+      "phase": "Phase3-Product",
+      "title": "Re-publish QA product — returns to frontend list",
+      "status": "PASS",
+      "expected": "Back in list",
+      "actual": "verified",
+      "at": "2026-06-08T11:48:10.017Z"
+    },
+    {
+      "id": "P3-12",
+      "phase": "Phase3-Product",
+      "title": "Delete QA product",
+      "status": "PASS",
+      "expected": "200",
+      "actual": "Product Deleted Successfully!",
+      "at": "2026-06-08T11:48:10.245Z"
+    },
+    {
+      "id": "P3-13",
+      "phase": "Phase3-Product",
+      "title": "Deleted QA product removed from frontend",
+      "status": "PASS",
+      "expected": "Not in list",
+      "actual": "verified",
+      "at": "2026-06-08T11:48:10.714Z"
+    },
+    {
+      "id": "P3-14",
+      "phase": "Phase3-Product",
+      "title": "Deleted QA product not in search",
+      "status": "PASS",
+      "expected": "Not in search",
+      "actual": "verified",
+      "at": "2026-06-08T11:48:10.886Z"
+    },
+    {
+      "id": "P2-09",
+      "phase": "Phase2-Category",
+      "title": "Delete QA category cleanup",
+      "status": "PASS",
+      "expected": "200",
+      "actual": "Category Deleted Successfully!",
+      "at": "2026-06-08T11:48:11.178Z"
+    },
+    {
+      "id": "P2-10",
+      "phase": "Phase2-Category",
+      "title": "QA category removed from admin after delete",
+      "status": "PASS",
+      "expected": "Not in admin",
+      "actual": "verified",
+      "at": "2026-06-08T11:48:11.475Z"
+    },
+    {
+      "id": "P2-11",
+      "phase": "Phase2-Category",
+      "title": "QA category removed from frontend after delete",
+      "status": "PASS",
+      "expected": "Not in frontend",
+      "actual": "verified",
+      "at": "2026-06-08T11:48:11.702Z"
+    },
+    {
+      "id": "P5-01",
+      "phase": "Phase5-Search",
+      "title": "Search existing JBD products",
+      "status": "PASS",
+      "expected": ">=1 result",
+      "actual": "2 results",
+      "at": "2026-06-08T11:48:11.931Z"
+    },
+    {
+      "id": "P5-02",
+      "phase": "Phase5-Search",
+      "title": "Deleted QA product not in search",
+      "status": "PASS",
+      "expected": "0 results",
+      "actual": "0 results",
+      "at": "2026-06-08T11:48:12.096Z"
+    },
+    {
+      "id": "P5-03",
+      "phase": "Phase5-Search",
+      "title": "Invalid keyword returns empty",
+      "status": "PASS",
+      "expected": "0 results",
+      "actual": "0 results",
+      "at": "2026-06-08T11:48:12.262Z"
+    },
+    {
+      "id": "P9-/category/show",
+      "phase": "Phase9-API",
+      "title": "GET /category/show",
+      "status": "PASS",
+      "expected": "200",
+      "actual": "200",
+      "at": "2026-06-08T11:48:12.488Z"
+    },
+    {
+      "id": "P9-/products/show",
+      "phase": "Phase9-API",
+      "title": "GET /products/show",
+      "status": "PASS",
+      "expected": "200",
+      "actual": "200",
+      "at": "2026-06-08T11:48:13.110Z"
+    },
+    {
+      "id": "P9-/products/store",
+      "phase": "Phase9-API",
+      "title": "GET /products/store",
+      "status": "PASS",
+      "expected": "200",
+      "actual": "200",
+      "at": "2026-06-08T11:48:13.504Z"
+    },
+    {
+      "id": "P9-/setting/store/customization/all",
+      "phase": "Phase9-API",
+      "title": "GET /setting/store/customization/all",
+      "status": "PASS",
+      "expected": "200",
+      "actual": "200",
+      "at": "2026-06-08T11:48:13.826Z"
+    },
+    {
+      "id": "P9-/currency/show",
+      "phase": "Phase9-API",
+      "title": "GET /currency/show",
+      "status": "PASS",
+      "expected": "200",
+      "actual": "200",
+      "at": "2026-06-08T11:48:13.984Z"
+    },
+    {
+      "id": "P9-/services/show",
+      "phase": "Phase9-API",
+      "title": "GET /services/show",
+      "status": "PASS",
+      "expected": "200",
+      "actual": "200",
+      "at": "2026-06-08T11:48:14.144Z"
+    },
+    {
+      "id": "P9-/blogs/show",
+      "phase": "Phase9-API",
+      "title": "GET /blogs/show",
+      "status": "PASS",
+      "expected": "200",
+      "actual": "200",
+      "at": "2026-06-08T11:48:14.433Z"
+    },
+    {
+      "id": "P11-01",
+      "phase": "Phase11-Security",
+      "title": "Admin orders blocked without auth",
+      "status": "PASS",
+      "expected": "401",
+      "actual": "401",
+      "at": "2026-06-08T11:48:16.736Z"
+    },
+    {
+      "id": "P11-02",
+      "phase": "Phase11-Security",
+      "title": "Admin orders accessible with token",
+      "status": "PASS",
+      "expected": "200",
+      "actual": "200",
+      "at": "2026-06-08T11:48:17.029Z"
+    }
+  ],
+  "fail": [
+    {
+      "id": "P3-09",
+      "phase": "Phase3-Product",
+      "title": "SECURITY: Hidden product accessible via direct slug API",
+      "status": "FAIL",
+      "expected": "404 or not returned for hidden",
+      "actual": "LEAK: hidden product returned via slug API — QA TEST PRODUCT 1780919276947",
+      "at": "2026-06-08T11:48:08.930Z"
+    },
+    {
+      "id": "P3-10",
+      "phase": "Phase3-Product",
+      "title": "Hidden product direct PDP URL still returns page",
+      "status": "FAIL",
+      "expected": "Should not be publicly accessible",
+      "actual": "HTTP 200 (SPA may still render shell)",
+      "at": "2026-06-08T11:48:09.248Z"
+    },
+    {
+      "id": "P4-SCAN",
+      "phase": "Phase4-Images",
+      "title": "Broken image scan (13 of 43 URLs)",
+      "status": "FAIL",
+      "expected": "0 broken",
+      "actual": "13 broken",
+      "at": "2026-06-08T11:48:16.648Z"
+    }
+  ],
+  "warn": [],
+  "blocked": [
+    {
+      "id": "Phase6-Cart-BLOCKED",
+      "phase": "Phase6-Cart",
+      "title": "Browser UI interaction required",
+      "status": "BLOCKED",
+      "expected": "Manual browser test",
+      "actual": "Cannot automate localStorage cart / payment UI in this runner",
+      "at": "2026-06-08T11:48:12.263Z"
+    },
+    {
+      "id": "Phase7-Checkout-BLOCKED",
+      "phase": "Phase7-Checkout",
+      "title": "Browser UI interaction required",
+      "status": "BLOCKED",
+      "expected": "Manual browser test",
+      "actual": "Cannot automate localStorage cart / payment UI in this runner",
+      "at": "2026-06-08T11:48:12.263Z"
+    },
+    {
+      "id": "Phase8-Orders-BLOCKED",
+      "phase": "Phase8-Orders",
+      "title": "Browser UI interaction required",
+      "status": "BLOCKED",
+      "expected": "Manual browser test",
+      "actual": "Cannot automate localStorage cart / payment UI in this runner",
+      "at": "2026-06-08T11:48:12.263Z"
+    },
+    {
+      "id": "Phase10-Responsive-BLOCKED",
+      "phase": "Phase10-Responsive",
+      "title": "Browser UI interaction required",
+      "status": "BLOCKED",
+      "expected": "Manual browser test",
+      "actual": "Cannot automate localStorage cart / payment UI in this runner",
+      "at": "2026-06-08T11:48:12.263Z"
+    }
+  ],
+  "brokenImages": [
+    {
+      "status": 401,
+      "url": "https://res.cloudinary.com/dhqcwkpzp/image/upload/v1779368762/product/Gemini_Generated_Image_e0ae8xe0ae8xe0ae.png"
+    },
+    {
+      "status": 401,
+      "url": "https://res.cloudinary.com/dhqcwkpzp/image/upload/v1779349926/product/Gemini_Generated_Image_1cwtms1cwtms1cwt.png"
+    },
+    {
+      "status": 401,
+      "url": "https://res.cloudinary.com/dhqcwkpzp/image/upload/v1778784171/product/BlackandWhiteLuxuryCalligraphyPhotographyLogo%281%29.jpg"
+    },
+    {
+      "status": 401,
+      "url": "https://res.cloudinary.com/dhqcwkpzp/image/upload/v1775286754/product/output-onlinepngtools%281%29.png"
+    },
+    {
+      "status": 401,
+      "url": "https://res.cloudinary.com/dhqcwkpzp/image/upload/v1773483137/product/daniel-korpai.jpg.jpg"
+    },
+    {
+      "status": 401,
+      "url": "https://res.cloudinary.com/dhqcwkpzp/image/upload/v1773298465/product/6566800.jpg"
+    },
+    {
+      "status": 401,
+      "url": "https://res.cloudinary.com/dhqcwkpzp/image/upload/v1773138139/product/brett-jordan-NIDPm-ltVbA-unsplash.jpg"
+    },
+    {
+      "status": 401,
+      "url": "https://res.cloudinary.com/dhqcwkpzp/image/upload/v1778675596/category/ChatGPTImageMay13%2C2026%2C06_02_36PM.png"
+    },
+    {
+      "status": 401,
+      "url": "https://res.cloudinary.com/dhqcwkpzp/image/upload/v1778678836/category/ChatGPTImageMay13%2C2026%2C06_54_41PM.png"
+    },
+    {
+      "status": 401,
+      "url": "https://res.cloudinary.com/dhqcwkpzp/image/upload/v1778680673/category/ChatGPTImageMay13%2C2026%2C07_27_22PM.png"
+    },
+    {
+      "status": 401,
+      "url": "https://res.cloudinary.com/dhqcwkpzp/image/upload/v1778681323/category/ChatGPTImageMay13%2C2026%2C07_38_18PM.png"
+    },
+    {
+      "status": 401,
+      "url": "https://res.cloudinary.com/dhqcwkpzp/image/upload/v1778681808/category/ChatGPTImageMay13%2C2026%2C07_46_34PM.png"
+    },
+    {
+      "status": 401,
+      "url": "https://res.cloudinary.com/dhqcwkpzp/image/upload/v1778682206/category/ChatGPTImageMay13%2C2026%2C07_52_56PM.png"
+    }
+  ],
+  "apiErrors": [],
+  "tests": 49,
+  "created": {
+    "categoryId": "6a26abf2cf9bc000136c6d23",
+    "productId": "6a26abf6cf9bc000136c6d34",
+    "imageUrl": "https://res.cloudinary.com/dkeceuhqb/image/upload/v1780919281/qa_e2e_1780919276947.png"
+  },
+  "summary": {
+    "total": 49,
+    "passed": 42,
+    "failed": 3,
+    "warnings": 0,
+    "blocked": 4,
+    "brokenImages": 13,
+    "launchReadinessPct": 86,
+    "criticalIssues": 3
+  }
+}

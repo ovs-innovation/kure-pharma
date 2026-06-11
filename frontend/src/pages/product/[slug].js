@@ -15,6 +15,7 @@ import {
   FiTarget,
   FiShoppingBag,
   FiShare2,
+  FiDownload,
 } from "react-icons/fi";
 import { useCart } from "react-use-cart";
 import {
@@ -32,10 +33,8 @@ import { IoClose } from "react-icons/io5";
 
 import Tags from "@components/common/Tags";
 import Layout from "@layout/Layout";
-import Loading from "@components/preloader/Loading";
 import ProductCard from "@components/product/ProductCard";
 import VariantList from "@components/variants/VariantList";
-import { SidebarContext } from "@context/SidebarContext";
 import AttributeServices from "@services/AttributeServices";
 import ProductServices from "@services/ProductServices";
 import useUtilsFunction from "@hooks/useUtilsFunction";
@@ -45,6 +44,7 @@ import ProductEnquiryModal from "@components/modal/ProductEnquiryModal";
 import { toast } from "react-toastify";
 import ReviewServices from "@services/ReviewServices";
 import { sanitizeProduct, sanitizeData } from "@utils/dataSanitizer";
+import { getCategorySearchUrl } from "@utils/categoryUrl";
 import { PRODUCT_GRID_CLASS, PRODUCT_GRID_ITEM_CLASS } from "@utils/productGrid";
 import ProductBulkPricing from "@components/product/ProductBulkPricing";
 import {
@@ -60,7 +60,10 @@ import {
   getBulkDiscountInfo,
   stashBuyNowPricing,
 } from "@utils/quantityPricing";
+import { navigateToBuyNow } from "@utils/buyNowNavigation";
 import BulkDiscountBadge from "@components/common/BulkDiscountBadge";
+import Stock from "@components/common/Stock";
+import { isInStock } from "@utils/inventory";
 import Uploader from "@components/image-uploader/Uploader";
 import { UserContext } from "@context/UserContext";
 
@@ -69,7 +72,6 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
 
   const { lang, showingTranslateValue, getNumberTwo, currency } = useUtilsFunction();
   const { state: { userInfo } } = useContext(UserContext);
-  const { isLoading, setIsLoading } = useContext(SidebarContext);
   const { addItem } = useCart();
 
   const [orderQuantity, setOrderQuantity] = useState(1);
@@ -89,6 +91,8 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
   const [welcomeModalOpen, setWelcomeModalOpen] = useState(false);
   const bulkThreshold = product ? getBulkEnquiryThreshold(product) : 10;
   const bulkInfo = product ? getBulkDiscountInfo(product) : null;
+  const outOfStock = product ? !isInStock(product) : false;
+  const moq = product ? getEffectiveMinOrder(product) : 1;
   const isBulkQty = !canUseRetailCheckout(product, orderQuantity);
   const orderPricing = product ? getPricingSummary(product, orderQuantity) : null;
   const [reviews, setReviews] = useState([]);
@@ -230,10 +234,6 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
     }
   }, [variants, attributes, product?.variants]);
 
-  useEffect(() => {
-    setIsLoading(false);
-  }, [product]);
-
   // Show welcome popup modal when user visits the page
   // useEffect(() => {
   //   if (product && !isLoading) {
@@ -305,18 +305,18 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
     ? showingTranslateValue(product.category.name)
     : "";
 
-  // category name slug for URL
-  const category_slug = category_name
-    ? category_name
-      .toLowerCase()
-      .replace(/[^A-Z0-9]+/gi, "-")
-    : "";
+  // category listing URL
+  const categoryUrl = product?.category?._id
+    ? getCategorySearchUrl(
+        product.category._id,
+        category_name,
+        product?.category?.slug
+      )
+    : "/search";
 
   return (
     <>
-      {isLoading ? (
-        <Loading loading={isLoading} />
-      ) : !product ? (
+      {!product ? (
         <Layout
           title="Product Not Found"
           description="The requested product could not be found"
@@ -383,13 +383,8 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
                     <FiChevronRight />
                   </li>
                   <li className="text-sm pl-1 transition duration-200 ease-in cursor-pointer hover:text-[#EF4036] font-semibold ">
-                    <Link
-                      href={`/search?category=${category_slug}&_id=${product?.category?._id}`}
-                    >
-                      <button
-                        type="button"
-                        onClick={() => setIsLoading(!isLoading)}
-                      >
+                    <Link href={categoryUrl}>
+                      <button type="button">
                         {category_name}
                       </button>
                     </Link>
@@ -537,10 +532,30 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
                                 <span className="text-gray-700 font-semibold text-[10px] sm:text-[11px] truncate">{selectVariant?.sku || product.sku || 'N/A'}</span>
                               </div>
                               <div className="flex items-center gap-1.5 col-span-2 sm:col-span-1">
-                                <span className="text-gray-600 text-[10px] sm:text-[11px]">MOQ:</span>
-                                <span className="text-[#0b1d3d] font-semibold text-[10px] sm:text-[11px]">{getEffectiveMinOrder(product)}</span>
+                                <span className="text-gray-600 text-[10px] sm:text-[11px]">Minimum Order:</span>
+                                <span className="text-[#0b1d3d] font-semibold text-[10px] sm:text-[11px]">{moq}</span>
                               </div>
+                              {product?.hsnCode ? (
+                                <div className="flex items-center gap-1.5 col-span-2 sm:col-span-1">
+                                  <span className="text-gray-600 text-[10px] sm:text-[11px] shrink-0">HSN:</span>
+                                  <span className="text-gray-700 font-semibold text-[10px] sm:text-[11px] truncate">{product.hsnCode}</span>
+                                </div>
+                              ) : null}
                             </div>
+
+                            <Stock product={product} />
+
+                            {product?.datasheetUrl ? (
+                              <a
+                                href={product.datasheetUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-2 mt-3 text-[11px] font-black uppercase tracking-wide text-[#0b1d3d] border border-gray-200 hover:border-[#0b1d3d] rounded-xl px-4 py-2.5 transition-colors"
+                              >
+                                <FiDownload className="w-4 h-4" />
+                                Download Datasheet
+                              </a>
+                            ) : null}
 
                             <div className="flex items-center gap-3 mt-4">
                               <span className="text-[10px] font-bold uppercase text-gray-500">Quantity</span>
@@ -552,7 +567,7 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
                                       clampQuantity(product, q - 1)
                                     )
                                   }
-                                  disabled={orderQuantity <= getEffectiveMinOrder(product)}
+                                  disabled={orderQuantity <= moq || outOfStock}
                                   className="w-10 h-10 font-bold text-[#0b1d3d] disabled:opacity-30"
                                 >
                                   −
@@ -566,8 +581,9 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
                                     )
                                   }
                                   disabled={
-                                    getEffectiveMaxOrder(product) > 0 &&
-                                    orderQuantity >= getEffectiveMaxOrder(product)
+                                    outOfStock ||
+                                    (getEffectiveMaxOrder(product) > 0 &&
+                                    orderQuantity >= getEffectiveMaxOrder(product))
                                   }
                                   className="w-10 h-10 font-bold text-[#0b1d3d] disabled:opacity-30"
                                 >
@@ -575,6 +591,16 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
                                 </button>
                               </div>
                             </div>
+                            {moq > 1 && (
+                              <p className="text-[11px] text-gray-500 mt-2">
+                                Minimum order quantity is {moq} units. Increase quantity to update total at MOQ rate.
+                              </p>
+                            )}
+                            {outOfStock && (
+                              <p className="text-[11px] text-red-600 font-semibold mt-2">
+                                This product is currently out of stock.
+                              </p>
+                            )}
 
                             <ProductBulkPricing
                               product={product}
@@ -660,6 +686,14 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
                                 <button
                                   type="button"
                                   onClick={() => {
+                                    if (outOfStock) {
+                                      toast.error("This product is out of stock.");
+                                      return;
+                                    }
+                                    if (orderQuantity < moq) {
+                                      toast.error(`Minimum order quantity is ${moq} units.`);
+                                      return;
+                                    }
                                     if (!canUseRetailCheckout(product, orderQuantity)) {
                                       toast.info(`For ${orderQuantity} units, please use Request bulk quote.`);
                                       setWelcomeModalOpen(true);
@@ -667,9 +701,9 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
                                     }
                                     const pricing = buildCartItemFields(product, orderQuantity);
                                     stashBuyNowPricing(product);
-                                    router.push({
-                                      pathname: "/checkout",
-                                      query: {
+                                    navigateToBuyNow(router, {
+                                      userInfo,
+                                      checkoutQuery: {
                                         buyNow: true,
                                         id: product._id,
                                         title: showingTranslateValue(product.title),
@@ -684,7 +718,8 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
                                       },
                                     });
                                   }}
-                                  className={`flex-1 min-w-0 bg-[#ED1C24] hover:bg-red-700 text-white text-xs sm:text-sm font-bold py-3 px-4 rounded-xl ${
+                                  disabled={outOfStock}
+                                  className={`flex-1 min-w-0 bg-[#ED1C24] hover:bg-red-700 text-white text-xs sm:text-sm font-bold py-3 px-4 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed ${
                                     isBulkQty ? "opacity-60" : ""
                                   }`}
                                 >
@@ -693,6 +728,14 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
                                 <button
                                   type="button"
                                   onClick={() => {
+                                    if (outOfStock) {
+                                      toast.error("This product is out of stock.");
+                                      return;
+                                    }
+                                    if (orderQuantity < moq) {
+                                      toast.error(`Minimum order quantity is ${moq} units.`);
+                                      return;
+                                    }
                                     if (!canUseRetailCheckout(product, orderQuantity)) {
                                       toast.info(`For ${orderQuantity} units, please use Request bulk quote.`);
                                       setWelcomeModalOpen(true);
@@ -710,6 +753,8 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
                                         maxQty: pricing.maxQty,
                                         quantityTiers: pricing.quantityTiers,
                                         listPrice: pricing.listPrice,
+                                        stock: pricing.stock,
+                                        hsnCode: pricing.hsnCode,
                                         sku: selectVariant?.sku || product.sku || "",
                                         barcode: selectVariant?.barcode || product.barcode || "",
                                         deliveryCharge: product.deliveryCharge || 0,
@@ -720,7 +765,8 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
                                     );
                                     toast.success("Added to cart!");
                                   }}
-                                  className={`flex-1 min-w-0 bg-[#0b1d3d] hover:bg-[#162542] text-white text-xs sm:text-sm font-bold py-3 px-4 rounded-xl ${
+                                  disabled={outOfStock}
+                                  className={`flex-1 min-w-0 bg-[#0b1d3d] hover:bg-[#162542] text-white text-xs sm:text-sm font-bold py-3 px-4 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed ${
                                     isBulkQty ? "opacity-60" : ""
                                   }`}
                                 >
@@ -769,13 +815,10 @@ const ProductScreen = ({ product, attributes, relatedProducts }) => {
                               <span className="text-gray-800">
                                 {t("common:category")}:
                               </span>{" "}
-                              <Link
-                                href={`/search?category=${category_slug}&_id=${product?.category?._id}`}
-                              >
+                              <Link href={categoryUrl}>
                                 <button
                                   type="button"
                                   className="text-gray-600 font-serif font-medium underline ml-2 hover:text-[#EF4036]"
-                                  onClick={() => setIsLoading(!isLoading)}
                                 >
                                   {category_name}
                                 </button>
@@ -1093,8 +1136,14 @@ export const getServerSideProps = async (context) => {
     ]);
 
     if (!productData) {
-      return { props: { product: null } };
+      return {
+        redirect: {
+          destination: "/products",
+          permanent: false,
+        },
+      };
     }
+
 
     let product = sanitizeProduct(productData);
 

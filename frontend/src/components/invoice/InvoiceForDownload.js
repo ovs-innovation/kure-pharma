@@ -341,6 +341,11 @@ const InvoiceForDownload = ({
               </View>
               <View style={styles.tableCol}>
                 <Text style={styles.tableCell}>
+                  <Text style={styles.header}>HSN</Text>
+                </Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>
                   <Text style={styles.header}>Quantity</Text>
                 </Text>
               </View>
@@ -364,6 +369,11 @@ const InvoiceForDownload = ({
                 </View>
                 <View style={styles.tableCol}>
                   <Text style={styles.tableCell}>{item.title} </Text>
+                </View>
+                <View style={styles.tableCol}>
+                  <Text style={styles.tableCell}>
+                    {item.hsnCode || item.hsn || "—"}
+                  </Text>
                 </View>
                 <View style={styles.tableCol}>
                   <Text style={styles.tableCell}>

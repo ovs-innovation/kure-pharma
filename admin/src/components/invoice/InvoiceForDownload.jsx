@@ -127,6 +127,9 @@ const InvoiceForDownload = ({ data, currency, globalSetting, showDateFormat, get
                     <Text style={S.itemTitle}>{item.title}</Text>
                     <BarcodeView value={item.sku || item.barcode || item.slug || item.id} width={100} height={25} />
                     <Text style={S.skuText}>SKU: {item.sku || item.barcode || (item.slug || item.id)?.substring(0, 10)}</Text>
+                    {(item.hsnCode || item.hsn) ? (
+                      <Text style={S.skuText}>HSN: {item.hsnCode || item.hsn}</Text>
+                    ) : null}
                   </View>
                 </View>
               </View>

@@ -158,6 +158,9 @@ const InvoiceForPrint = ({ data, printRef, globalSetting }) => {
                         <div style={{ fontWeight: "700", fontSize: "15px", marginBottom: "8px" }}>{item.title}</div>
                         <ScreenBarcode value={item.sku || item.barcode || item.slug || item.id} width={110} height={35} />
                         <div style={{ fontSize: "12px", color: "#666", marginTop: "8px" }}>SKU: {item.sku || item.barcode || (item.slug || item.id)?.substring(0, 10)}</div>
+                        {(item.hsnCode || item.hsn) ? (
+                          <div style={{ fontSize: "12px", color: "#666", marginTop: "4px" }}>HSN: {item.hsnCode || item.hsn}</div>
+                        ) : null}
                       </div>
                     </div>
                   </td>

@@ -1,6 +1,17 @@
 import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
 
+const getProductPrice = (product = {}) =>
+  Number(product?.price ?? product?.prices?.price ?? 0);
+
+const getProductDate = (product = {}) =>
+  new Date(product?.createdAt || product?.updatedAt || 0).getTime();
+
+const isFeaturedProduct = (product = {}) =>
+  product?.type === "popular" ||
+  (Array.isArray(product?.tag) &&
+    product.tag.some((t) => String(t).toLowerCase() === "featured"));
+
 const useFilter = (data) => {
   const [pending, setPending] = useState([]);
   const [processing, setProcessing] = useState([]);
@@ -8,11 +19,9 @@ const useFilter = (data) => {
   const [sortedField, setSortedField] = useState("");
   const router = useRouter();
 
-  // console.log("sortedfield", sortedField, data);
-
   const productData = useMemo(() => {
-    let services = data;
-    //filter user order
+    let services = Array.isArray(data) ? [...data] : [];
+
     if (router.pathname === "/user/dashboard") {
       const orderPending = services?.filter(
         (statusP) => statusP.status === "Pending"
@@ -30,15 +39,22 @@ const useFilter = (data) => {
       setDelivered(orderDelivered);
     }
 
-    //service sorting with low and high price
-    if (sortedField === "Low") {
-      services = services?.sort(
-        (a, b) => a.prices.price < b.prices.price && -1
+    if (sortedField === "Newest") {
+      services = services.sort(
+        (a, b) => getProductDate(b) - getProductDate(a)
       );
-    }
-    if (sortedField === "High") {
-      services = services?.sort(
-        (a, b) => a.prices.price > b.prices.price && -1
+    } else if (sortedField === "Featured") {
+      services = services.sort((a, b) => {
+        const diff = Number(isFeaturedProduct(b)) - Number(isFeaturedProduct(a));
+        return diff !== 0 ? diff : getProductDate(b) - getProductDate(a);
+      });
+    } else if (sortedField === "Low") {
+      services = services.sort(
+        (a, b) => getProductPrice(a) - getProductPrice(b)
+      );
+    } else if (sortedField === "High") {
+      services = services.sort(
+        (a, b) => getProductPrice(b) - getProductPrice(a)
       );
     }
 
@@ -53,6 +69,7 @@ const useFilter = (data) => {
     processing,
     delivered,
     setSortedField,
+    sortedField,
   };
 };
 

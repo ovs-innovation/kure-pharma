@@ -34,7 +34,7 @@ const ProductPage = () => {
             </p>
             <div className="flex flex-wrap gap-4">
               <Link
-                href="/search?category=lithium-ion-battery"
+                href="/category/lithium-ion-battery"
                 className="px-8 py-3 bg-[#ff5c23] hover:bg-[#e04d18] text-white font-bold rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg"
               >
                 Shop Lithium Products

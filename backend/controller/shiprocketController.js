@@ -37,7 +37,7 @@ const createShiprocketOrder = async (req, res) => {
       selling_price: item.price,
       discount: item.discount || 0,
       tax: item.tax || 0,
-      hsn: item.hsn || ''
+      hsn: item.hsnCode || item.hsn || ''
     }));
 
     // Example payload based on Shiprocket specs

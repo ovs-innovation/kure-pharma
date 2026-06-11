@@ -2,9 +2,15 @@ const Product = require("../models/Product");
 const mongoose = require("mongoose");
 const Category = require("../models/Category");
 const { languageCodes } = require("../utils/data");
+const { validateHsnCode } = require("../lib/stock/inventory");
 
 const addProduct = async (req, res) => {
   try {
+    const hsnCheck = validateHsnCode(req.body.hsnCode);
+    if (!hsnCheck.valid) {
+      return res.status(400).send({ message: hsnCheck.message });
+    }
+
     const status = req.body.status || req.body.show || "show";
     const gstPercentage = Number(req.body.gstPercentage || 0);
     const price = Number(req.body.price || 0);
@@ -12,6 +18,7 @@ const addProduct = async (req, res) => {
 
     const newProduct = new Product({
       ...req.body,
+      hsnCode: hsnCheck.value,
       status: status,
       basePrice: basePrice,
       productId: req.body.productId
@@ -130,10 +137,11 @@ const getAllProducts = async (req, res) => {
 const getProductBySlug = async (req, res) => {
   // console.log("slug", req.params.slug);
   try {
-    const product = await Product.findOne({ slug: req.params.slug })
+    const product = await Product.findOne({ slug: req.params.slug, status: "show" })
       .populate({ path: "category", select: "_id name" })
       .populate({ path: "categories", select: "_id name" });
-    res.send(product);
+    // Return null if not found or unpublished — frontend will redirect gracefully
+    res.send(product || null);
   } catch (err) {
     res.status(500).send({
       message: `Slug problem, ${err.message}`,
@@ -143,11 +151,12 @@ const getProductBySlug = async (req, res) => {
 
 const getProductById = async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id)
+    const product = await Product.findOne({ _id: req.params.id, status: "show" })
       .populate({ path: "category", select: "_id, name" })
       .populate({ path: "categories", select: "_id name" });
 
-    res.send(product);
+    // Return null if not found or unpublished — frontend will redirect gracefully
+    res.send(product || null);
   } catch (err) {
     res.status(500).send({
       message: err.message,
@@ -157,6 +166,11 @@ const getProductById = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   try {
+    const hsnCheck = validateHsnCode(req.body.hsnCode);
+    if (!hsnCheck.valid) {
+      return res.status(400).send({ message: hsnCheck.message });
+    }
+
     const product = await Product.findById(req.params.id);
 
     if (product) {
@@ -183,6 +197,29 @@ const updateProduct = async (req, res) => {
       product.tag = req.body.tag;
       product.videoUrl = req.body.videoUrl;
       product.gstPercentage = Number(req.body.gstPercentage || 0);
+      product.hsnCode = hsnCheck.value;
+      product.trackInventory = Boolean(req.body.trackInventory);
+      product.stock = Math.max(0, parseInt(req.body.stock, 10) || 0);
+      product.lowStockThreshold = (() => {
+        const threshold = parseInt(req.body.lowStockThreshold, 10);
+        return Number.isFinite(threshold)
+          ? Math.max(0, threshold)
+          : product.lowStockThreshold ?? 5;
+      })();
+      product.datasheetUrl = req.body.datasheetUrl || "";
+      product.minOrderQuantity = Math.max(
+        1,
+        parseInt(req.body.minOrderQuantity, 10) || 1
+      );
+      product.maxOrderQuantity = Math.max(
+        0,
+        parseInt(req.body.maxOrderQuantity, 10) || 0
+      );
+      product.quantityTiers = Array.isArray(req.body.quantityTiers)
+        ? req.body.quantityTiers
+        : product.quantityTiers;
+      product.deliveryCharge = Number(req.body.deliveryCharge || 0);
+      product.originalPrice = Number(req.body.originalPrice) || 0;
 
       // Recalculate basePrice if price and gstPercentage are present
       const currentPrice = Number(req.body.price || product.price || 0);
@@ -315,7 +352,7 @@ const getShowingStoreProducts = async (req, res) => {
 
     const baseQuery = Product.find(queryObject)
       .select(
-        "_id title slug image price originalPrice basePrice gstPercentage minOrderQuantity maxOrderQuantity quantityTiers deliveryCharge category categories variants videoUrl createdAt"
+        "_id title slug image price originalPrice basePrice gstPercentage minOrderQuantity maxOrderQuantity quantityTiers deliveryCharge trackInventory stock lowStockThreshold hsnCode datasheetUrl category categories variants videoUrl createdAt"
       )
       .populate({ path: "categories", select: "_id name slug" })
       .populate({ path: "category", select: "_id name slug" })

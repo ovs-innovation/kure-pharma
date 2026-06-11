@@ -3,15 +3,18 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useCart } from "react-use-cart";
-import { FiHeart, FiEye, FiShoppingBag, FiMessageSquare, FiZap } from "react-icons/fi";
+import { FiHeart, FiEye, FiShoppingBag, FiMessageSquare, FiZap, FiDownload } from "react-icons/fi";
 import { getCategorySearchUrl } from "@utils/categoryUrl";
+import { isInStock } from "@utils/inventory";
+import Stock from "@components/common/Stock";
 import { useContext } from "react";
 import { WishlistContext } from "@context/WishlistContext";
+import { UserContext } from "@context/UserContext";
 
 // internal import
 import useUtilsFunction from "@hooks/useUtilsFunction";
 import { handleLogEvent } from "src/lib/analytics";
-import { notifySuccess } from "@utils/toast";
+import { notifySuccess, notifyError } from "@utils/toast";
 import {
   buildCartItemFields,
   getEffectiveMinOrder,
@@ -19,8 +22,11 @@ import {
   getBulkDiscountInfo,
   stashBuyNowPricing,
 } from "@utils/quantityPricing";
+import { navigateToBuyNow } from "@utils/buyNowNavigation";
 import BulkDiscountBadge from "@components/common/BulkDiscountBadge";
 import MainModal from "@components/modal/MainModal";
+import { getProductImageSrc } from "@utils/productImage";
+import { IMAGE_PLACEHOLDER, isCloudinaryUrl } from "@utils/cloudinaryImage";
 
 const ProductCard = ({ 
   product, 
@@ -34,6 +40,7 @@ const ProductCard = ({
   const router = useRouter();
   const { addItem } = useCart();
   const { addToWishlist } = useContext(WishlistContext);
+  const { state: { userInfo } } = useContext(UserContext);
   const { showingTranslateValue, getNumberTwo, currency } = useUtilsFunction();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [imgError, setImgError] = useState(false);
@@ -47,22 +54,64 @@ const ProductCard = ({
 
   useEffect(() => {
     setImgError(false);
-  }, [product?._id, product?.image?.[0]]);
+  }, [product?._id, product?.image, product?.variants]);
+
+  const productImageSrc = getProductImageSrc(product);
+  const showProductImage = productImageSrc !== IMAGE_PLACEHOLDER && !imgError;
   const categoryName = overrideCategoryName || showingTranslateValue(product?.category?.name) || "Electronics";
   const categoryId = product?.category?._id || product?.category;
+  const productPath = product?.slug ? `/product/${product.slug}` : null;
+  const categoryPath = categoryId
+    ? getCategorySearchUrl(categoryId, categoryName, product?.category?.slug)
+    : null;
+
+  useEffect(() => {
+    if (productPath) {
+      router.prefetch(productPath);
+    }
+  }, [productPath, router]);
+
+  const prefetchProduct = () => {
+    if (productPath) router.prefetch(productPath);
+  };
+
+  const prefetchCategory = () => {
+    if (categoryPath) router.prefetch(categoryPath);
+  };
+
+  const prefetchCheckoutRoutes = () => {
+    router.prefetch("/checkout");
+    router.prefetch("/auth/login");
+  };
+
+  const navigateToProduct = () => {
+    if (forceEnquiry && onEnquire) {
+      onEnquire(product);
+      return;
+    }
+    if (productPath) {
+      router.push(productPath);
+    }
+  };
 
   const handleAddToCart = () => {
+    if (!isInStock(product)) {
+      notifyError("This product is currently out of stock.");
+      return;
+    }
     const pricing = buildCartItemFields(product);
     addItem({
       id: product._id,
       name: showingTranslateValue(product.title),
       price: pricing.price,
-      image: product.image?.[0],
+      image: getProductImageSrc(product),
       variant: product?.variants?.[0] || {},
       minQty: pricing.minQty,
       maxQty: pricing.maxQty,
       quantityTiers: pricing.quantityTiers,
       listPrice: pricing.listPrice,
+      stock: pricing.stock,
+      hsnCode: pricing.hsnCode,
       sku: product.sku || "",
       barcode: product.barcode || "",
       deliveryCharge: product.deliveryCharge || 0,
@@ -74,16 +123,20 @@ const ProductCard = ({
   };
 
   const handleBuyNow = () => {
+    if (!isInStock(product)) {
+      notifyError("This product is currently out of stock.");
+      return;
+    }
     const pricing = buildCartItemFields(product);
     stashBuyNowPricing(product);
-    router.push({
-      pathname: "/checkout",
-      query: {
+    navigateToBuyNow(router, {
+      userInfo,
+      checkoutQuery: {
         buyNow: true,
         id: product._id,
         title: showingTranslateValue(product.title),
         price: pricing.price,
-        image: product.image?.[0],
+        image: getProductImageSrc(product),
         quantity: pricing.quantity,
         sku: product.sku || "",
         barcode: product.barcode || "",
@@ -98,22 +151,24 @@ const ProductCard = ({
   const handleCategoryClick = (e) => {
     e.stopPropagation();
     if (!categoryId) return;
-    router.push(getCategorySearchUrl(categoryId, categoryName));
+    if (categoryPath) {
+      router.prefetch(categoryPath);
+      router.push(categoryPath);
+    }
   };
+
+  const outOfStock = !isInStock(product);
 
   return (
     <>
-      <div className="group bg-white rounded-xl sm:rounded-2xl overflow-hidden border border-gray-100/80 flex flex-col h-full min-w-0 w-full transition-all duration-300 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] sm:hover:-translate-y-1">
+      <div className="group bg-white rounded-xl sm:rounded-2xl overflow-hidden border border-gray-100/80 flex flex-col h-full min-w-0 w-full transition-all duration-300 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] sm:hover:-translate-y-1"
+        onMouseEnter={prefetchProduct}
+        onTouchStart={prefetchProduct}
+      >
 
         {/* Product Image */}
         <div
-          onClick={() => {
-            if (forceEnquiry && onEnquire) {
-                onEnquire(product);
-            } else {
-                router.push(`/product/${product.slug}`);
-            }
-          }}
+          onClick={navigateToProduct}
           className="relative w-full flex-shrink-0 cursor-pointer bg-gray-50 overflow-hidden"
         >
           <div className="relative w-full pb-[100%] sm:pb-[75%]">
@@ -156,22 +211,19 @@ const ProductCard = ({
             )}
 
             <div className="absolute inset-0">
-              {product.image?.[0] && !imgError ? (
+              {showProductImage ? (
                 <Image
-                  src={product.image[0]}
+                  src={productImageSrc}
                   alt={showingTranslateValue(product.title)}
                   fill
                   sizes="(max-width: 400px) 100vw, (max-width: 640px) 50vw, (max-width: 1024px) 33vw, 230px"
                   className="object-contain p-2 sm:p-3 group-hover:scale-[1.04] transition-transform duration-500"
+                  unoptimized={isCloudinaryUrl(productImageSrc)}
                   onError={() => setImgError(true)}
-                  unoptimized
                 />
               ) : (
-                <div className="absolute inset-0 bg-gray-50 flex flex-col items-center justify-center gap-2">
-                  <svg className="w-10 h-10 text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                  <span className="text-[10px] text-gray-300 font-bold uppercase tracking-wider">No Image</span>
+                <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
+                  <FiShoppingBag className="w-10 h-10 text-gray-200" aria-hidden />
                 </div>
               )}
             </div>
@@ -185,6 +237,8 @@ const ProductCard = ({
             <button
               type="button"
               onClick={handleCategoryClick}
+              onMouseEnter={prefetchCategory}
+              onTouchStart={prefetchCategory}
               className="text-[9px] sm:text-[9px] text-[#ED1C24] font-black mb-1.5 uppercase tracking-[0.12em] sm:tracking-[0.15em] text-left hover:underline truncate w-full"
             >
               {categoryName}
@@ -198,46 +252,46 @@ const ProductCard = ({
           {/* Title */}
           <h2
             className="text-xs sm:text-sm font-bold text-gray-800 mb-2 line-clamp-2 leading-snug cursor-pointer hover:text-[#0b1d3d] transition-colors"
-            onClick={() => {
-                if (forceEnquiry && onEnquire) {
-                    onEnquire(product);
-                } else {
-                    router.push(`/product/${product.slug}`);
-                }
-            }}
+            onClick={navigateToProduct}
           >
             {showingTranslateValue(product.title)}
           </h2>
 
-          {/* Min Order Quantity */}
+          <div className="flex flex-col gap-1.5 mb-2 mt-auto min-w-0">
+            <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+              {showOriginalPrice && (
+                <span className="text-gray-500 line-through text-xs sm:text-sm font-semibold shrink-0">
+                  {currency}{getNumberTwo(originalPrice)}
+                </span>
+              )}
+              <span className="text-[#0b1d3d] font-black text-base sm:text-lg">
+                {currency}{getNumberTwo(getUnitPriceForQuantity(product, getEffectiveMinOrder(product)))}
+              </span>
+              {bulkInfo.hasBulkTiers && (
+                <BulkDiscountBadge product={product} variant="inline" />
+              )}
+            </div>
+            <Stock product={product} inline />
+          </div>
+
           {getEffectiveMinOrder(product) > 1 && (
-            <div className="text-[10px] text-gray-500 font-medium mb-2 bg-gray-50 rounded-md px-2 py-0.5 inline-block w-fit">
-              Min. Order: <span className="font-bold text-gray-700">{getEffectiveMinOrder(product)} Units</span>
+            <div className="text-[10px] text-gray-600 font-semibold mb-3">
+              Minimum Order: <span className="font-black text-gray-800">{getEffectiveMinOrder(product)} Units</span>
             </div>
           )}
 
-          {/* Prices — sale price + MRP before discount */}
-          <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 mb-3 sm:mb-4 mt-auto min-w-0">
-            {showOriginalPrice && (
-              <span className="text-gray-500 line-through text-xs sm:text-sm font-semibold shrink-0">
-                {currency}{getNumberTwo(originalPrice)}
-              </span>
-            )}
-            <span className="text-[#0b1d3d] font-black text-sm sm:text-base">
-              {currency}{getNumberTwo(getUnitPriceForQuantity(product, getEffectiveMinOrder(product)))}
-            </span>
-            {bulkInfo.hasBulkTiers && (
-              <BulkDiscountBadge product={product} variant="inline" />
-            )}
-            <span className="text-[9px] sm:text-[10px] text-gray-500 font-bold uppercase tracking-tight">
-              Incl. GST
-            </span>
-            {showOriginalPrice && (
-              <span className="text-[9px] font-black text-[#ED1C24] uppercase tracking-wide bg-red-50 px-1.5 py-0.5 rounded">
-                {Math.round(((originalPrice - price) / originalPrice) * 100)}% off
-              </span>
-            )}
-          </div>
+          {product?.datasheetUrl ? (
+            <a
+              href={product.datasheetUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="mb-3 w-full flex items-center justify-center gap-1.5 border border-gray-200 hover:border-[#0b1d3d] text-[#0b1d3d] py-2 px-3 rounded-xl text-[10px] sm:text-[11px] font-black uppercase tracking-wide transition-colors"
+            >
+              <FiDownload className="w-3.5 h-3.5 shrink-0" />
+              Download Datasheet
+            </a>
+          ) : null}
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-2 w-full min-w-0">
@@ -247,7 +301,10 @@ const ProductCard = ({
                   e.stopPropagation();
                   handleBuyNow();
                 }}
-                className="flex-1 flex items-center justify-center gap-1.5 bg-[#ED1C24] hover:bg-red-700 text-white py-2.5 px-3 rounded-xl text-[11px] sm:text-xs font-black uppercase tracking-wide transition-all duration-200 active:scale-95"
+                onMouseEnter={prefetchCheckoutRoutes}
+                onTouchStart={prefetchCheckoutRoutes}
+                disabled={outOfStock}
+                className="flex-1 flex items-center justify-center gap-1.5 bg-[#ED1C24] hover:bg-red-700 text-white py-2.5 px-3 rounded-xl text-[11px] sm:text-xs font-black uppercase tracking-wide transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <FiZap className="w-3.5 h-3.5 shrink-0" />
                 Buy Now
@@ -260,10 +317,11 @@ const ProductCard = ({
                     e.stopPropagation();
                     handleAddToCart();
                   }}
-                  className="flex-1 flex items-center justify-center gap-1.5 bg-[#0b1d3d] hover:bg-[#162542] text-white py-2.5 px-2 rounded-xl text-[11px] sm:text-xs font-black uppercase tracking-wide transition-all duration-200 active:scale-95 min-w-0"
+                  disabled={outOfStock}
+                  className="flex-1 flex items-center justify-center gap-1.5 bg-[#0b1d3d] hover:bg-[#162542] text-white py-2.5 px-2 rounded-xl text-[11px] sm:text-xs font-black uppercase tracking-wide transition-all duration-200 active:scale-95 min-w-0 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <FiShoppingBag className="w-3.5 h-3.5 shrink-0" />
-                  Cart
+                  Add To Cart
                 </button>
               )}
               {onEnquire && (
@@ -289,16 +347,17 @@ const ProductCard = ({
           <div className="flex flex-col md:flex-row">
             {/* Image Side */}
             <div className="w-full md:w-1/2 p-8 bg-gray-50 flex items-center justify-center relative min-h-[380px]">
-               {product.image?.[0] ? (
+               {showProductImage ? (
                   <Image
-                    src={product.image[0]}
+                    src={productImageSrc}
                     alt={showingTranslateValue(product.title)}
                     width={500}
                     height={500}
                     className="object-contain max-h-[380px] drop-shadow-md"
+                    unoptimized={isCloudinaryUrl(productImageSrc)}
                   />
                 ) : (
-                  <div className="text-gray-300">No Image</div>
+                  <FiShoppingBag className="w-16 h-16 text-gray-200" aria-hidden />
                 )}
                 <div className="absolute top-4 left-4">
                    <span className="bg-[#0b1d3d] text-white text-[10px] font-black px-3 py-1.5 rounded-full shadow-sm uppercase tracking-widest">
@@ -373,7 +432,7 @@ const ProductCard = ({
                   <button
                     onClick={() => {
                       setIsModalOpen(false);
-                      router.push(`/product/${product.slug}`);
+                      navigateToProduct();
                     }}
                     className="w-full text-gray-400 hover:text-[#0b1d3d] py-2 rounded-2xl font-bold text-[10px] transition-all uppercase tracking-widest hover:bg-gray-50"
                   >

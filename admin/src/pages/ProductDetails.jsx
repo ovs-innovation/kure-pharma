@@ -25,6 +25,14 @@ import Loading from "@/components/preloader/Loading";
 import PageTitle from "@/components/Typography/PageTitle";
 import { SidebarContext } from "@/context/SidebarContext";
 
+const getAdminStockStatus = (stock, threshold = 5) => {
+  const qty = Math.max(0, parseInt(stock, 10) || 0);
+  const limit = Math.max(0, parseInt(threshold, 10) ?? 5);
+  if (qty <= 0) return { label: "Out of Stock", type: "danger" };
+  if (qty <= limit) return { label: "Low Stock", type: "warning" };
+  return { label: "In Stock", type: "success" };
+};
+
 const ProductDetails = () => {
   const { id } = useParams();
   const { t } = useTranslation();
@@ -116,21 +124,49 @@ const ProductDetails = () => {
                   )}
                 </span>
               </div> */}
-              {/* <div className="mb-3">
-                {data?.stock <= 0 ? (
-                  <Badge type="danger">
-                    <span className="font-bold">{t("StockOut")}</span>{" "}
-                  </Badge>
-                ) : (
-                  <Badge type="success">
-                    {" "}
-                    <span className="font-bold">{t("InStock")}</span>
-                  </Badge>
-                )}
-                <span className="text-sm text-gray-500 dark:text-gray-400 font-medium pl-4">
-                  {t("Quantity")}: {data?.stock}
-                </span>
-              </div> */}
+              <div className="mb-4 flex flex-wrap items-center gap-3">
+                {(() => {
+                  const status = getAdminStockStatus(
+                    data?.stock,
+                    data?.lowStockThreshold
+                  );
+                  return (
+                    <>
+                      <Badge type={status.type}>
+                        <span className="font-bold">{status.label}</span>
+                      </Badge>
+                      <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">
+                        Available: {data?.stock ?? 0}
+                      </span>
+                      {data?.lowStockThreshold != null && (
+                        <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">
+                          Low stock at: {data.lowStockThreshold}
+                        </span>
+                      )}
+                    </>
+                  );
+                })()}
+              </div>
+              {data?.hsnCode ? (
+                <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                  <span className="font-semibold text-gray-700 dark:text-gray-400">
+                    HSN Code:
+                  </span>{" "}
+                  {data.hsnCode}
+                </p>
+              ) : null}
+              {data?.datasheetUrl ? (
+                <p className="mb-3">
+                  <a
+                    href={data.datasheetUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm font-semibold text-green-600 hover:underline"
+                  >
+                    Download Datasheet (PDF)
+                  </a>
+                </p>
+              ) : null}
               <p className="text-sm leading-6 text-gray-500 dark:text-gray-400 md:leading-7">
                 {showingTranslateValue(data?.description)}
               </p>

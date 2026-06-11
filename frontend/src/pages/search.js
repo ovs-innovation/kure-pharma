@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useMemo } from "react";
+import React, { useContext, useState, useMemo } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import useTranslation from "next-translate/useTranslation";
@@ -7,7 +7,6 @@ import useTranslation from "next-translate/useTranslation";
 import Layout from "@layout/Layout";
 import useFilter from "@hooks/useFilter";
 import CardSlider from "@components/cta-card/CardSlider";
-import Loading from "@components/preloader/Loading";
 import ProductServices from "@services/ProductServices";
 import ProductCard from "@components/product/ProductCard";
 import ProductEnquiryModal from "@components/modal/ProductEnquiryModal";
@@ -21,7 +20,7 @@ import { sanitizeData } from "@utils/dataSanitizer";
 const Search = ({ products, attributes }) => {
   const { t } = useTranslation();
   const router = useRouter();
-  const { isLoading, setIsLoading, categories } = useContext(SidebarContext);
+  const { categories } = useContext(SidebarContext);
   const { showingTranslateValue } = useUtilsFunction();
   const [visibleProduct, setVisibleProduct] = useState(18);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -39,10 +38,6 @@ const Search = ({ products, attributes }) => {
     }
     return "All Products";
   }, [_id, category, categories, showingTranslateValue]);
-
-  useEffect(() => {
-    setIsLoading(false);
-  }, [products]);
 
   const { setSortedField, productData } = useFilter(products);
 
@@ -93,34 +88,28 @@ const Search = ({ products, attributes }) => {
                 </h6>
               </div>
 
-              {isLoading ? (
-                <Loading loading={isLoading} />
-              ) : (
-                <>
-                  <div className={PRODUCT_GRID_CLASS}>
-                    {productData?.slice(0, visibleProduct).map((product, i) => (
-                      <div key={product._id || i + 1} className={PRODUCT_GRID_ITEM_CLASS}>
-                      <ProductCard
-                        key={product._id || i + 1}
-                        product={product}
-                        attributes={attributes}
-                        onEnquire={handleEnquire}
-                      />
-                      </div>
-                    ))}
+              <div className={PRODUCT_GRID_CLASS}>
+                {productData?.slice(0, visibleProduct).map((product, i) => (
+                  <div key={product._id || i + 1} className={PRODUCT_GRID_ITEM_CLASS}>
+                  <ProductCard
+                    key={product._id || i + 1}
+                    product={product}
+                    attributes={attributes}
+                    onEnquire={handleEnquire}
+                  />
                   </div>
+                ))}
+              </div>
 
-                  {productData?.length > visibleProduct && (
-                    <div className="flex justify-center mt-12 pb-10">
-                      <button
-                        onClick={() => setVisibleProduct((pre) => pre + 10)}
-                        className="bg-white border-2 border-[#A821A8] text-[#A821A8] hover:bg-[#A821A8] hover:text-white px-8 py-3 rounded-full font-bold transition-all duration-300 text-sm active:scale-95 shadow-lg"
-                      >
-                        {t("common:loadMoreBtn")}
-                      </button>
-                    </div>
-                  )}
-                </>
+              {productData?.length > visibleProduct && (
+                <div className="flex justify-center mt-12 pb-10">
+                  <button
+                    onClick={() => setVisibleProduct((pre) => pre + 10)}
+                    className="bg-white border-2 border-[#A821A8] text-[#A821A8] hover:bg-[#A821A8] hover:text-white px-8 py-3 rounded-full font-bold transition-all duration-300 text-sm active:scale-95 shadow-lg"
+                  >
+                    {t("common:loadMoreBtn")}
+                  </button>
+                </div>
               )}
             </>
           )}
@@ -140,7 +129,17 @@ const Search = ({ products, attributes }) => {
 export default Search;
 
 export const getServerSideProps = async (context) => {
-  const { query, _id, page, limit, title } = context.query;
+  const { query, _id, page, limit, title, category: categorySlug } = context.query;
+
+  if (categorySlug && typeof categorySlug === "string") {
+    return {
+      redirect: {
+        destination: `/category/${categorySlug}`,
+        permanent: true,
+      },
+    };
+  }
+
   const searchTitle = title || query;
 
   try {

@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 
 //internal import
@@ -12,7 +11,7 @@ import CustomerServices from "@services/CustomerServices";
 const useLoginSubmit = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const redirectUrl = useSearchParams().get("redirectUrl");
+  const redirectUrl = router.query?.redirectUrl;
 
   const {
     control,
@@ -75,7 +74,11 @@ const useLoginSubmit = () => {
           console.error("Error during sign-in:", result.error);
           setLoading(false);
         } else if (result?.ok) {
-          router.push("/");
+          const destination =
+            typeof redirectUrl === "string" && redirectUrl.startsWith("/")
+              ? redirectUrl
+              : "/";
+          router.push(destination);
           setLoading(false);
         }
       }

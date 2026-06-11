@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 //internal import
 import CategoryServices from "@services/CategoryServices";
 import useUtilsFunction from "@hooks/useUtilsFunction";
+import { getCategorySearchUrl } from "@utils/categoryUrl";
 import useGetSetting from "@hooks/useGetSetting";
 
 const TopProductsCollage = () => {
@@ -23,11 +24,8 @@ const TopProductsCollage = () => {
   });
 
   const handleCategoryClick = (category) => {
-    const category_name = showingTranslateValue(category?.name)
-      .toLowerCase()
-      .replace(/[^A-Z0-9]+/gi, "-");
-    const url = `/search?category=${category_name}&_id=${category._id}`;
-    router.push(url);
+    const name = showingTranslateValue(category?.name);
+    router.push(getCategorySearchUrl(category._id, name, category.slug));
   };
 
   // Robust category filtering logic
@@ -55,11 +53,8 @@ const TopProductsCollage = () => {
   const subCategories = displayCategories[0]?.children?.slice(0, 3) || [];
 
   const handleSubCategoryClick = (subCategory) => {
-    const subCategory_name = showingTranslateValue(subCategory?.name)
-      .toLowerCase()
-      .replace(/[^A-Z0-9]+/gi, "-");
-    const url = `/search?category=${subCategory_name}&_id=${subCategory._id}`;
-    router.push(url);
+    const name = showingTranslateValue(subCategory?.name);
+    router.push(getCategorySearchUrl(subCategory._id, name, subCategory.slug));
   };
 
   return (

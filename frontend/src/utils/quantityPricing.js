@@ -1,3 +1,5 @@
+import { isInventoryTracked } from "./inventory";
+
 export const roundMoney = (value) =>
   Math.round((Number(value) || 0) * 100) / 100;
 
@@ -20,7 +22,17 @@ export const getEffectiveMinOrder = (product = {}) => {
 
 export const getEffectiveMaxOrder = (product = {}) => {
   const max = parseInt(product?.maxOrderQuantity, 10) || 0;
-  return max > 0 ? max : 0;
+  let stockCap = 0;
+
+  if (isInventoryTracked(product)) {
+    const stock = Math.max(0, parseInt(product?.stock, 10) || 0);
+    stockCap = stock > 0 ? stock : 0;
+  }
+
+  if (max > 0 && stockCap > 0) return Math.min(max, stockCap);
+  if (max > 0) return max;
+  if (stockCap > 0) return stockCap;
+  return 0;
 };
 
 export const getTierForQuantity = (product = {}, quantity = 1) => {
@@ -70,6 +82,11 @@ export const getCartPricingMeta = (product = {}) => ({
   maxQty: getEffectiveMaxOrder(product),
   quantityTiers: product?.quantityTiers || [],
   listPrice: roundMoney(product?.price ?? product?.prices?.price ?? 0),
+  stock: isInventoryTracked(product)
+    ? Math.max(0, parseInt(product?.stock, 10) || 0)
+    : 0,
+  trackInventory: isInventoryTracked(product),
+  hsnCode: product?.hsnCode || "",
 });
 
 const buyNowStorageKey = (id) => `buyNowPricing:${id}`;
@@ -118,6 +135,7 @@ export const resolveCartLinePrice = (lineItem = {}, quantity) => {
     minOrderQuantity: lineItem.minQty ?? 1,
     maxOrderQuantity: lineItem.maxQty ?? 0,
     quantityTiers: lineItem.quantityTiers || [],
+    stock: lineItem.stock,
   };
   const qty = clampQuantity(productLike, quantity);
   return {

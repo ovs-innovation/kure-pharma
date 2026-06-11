@@ -1,55 +1,43 @@
 require("dotenv").config();
 const Product = require("../../models/Product");
 
-// decrease product quantity after a order created
 const handleProductQuantity = async (cart) => {
-  try {
-    for (const p of cart) {
-      if (p?.isCombination) {
-        // await Product.findOneAndUpdate(
-        //   {
-        //     _id: p._id,
-        //     "variants.productId": p?.variant?.productId || "",
-        //   },
-        //   {
-        //     $inc: {
-        //       stock: -p.quantity,
-        //       "variants.$.quantity": -p.quantity,
-        //       sales: p.quantity,
-        //     },
-        //   },
-        //   {
-        //     new: true,
-        //   }
-        // );
-      } else {
-        // await Product.findOneAndUpdate(
-        //   {
-        //     _id: p._id,
-        //   },
-        //   {
-        //     $inc: {
-        //       stock: -p.quantity,
-        //       sales: p.quantity,
-        //     },
-        //   },
-        //   {
-        //     new: true,
-        //   }
-        // );
-      }
+  if (!Array.isArray(cart) || cart.length === 0) return;
+
+  const failures = [];
+
+  for (const p of cart) {
+    const productId = p?._id || p?.id;
+    const quantity = parseInt(p?.quantity, 10) || 0;
+    if (!productId || quantity <= 0) continue;
+
+    const product = await Product.findById(productId).select(
+      "trackInventory stock title"
+    );
+
+    if (!product?.trackInventory) continue;
+
+    const updated = await Product.findOneAndUpdate(
+      { _id: productId, trackInventory: true, stock: { $gte: quantity } },
+      { $inc: { stock: -quantity } },
+      { new: true }
+    );
+
+    if (!updated) {
+      failures.push(String(productId));
     }
-  } catch (err) {
-    console.log("err on handleProductQuantity", err.message);
+  }
+
+  if (failures.length) {
+    throw new Error(
+      `Stock update failed for product(s): ${failures.join(", ")}`
+    );
   }
 };
 
 const handleProductAttribute = async (key, value, multi) => {
   try {
-    // const products = await Product.find({ 'variants.1': { $exists: true } });
     const products = await Product.find({ isCombination: true });
-
-    // console.log('products', products);
 
     if (multi) {
       for (const p of products) {
@@ -64,7 +52,6 @@ const handleProductAttribute = async (key, value, multi) => {
       }
     } else {
       for (const p of products) {
-        // console.log('p', p._id);
         await Product.updateOne(
           { _id: p._id },
           {

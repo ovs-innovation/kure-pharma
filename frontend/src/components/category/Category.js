@@ -2,27 +2,29 @@ import { useContext } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { IoClose } from "react-icons/io5";
-import { useQuery } from "@tanstack/react-query";
 
 //internal import
 import { pages } from "@utils/data";
-import Loading from "@components/preloader/Loading";
 import { SidebarContext } from "@context/SidebarContext";
-import CategoryServices from "@services/CategoryServices";
 import CategoryCard from "@components/category/CategoryCard";
 import useUtilsFunction from "@hooks/useUtilsFunction";
 
+const CategoryDrawerSkeleton = () => (
+  <div className="relative grid gap-2 p-6 animate-pulse" aria-hidden="true">
+    {Array.from({ length: 8 }).map((_, i) => (
+      <div key={i} className="h-10 bg-gray-100 rounded-lg" />
+    ))}
+  </div>
+);
+
 const Category = () => {
-  const { categoryDrawerOpen, closeCategoryDrawer } =
-    useContext(SidebarContext);
+  const {
+    categoryDrawerOpen,
+    closeCategoryDrawer,
+    categoryTree,
+    isCategoriesLoading,
+  } = useContext(SidebarContext);
   const { showingTranslateValue } = useUtilsFunction();
-
-  const { data, error, isLoading, isFetched } = useQuery({
-    queryKey: ["category"],
-    queryFn: async () => await CategoryServices.getShowingCategory(),
-  });
-
-  // console.log("data", data, "error", error, "isFetched", isFetched);
 
   return (
     <div className="flex flex-col w-full bg-white cursor-pointer scrollbar-hide">
@@ -53,12 +55,8 @@ const Category = () => {
             All Categories
           </h2>
         )}
-        {isLoading ? (
-          <Loading loading={isLoading} />
-        ) : error ? (
-          <p className="flex justify-center align-middle items-center m-auto text-xl text-red-500">
-            {error?.response?.data?.message || error?.message}
-          </p>
+        {isCategoriesLoading ? (
+          <CategoryDrawerSkeleton />
         ) : (
           <div className="relative grid gap-2 p-6">
             {(() => {
@@ -74,7 +72,7 @@ const Category = () => {
                 return list || [];
               };
 
-              const filtered = findMainCategories(data).filter((cat) => {
+              const filtered = findMainCategories(categoryTree).filter((cat) => {
                 const name = showingTranslateValue(cat.name)?.toLowerCase()?.trim();
                 return name !== "home" && name !== "all categories" && name !== "all departments" && name !== "";
               });
@@ -86,6 +84,7 @@ const Category = () => {
                   icon={category.icon}
                   nested={category.children}
                   title={showingTranslateValue(category?.name)}
+                  slug={category.slug}
                 />
               ));
             })()}

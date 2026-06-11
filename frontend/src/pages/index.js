@@ -9,7 +9,6 @@ import { toast } from "react-toastify";
 //internal import
 import Layout from "@layout/Layout";
 import useGetSetting from "@hooks/useGetSetting";
-import Loading from "@components/preloader/Loading";
 import ProductServices from "@services/ProductServices";
 import FeatureCategory from "@components/category/FeatureCategory";
 import ProductCatalog from "@components/product/ProductCatalog";
@@ -52,14 +51,11 @@ const Home = ({
   attributes,
 }) => {
   const router = useRouter();
-  const { isLoading, setIsLoading, categories, isCategoriesLoading } = useContext(SidebarContext);
+  const { categories, isCategoriesLoading } = useContext(SidebarContext);
   const { loading, error, storeCustomizationSetting } = useGetSetting();
   const [welcomeModalOpen, setWelcomeModalOpen] = useState(false);
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
   const [selectedService, setSelectedService] = useState("");
-  const [homeProducts, setHomeProducts] = useState([]);
-  const [productsLoading, setProductsLoading] = useState(false);
-  const [productsError, setProductsError] = useState("");
   const { showingTranslateValue } = useUtilsFunction();
 
   const {
@@ -79,14 +75,6 @@ const Home = ({
 
   // console.log("storeCustomizationSetting", storeCustomizationSetting);
 
-  useEffect(() => {
-    if (router.asPath === "/") {
-      setIsLoading(false);
-    } else {
-      setIsLoading(false);
-    }
-  }, [router]);
-
   // Show welcome popup modal when user visits the home page
   // useEffect(() => {
   //   if (!isLoading) {
@@ -97,26 +85,6 @@ const Home = ({
   //     return () => clearTimeout(timer);
   //   }
   // }, [isLoading]);
-
-  // Fetch products to show on home page
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        setProductsLoading(true);
-        const data = await ProductServices.getShowingProducts();
-        setHomeProducts(data || []);
-      } catch (err) {
-        console.error("Error fetching products:", err);
-        setProductsError(err?.message || "Failed to load products.");
-      } finally {
-        setProductsLoading(false);
-      }
-    };
-
-    fetchProducts();
-
-    // Categories are now fetched in SidebarContext
-  }, []);
 
   const onSubmitEnquiry = async (data) => {
     try {
@@ -190,10 +158,7 @@ const Home = ({
 
   return (
     <>
-      {isLoading ? (
-        <Loading loading={isLoading} />
-      ) : (
-        <Layout>
+      <Layout>
           {/* Hero Section: All Departments + Hero Slider */}
           <HomeHeroBanner />
 
@@ -252,7 +217,6 @@ const Home = ({
 
 
         </Layout>
-      )}
     </>
   );
 };

@@ -340,6 +340,10 @@ const customerInvoiceEmailBody = (option) => {
                                   <th
                                     id='common_table'
                                     style='padding: 2px 4px;font-size:13px; text-transform: uppercase'
+                                  >HSN</th>
+                                  <th
+                                    id='common_table'
+                                    style='padding: 2px 4px;font-size:13px; text-transform: uppercase'
                                   >Quantity</th>
                                   <th
                                     id='common_table'
@@ -364,6 +368,12 @@ const customerInvoiceEmailBody = (option) => {
                                     style='padding: 2px 4px;'
                                   >
                                     ${item.title.substring(0, 15)}
+                                  </td>
+                                  <td
+                                    id='common_table'
+                                    style='padding: 2px 4px;'
+                                  >
+                                    ${item.hsnCode || item.hsn || "—"}
                                   </td>
                                   <td
                                     id='common_table'

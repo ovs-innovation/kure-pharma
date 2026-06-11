@@ -39,6 +39,7 @@ import AttributeOptionTwo from "@/components/attribute/AttributeOptionTwo";
 import AttributeListTable from "@/components/attribute/AttributeListTable";
 import SwitchToggleForCombination from "@/components/form/switch/SwitchToggleForCombination";
 import QuantityTiersEditor from "@/components/product/QuantityTiersEditor";
+import DatasheetUploader from "@/components/product/DatasheetUploader";
 
 const ProductDrawer = ({ id }) => {
   const { t } = useTranslation();
@@ -95,6 +96,8 @@ const ProductDrawer = ({ id }) => {
     handleUpdateVariant,
     quantityTiers,
     setQuantityTiers,
+    datasheetUrl,
+    setDatasheetUrl,
   } = useProductSubmit(id, selectedServices);
 
   const { showingTranslateValue } = useUtilsFunction();
@@ -420,6 +423,85 @@ const ProductDrawer = ({ id }) => {
                     placeholder="Delivery Charge"
                   />
                   <Error errorName={errors.deliveryCharge} />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label="HSN Code" />
+                <div className="col-span-8 sm:col-span-4">
+                  <InputArea
+                    register={register}
+                    label="HSN Code"
+                    name="hsnCode"
+                    type="text"
+                    placeholder="e.g. 85076000 (optional, GST format)"
+                  />
+                  <p className="text-xs text-gray-400 mt-1">
+                    Optional. 2–8 alphanumeric characters as per GST HSN/SAC format.
+                  </p>
+                  <Error errorName={errors.hsnCode} />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label="Track Inventory" />
+                <div className="col-span-8 sm:col-span-4">
+                  <label className="inline-flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      {...register("trackInventory")}
+                      className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                    />
+                    <span className="text-sm text-gray-700 font-medium">
+                      Enable stock tracking for this product
+                    </span>
+                  </label>
+                  <p className="text-xs text-gray-400 mt-1">
+                    When disabled, product stays purchasable regardless of stock count (recommended for legacy listings).
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label="Stock Quantity" />
+                <div className="col-span-8 sm:col-span-4">
+                  <InputArea
+                    register={register}
+                    label="Stock Quantity"
+                    name="stock"
+                    type="number"
+                    min="0"
+                    placeholder="Available inventory units"
+                  />
+                  <Error errorName={errors.stock} />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label="Low Stock Threshold" />
+                <div className="col-span-8 sm:col-span-4">
+                  <InputArea
+                    register={register}
+                    label="Low Stock Threshold"
+                    name="lowStockThreshold"
+                    type="number"
+                    min="0"
+                    placeholder="Alert when stock falls to this level"
+                  />
+                  <p className="text-xs text-gray-400 mt-1">
+                    Default 5. Products at or below this level show as Low Stock.
+                  </p>
+                  <Error errorName={errors.lowStockThreshold} />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label="Product Datasheet (PDF)" />
+                <div className="col-span-8 sm:col-span-4">
+                  <DatasheetUploader
+                    datasheetUrl={datasheetUrl}
+                    setDatasheetUrl={setDatasheetUrl}
+                  />
                 </div>
               </div>
 

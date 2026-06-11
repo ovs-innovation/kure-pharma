@@ -10,11 +10,11 @@ import {
 //internal import
 import { SidebarContext } from "@context/SidebarContext";
 import useUtilsFunction from "@hooks/useUtilsFunction";
+import { getCategorySearchUrl } from "@utils/categoryUrl";
 
-const CategoryCard = ({ title, icon, nested, id }) => {
+const CategoryCard = ({ title, icon, nested, id, slug }) => {
   const router = useRouter();
-  const { closeCategoryDrawer, isLoading, setIsLoading } =
-    useContext(SidebarContext);
+  const { closeCategoryDrawer } = useContext(SidebarContext);
   const { showingTranslateValue } = useUtilsFunction();
 
   // react hook
@@ -37,16 +37,19 @@ const CategoryCard = ({ title, icon, nested, id }) => {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
+  const navigateToCategory = (catId, categoryName, slug) => {
+    const url = getCategorySearchUrl(catId, categoryName, slug);
+    router.prefetch(url);
+    router.push(url);
+    closeCategoryDrawer();
+  };
+
   // handle show category - toggle subcategories, only navigate if no children
-  const showCategory = (id, categoryName) => {
+  const showCategory = (id, categoryName, slug) => {
     if (nested?.length > 0) {
       setShow(!show);
     } else {
-      const name = categoryName.toLowerCase().replace(/[^A-Z0-9]+/gi, "-");
-      const url = `/search?category=${name}&_id=${id}`;
-      setIsLoading(true);
-      router.push(url);
-      closeCategoryDrawer();
+      navigateToCategory(id, categoryName, slug);
     }
   };
 
@@ -56,37 +59,25 @@ const CategoryCard = ({ title, icon, nested, id }) => {
   };
 
   // handle sub category - navigate to subcategory page
-  const handleSubCategory = (id, categoryName) => {
-    const name = categoryName.toLowerCase().replace(/[^A-Z0-9]+/gi, "-");
-    const url = `/search?category=${name}&_id=${id}`;
-    setIsLoading(true);
-    router.push(url);
-    closeCategoryDrawer();
+  const handleSubCategory = (id, categoryName, slug) => {
+    navigateToCategory(id, categoryName, slug);
   };
 
-  // handle sub-subcategory - navigate and close drawer on mobile
-  const handleSubSubCategory = (id, categoryName) => {
-    const name = categoryName.toLowerCase().replace(/[^A-Z0-9]+/gi, "-");
-    const url = `/search?category=${name}&_id=${id}`;
-    setIsLoading(true);
-    router.push(url);
-
-    // Close drawer on mobile when navigating to sub-subcategory
+  const handleSubSubCategory = (id, categoryName, slug) => {
+    navigateToCategory(id, categoryName, slug);
     if (isMobile) {
       closeCategoryDrawer();
     }
-
   };
 
   return (
     <>
       <div className="relative group">
         <a
-          onClick={() => showCategory(id, title)}
+          onClick={() => showCategory(id, title, slug)}
           onMouseEnter={() => {
             if (nested?.length > 0) return;
-            const name = title.toLowerCase().replace(/[^A-Z0-9]+/gi, "-");
-            router.prefetch(`/search?category=${name}&_id=${id}`);
+            router.prefetch(getCategorySearchUrl(id, title, slug));
           }}
           className="p-3 flex items-center rounded-md hover:bg-gray-50 w-full hover:text-[#A821A8] transition-colors duration-200 cursor-pointer"
           role="button"
@@ -158,7 +149,8 @@ const CategoryCard = ({ title, icon, nested, id }) => {
                       onClick={() =>
                         handleSubCategory(
                           children._id,
-                          showingTranslateValue(children.name)
+                          showingTranslateValue(children.name),
+                          children.slug
                         )
                       }
                       className="flex items-center px-3 py-2 text-sm text-gray-700 hover:text-[#A821A8] hover:bg-gray-50 cursor-pointer transition-colors duration-200 rounded-md"
@@ -184,7 +176,8 @@ const CategoryCard = ({ title, icon, nested, id }) => {
                               onClick={() =>
                                 handleSubSubCategory(
                                   subChildren._id,
-                                  showingTranslateValue(subChildren?.name)
+                                  showingTranslateValue(subChildren?.name),
+                                  subChildren.slug
                                 )
                               }
                               className="flex items-center px-3 py-2 text-sm text-gray-600 hover:text-[#A821A8] hover:bg-gray-50 cursor-pointer transition-colors duration-200 rounded-md"

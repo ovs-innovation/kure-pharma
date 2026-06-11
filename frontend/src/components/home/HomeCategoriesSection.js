@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { FiArrowRight, FiGrid } from "react-icons/fi";
 import { SidebarContext } from "@context/SidebarContext";
 import useUtilsFunction from "@hooks/useUtilsFunction";
 import { getCategorySearchUrl } from "@utils/categoryUrl";
+import CategoryImage from "@components/common/CategoryImage";
 
 const HomeCategoriesSection = () => {
   const { categories, isCategoriesLoading } = useContext(SidebarContext);
@@ -15,9 +15,9 @@ const HomeCategoriesSection = () => {
       <section className="bg-gray-50 py-10 lg:py-14">
         <div className="max-w-screen-2xl mx-auto px-3 sm:px-4 lg:px-12">
           <div className="h-8 w-48 bg-gray-200 rounded animate-pulse mb-8" />
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-3 md:gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4">
             {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="h-36 bg-white rounded-2xl animate-pulse border border-gray-100" />
+              <div key={i} className="h-48 bg-white rounded-2xl animate-pulse border border-gray-100" />
             ))}
           </div>
         </div>
@@ -40,7 +40,7 @@ const HomeCategoriesSection = () => {
               Browse Our Product Categories
             </h2>
             <p className="text-gray-500 text-sm mt-2 max-w-xl">
-              Click any category to view and buy products — lithium batteries, raw materials, and more.
+              Electronics, batteries, components and industrial supplies — explore by category.
             </p>
           </div>
           <Link
@@ -51,32 +51,24 @@ const HomeCategoriesSection = () => {
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 sm:gap-3 md:gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4">
           {categories.map((cat) => {
             const name = showingTranslateValue(cat.name);
             if (!name) return null;
-            const href = getCategorySearchUrl(cat._id, name);
+            const href = getCategorySearchUrl(cat._id, name, cat.slug);
 
             return (
               <Link
                 key={cat._id}
                 href={href}
-                className="group bg-white rounded-xl sm:rounded-2xl border border-gray-100 p-3 sm:p-5 flex flex-col items-center text-center hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)] sm:hover:-translate-y-1 hover:border-[#0b1d3d]/20 transition-all duration-300 min-h-[120px] sm:min-h-[160px] min-w-0"
+                className="group flex flex-col h-full min-h-[190px] sm:min-h-[210px] bg-white rounded-2xl border border-gray-100 p-3 sm:p-4 text-center hover:shadow-[0_16px_48px_rgba(11,29,61,0.10)] sm:hover:-translate-y-1 hover:border-[#0b1d3d]/15 transition-all duration-300 min-w-0"
               >
-                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center mb-3 group-hover:bg-[#0b1d3d]/5 group-hover:border-[#0b1d3d]/10 transition-colors overflow-hidden flex-shrink-0">
-                  {cat.icon ? (
-                    <Image
-                      src={cat.icon}
-                      alt={name}
-                      width={40}
-                      height={40}
-                      className="object-contain w-8 h-8 sm:w-10 sm:h-10"
-                    />
-                  ) : (
-                    <FiGrid className="w-6 h-6 text-[#0b1d3d]/40 group-hover:text-[#ED1C24] transition-colors" />
-                  )}
-                </div>
-                <h3 className="text-[11px] sm:text-xs font-black text-gray-800 group-hover:text-[#0b1d3d] leading-snug line-clamp-2 uppercase tracking-wide">
+                <CategoryImage
+                  src={cat.icon}
+                  alt={name}
+                  className="mb-3 w-full mx-auto"
+                />
+                <h3 className="text-[11px] sm:text-xs font-black text-gray-800 group-hover:text-[#0b1d3d] leading-snug line-clamp-2 uppercase tracking-wide mt-auto">
                   {name}
                 </h3>
               </Link>
@@ -88,4 +80,4 @@ const HomeCategoriesSection = () => {
   );
 };
 
-export default HomeCategoriesSection;
+export default React.memo(HomeCategoriesSection);

@@ -57,6 +57,9 @@ const useProductSubmit = (id, selectedServices = []) => {
   const [slug, setSlug] = useState("");
   const [highlights, setHighlights] = useState("");
   const [quantityTiers, setQuantityTiers] = useState([]);
+  const [datasheetUrl, setDatasheetUrl] = useState("");
+
+  const HSN_PATTERN = /^[0-9A-Za-z]{2,8}$/;
 
   const sanitizeQuantityTiers = (tiers = []) => {
     if (!Array.isArray(tiers)) return [];
@@ -138,6 +141,14 @@ const useProductSubmit = (id, selectedServices = []) => {
         setIsSubmitting(false);
         return notifyError(
           "Price Before Discount (MRP) must be higher than Final Sale Price."
+        );
+      }
+
+      const hsnRaw = String(data.hsnCode || "").trim();
+      if (hsnRaw && !HSN_PATTERN.test(hsnRaw)) {
+        setIsSubmitting(false);
+        return notifyError(
+          "HSN code must be 2–8 alphanumeric characters (GST format)."
         );
       }
 
@@ -226,6 +237,14 @@ const useProductSubmit = (id, selectedServices = []) => {
         type: data.type || "normal",
         services: selectedServices || [],
         videoUrl: data.videoUrl || "",
+        hsnCode: hsnRaw,
+        stock: Math.max(0, parseInt(data.stock, 10) || 0),
+        trackInventory: Boolean(data.trackInventory),
+        lowStockThreshold: Math.max(
+          0,
+          parseInt(data.lowStockThreshold, 10) ?? 5
+        ),
+        datasheetUrl: datasheetUrl || "",
       };
 
       // console.log("productData ===========>", productData, "data", data);
@@ -346,6 +365,10 @@ const useProductSubmit = (id, selectedServices = []) => {
       setQuantityTiers([]);
       setValue("deliveryCharge", 0);
       setValue("videoUrl", "");
+      setValue("hsnCode", "");
+      setValue("stock", 0);
+      setValue("lowStockThreshold", 5);
+      setDatasheetUrl("");
 
       setProductId("");
       // setValue('status');
@@ -438,6 +461,11 @@ const useProductSubmit = (id, selectedServices = []) => {
             setValue("deliveryCharge", res.deliveryCharge || 0);
             setValue("type", res.type || "normal");
             setValue("videoUrl", res.videoUrl || "");
+            setValue("hsnCode", res.hsnCode || "");
+            setValue("stock", res.stock ?? 0);
+            setValue("trackInventory", Boolean(res.trackInventory));
+            setValue("lowStockThreshold", res.lowStockThreshold ?? 5);
+            setDatasheetUrl(res.datasheetUrl || "");
             // setValue("stock", res.stock);
             setProductId(res.productId ? res.productId : res._id);
             setBarcode(res.barcode || "");
@@ -975,6 +1003,8 @@ const useProductSubmit = (id, selectedServices = []) => {
     setHighlights,
     quantityTiers,
     setQuantityTiers,
+    datasheetUrl,
+    setDatasheetUrl,
   };
 };
 

@@ -1,5 +1,5 @@
 import React, { useState, useMemo, createContext, useEffect, useCallback } from "react";
-import { useRouter } from "next/router";
+import { useQuery } from "@tanstack/react-query";
 import CategoryServices from "@services/CategoryServices";
 import ServiceServices from "@services/ServiceServices";
 import Cookies from "js-cookie";
@@ -7,90 +7,67 @@ import Cookies from "js-cookie";
 // create context
 export const SidebarContext = createContext();
 
+const CATEGORY_STALE_TIME = 5 * 60 * 1000;
+
 export const SidebarProvider = ({ children }) => {
-  const router = useRouter();
   const [categoryDrawerOpen, setCategoryDrawerOpen] = useState(false);
   const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [categories, setCategories] = useState([]);
   const [services, setServices] = useState([]);
-  const [isCategoriesLoading, setIsCategoriesLoading] = useState(true);
 
   const lang = Cookies.get("_lang") || "en";
 
-  // Moved filtering logic here for reusability
   const showingTranslateValue = useCallback((data) => {
     if (!data || typeof data !== "object") return "";
     return data[lang] || data?.en || Object.values(data).find(v => v) || "";
   }, [lang]);
 
-  const fetchCategories = async () => {
-    try {
-      setIsCategoriesLoading(true);
-      const res = await CategoryServices.getShowingCategory();
-      let catList = res || [];
+  const { data: categoryData, isLoading: isCategoriesLoading } = useQuery({
+    queryKey: ["category"],
+    queryFn: () => CategoryServices.getShowingCategory(),
+    staleTime: CATEGORY_STALE_TIME,
+    gcTime: 30 * 60 * 1000,
+  });
 
-      // Logic to find first-level meaningful categories
-      const findMainCategories = (list) => {
-        if (list.length === 1) {
-          const name = showingTranslateValue(list[0].name)?.toLowerCase()?.trim();
-          if (name === 'home' || name === 'all categories' || name === 'all departments' || !list[0].parentId) {
-            if (list[0].children && list[0].children.length > 0) {
-              return findMainCategories(list[0].children);
-            }
+  const categories = useMemo(() => {
+    const catList = categoryData || [];
+    if (!catList.length) return [];
+
+    const findMainCategories = (list) => {
+      if (list.length === 1) {
+        const name = showingTranslateValue(list[0].name)?.toLowerCase()?.trim();
+        if (name === 'home' || name === 'all categories' || name === 'all departments' || !list[0].parentId) {
+          if (list[0].children && list[0].children.length > 0) {
+            return findMainCategories(list[0].children);
           }
         }
-        return list;
-      };
-
-      const finalCategories = findMainCategories(catList);
-
-      // Filter out Home/All Categories placeholders
-      const filtered = finalCategories.filter(cat => {
-        const name = showingTranslateValue(cat.name)?.toLowerCase()?.trim();
-        return name !== 'home' && name !== 'all categories' && name !== 'all departments' && name !== '';
-      });
-
-      setCategories(filtered);
-    } catch (err) {
-      console.error("Error fetching categories:", err);
-    } finally {
-      setIsCategoriesLoading(false);
-    }
-  };
-
-  const fetchServices = async () => {
-    try {
-      const res = await ServiceServices.getShowingServices();
-      setServices(res || []);
-    } catch (err) {
-      console.error("Error fetching services:", err);
-    }
-  };
-
-  useEffect(() => {
-    fetchCategories();
-    fetchServices();
-  }, [lang]); // Re-fetch or re-filter on language change
-
-  // Global route loading indicator to avoid "double click" feel.
-  useEffect(() => {
-    const start = () => setIsLoading(true);
-    const done = () => setIsLoading(false);
-
-    router.events.on("routeChangeStart", start);
-    router.events.on("routeChangeComplete", done);
-    router.events.on("routeChangeError", done);
-
-    return () => {
-      router.events.off("routeChangeStart", start);
-      router.events.off("routeChangeComplete", done);
-      router.events.off("routeChangeError", done);
+      }
+      return list;
     };
-  }, [router.events]);
+
+    const finalCategories = findMainCategories(catList);
+
+    return finalCategories.filter(cat => {
+      const name = showingTranslateValue(cat.name)?.toLowerCase()?.trim();
+      return name !== 'home' && name !== 'all categories' && name !== 'all departments' && name !== '';
+    });
+  }, [categoryData, showingTranslateValue]);
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const res = await ServiceServices.getShowingServices();
+        setServices(res || []);
+      } catch (err) {
+        console.error("Error fetching services:", err);
+      }
+    };
+
+    fetchServices();
+  }, [lang]);
 
   const toggleCategoryDrawer = () => setCategoryDrawerOpen(!categoryDrawerOpen);
   const closeCategoryDrawer = () => setCategoryDrawerOpen(false);
@@ -123,10 +100,11 @@ export const SidebarProvider = ({ children }) => {
       setIsLoading,
       categories,
       services,
-      isCategoriesLoading
+      isCategoriesLoading,
+      categoryTree: categoryData || [],
     }),
 
-    [categoryDrawerOpen, cartDrawerOpen, isModalOpen, currentPage, isLoading, categories, services, isCategoriesLoading]
+    [categoryDrawerOpen, cartDrawerOpen, isModalOpen, currentPage, isLoading, categories, services, isCategoriesLoading, categoryData]
   );
 
   return (

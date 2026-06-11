@@ -6,6 +6,7 @@ const {
   getUnitPriceForQuantity,
   roundMoney: roundQtyMoney,
 } = require("../pricing/quantityPricing");
+const { assertSufficientStock } = require("../stock/inventory");
 
 const roundMoney = (value) => Math.round((Number(value) || 0) * 100) / 100;
 
@@ -147,6 +148,13 @@ const calculateOrderTotals = async ({
       parseInt(cartItem?.quantity, 10) || 0
     );
 
+    const titleHint =
+      cartItem?.title?.en ||
+      cartItem?.title ||
+      product?.title?.en ||
+      "Product";
+    assertSufficientStock(product, quantity, titleHint);
+
     const pricing = resolveLinePricing(product, cartItem);
     const unitPrice = roundQtyMoney(
       getUnitPriceForQuantity(product, quantity) || pricing.price
@@ -172,6 +180,8 @@ const calculateOrderTotals = async ({
       basePrice: pricing.basePrice,
       sku: pricing.sku,
       barcode: pricing.barcode,
+      hsn: product.hsnCode || cartItem?.hsn || "",
+      hsnCode: product.hsnCode || cartItem?.hsnCode || "",
       deliveryCharge: pricing.deliveryCharge,
       isCombination: pricing.isCombination,
     });

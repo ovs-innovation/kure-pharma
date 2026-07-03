@@ -169,9 +169,9 @@ const ProductCard = ({
         {/* Product Image */}
         <div
           onClick={navigateToProduct}
-          className="relative w-full flex-shrink-0 cursor-pointer bg-gray-50 overflow-hidden"
+          className="relative w-full flex-shrink-0 cursor-pointer bg-slate-50/50 border-b border-slate-100/40 overflow-hidden"
         >
-          <div className="relative w-full pb-[100%] sm:pb-[75%]">
+          <div className="relative w-full pb-[100%]">
             <div className="absolute top-2 left-2 right-2 z-10 flex flex-wrap gap-1 pointer-events-none max-w-full">
               {showOriginalPrice && (
                 <span className="bg-[#ED1C24] text-white text-[8px] sm:text-[9px] font-black px-2 py-0.5 rounded-full shadow-md uppercase tracking-wider shrink-0">
@@ -231,39 +231,38 @@ const ProductCard = ({
         </div>
 
         {/* Product Info */}
-        <div className="px-3 pt-3 pb-3 sm:px-4 sm:pt-3 sm:pb-4 flex flex-col flex-grow min-w-0 text-left">
-          {/* Category */}
-          <div className="text-[9px] text-[#ED1C24] font-black mb-1.5 uppercase tracking-[0.12em] sm:tracking-[0.15em] truncate w-full">
+        <div className="px-3 pt-3.5 pb-3.5 sm:px-4 sm:pt-4 sm:pb-4 flex flex-col flex-grow min-w-0 text-left">
+          {/* Category Tag */}
+          <span className="inline-block text-[8px] sm:text-[9px] text-[#0F4C81] font-bold bg-[#0F4C81]/5 border border-[#0F4C81]/10 rounded-md px-2 py-0.5 mb-2.5 w-max uppercase tracking-wider">
             {categoryName}
-          </div>
+          </span>
 
           {/* Brand Name */}
           <h2
-            className="text-sm sm:text-base font-extrabold text-gray-900 mb-1 leading-snug cursor-pointer hover:text-[#0b1d3d] transition-colors truncate"
+            className="text-xs sm:text-sm font-extrabold text-slate-800 hover:text-[#0F4C81] transition-colors line-clamp-2 min-h-[2rem] sm:min-h-[2.5rem] leading-snug cursor-pointer mb-1 break-words"
             onClick={navigateToProduct}
           >
             {showingTranslateValue(product.title)}
           </h2>
 
           {/* Generic Name */}
-          <div className="text-xs text-gray-500 font-bold mb-3 truncate" title={product.composition}>
-            <span className="text-[10px] text-gray-400 font-medium block uppercase tracking-wider">Composition</span>
+          <div className="text-[10px] sm:text-xs text-slate-400 font-semibold mb-3.5 truncate" title={product.composition}>
             {product.composition || "Specialty Formulation"}
           </div>
 
-          {/* Specs grid */}
-          <div className="grid grid-cols-2 gap-2 border-t border-b border-gray-100 py-2.5 mb-3.5 text-[11px] font-medium text-gray-600">
-            <div>
-              <span className="text-[9px] text-gray-400 font-bold uppercase tracking-wider block">Strength</span>
-              <span className="font-extrabold text-gray-800">{product.strength || "N/A"}</span>
+          {/* Specs grid - hidden on mobile, visible on tablet/desktop */}
+          <div className="hidden sm:grid grid-cols-2 gap-x-3 gap-y-2 border-t border-b border-slate-100 py-3 mb-4 text-[10px] sm:text-[11px] text-slate-500 font-medium">
+            <div className="flex flex-col">
+              <span className="text-[8px] uppercase tracking-wider text-slate-400 font-bold mb-0.5">Strength</span>
+              <span className="font-extrabold text-slate-700">{product.strength || "N/A"}</span>
             </div>
-            <div>
-              <span className="text-[9px] text-gray-400 font-bold uppercase tracking-wider block">Dosage Form</span>
-              <span className="font-extrabold text-gray-800">{product.dosageForm || "N/A"}</span>
+            <div className="flex flex-col">
+              <span className="text-[8px] uppercase tracking-wider text-slate-400 font-bold mb-0.5">Dosage Form</span>
+              <span className="font-extrabold text-slate-700">{product.dosageForm || "N/A"}</span>
             </div>
-            <div className="col-span-2">
-              <span className="text-[9px] text-gray-400 font-bold uppercase tracking-wider block">Manufacturer</span>
-              <span className="font-extrabold text-gray-800 truncate block">{product.manufacturer || "N/A"}</span>
+            <div className="col-span-2 flex flex-col pt-1">
+              <span className="text-[8px] uppercase tracking-wider text-slate-400 font-bold mb-0.5">Manufacturer</span>
+              <span className="font-extrabold text-slate-700 truncate">{product.manufacturer || "N/A"}</span>
             </div>
           </div>
 
@@ -276,7 +275,7 @@ const ProductCard = ({
                   router.push(productPath);
                 }
               }}
-              className="w-full flex items-center justify-center gap-1.5 bg-[#0b1d3d] hover:bg-[#162542] text-white py-2 px-3 rounded-lg text-[11px] font-black uppercase tracking-wide transition-all duration-200"
+              className="w-full flex items-center justify-center gap-1.5 bg-[#0F4C81] hover:bg-[#0a3560] text-white py-2.5 px-3 rounded-xl text-[10px] sm:text-[11px] font-black uppercase tracking-widest transition-all duration-300 shadow-sm shadow-[#0F4C81]/15 hover:shadow-md hover:scale-[1.01]"
             >
               View Details
             </button>

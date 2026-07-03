@@ -103,7 +103,7 @@ const ServicesSection = () => {
                 {/* Products — max 5 in one row */}
                 <div>
                     {loading ? (
-                        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+                        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
                             {Array.from({ length: SERVICE_ROW_LIMIT }).map((_, i) => (
                                 <div
                                     key={`skeleton-${i}`}
@@ -112,7 +112,7 @@ const ServicesSection = () => {
                             ))}
                         </div>
                     ) : products.length > 0 ? (
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
+                        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
                             {products.slice(0, SERVICE_ROW_LIMIT).map((product) => (
                                 <ProductCard
                                     key={product._id}

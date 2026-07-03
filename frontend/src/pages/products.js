@@ -244,12 +244,12 @@ const Products = ({ initialProducts, categories }) => {
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             {/* ══════════════════════════════
-                SIDEBAR
+                SIDEBAR (Desktop Only)
             ══════════════════════════════ */}
-            <aside className="lg:col-span-3 space-y-4">
+            <aside className="hidden lg:block lg:col-span-3 space-y-4">
               {/* Therapeutic Areas Filter */}
-              <div className="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
-                <div className="bg-[#0F4C81] text-white px-4 py-3 text-[12px] font-extrabold uppercase tracking-wider">
+              <div className="bg-white rounded-2xl border border-slate-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] overflow-hidden">
+                <div className="bg-transparent text-slate-800 border-b border-slate-100 px-5 py-4 text-xs font-extrabold uppercase tracking-wider">
                   Therapeutic Areas
                 </div>
                 <div className="p-4 space-y-3">
@@ -347,8 +347,8 @@ const Products = ({ initialProducts, categories }) => {
               </div>
 
               {/* Dosage Form Filter */}
-              <div className="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
-                <div className="bg-[#0F4C81] text-white px-4 py-3 text-[12px] font-extrabold uppercase tracking-wider">
+              <div className="bg-white rounded-2xl border border-slate-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] overflow-hidden">
+                <div className="bg-transparent text-slate-800 border-b border-slate-100 px-5 py-4 text-xs font-extrabold uppercase tracking-wider">
                   Dosage Form
                 </div>
                 <div className="p-4 space-y-3">
@@ -456,8 +456,78 @@ const Products = ({ initialProducts, categories }) => {
                 </div>
               </div>
 
+              {/* Mobile & Tablet Horizontal Filters (Hidden on Desktop) */}
+              <div className="lg:hidden space-y-4 mb-6">
+                {/* Therapeutic Areas */}
+                <div>
+                  <span className="text-[10px] font-black text-gray-400 uppercase tracking-wider block mb-2 px-1">Therapeutic Areas</span>
+                  <div className="flex gap-2 overflow-x-auto pb-1.5 scrollbar-hide snap-x">
+                    <button
+                      onClick={() => handleCategoryChange("")}
+                      className={`flex-shrink-0 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all border whitespace-nowrap ${
+                        selectedCategory === ""
+                          ? "bg-[#0F4C81] text-white border-[#0F4C81]"
+                          : "bg-white text-gray-600 border-gray-200 hover:border-gray-300"
+                      }`}
+                    >
+                      All Categories
+                    </button>
+                    {categories.map((cat) => {
+                      const title = getTitleString(cat.name);
+                      const isActive = selectedCategory === cat._id;
+                      return (
+                        <button
+                          key={cat._id}
+                          onClick={() => handleCategoryChange(isActive ? "" : cat._id)}
+                          className={`flex-shrink-0 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all border whitespace-nowrap ${
+                            isActive
+                              ? "bg-[#0F4C81] text-white border-[#0F4C81]"
+                              : "bg-white text-gray-600 border-gray-200 hover:border-gray-300"
+                          }`}
+                        >
+                          {title}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Dosage Form */}
+                <div>
+                  <span className="text-[10px] font-black text-gray-400 uppercase tracking-wider block mb-2 px-1">Dosage Form</span>
+                  <div className="flex gap-2 overflow-x-auto pb-1.5 scrollbar-hide snap-x">
+                    <button
+                      onClick={() => setSelectedDosage("")}
+                      className={`flex-shrink-0 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all border whitespace-nowrap ${
+                        selectedDosage === ""
+                          ? "bg-[#0F4C81] text-white border-[#0F4C81]"
+                          : "bg-white text-gray-600 border-gray-200 hover:border-gray-300"
+                      }`}
+                    >
+                      All Dosages
+                    </button>
+                    {DOSAGE_FORMS.map((dosage) => {
+                      const isActive = selectedDosage === dosage;
+                      return (
+                        <button
+                          key={dosage}
+                          onClick={() => setSelectedDosage(isActive ? "" : dosage)}
+                          className={`flex-shrink-0 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all border whitespace-nowrap ${
+                            isActive
+                              ? "bg-[#0F4C81] text-white border-[#0F4C81]"
+                              : "bg-white text-gray-600 border-gray-200 hover:border-gray-300"
+                          }`}
+                        >
+                          {dosage}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+
               {/* Product Grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-5 lg:gap-6">
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
                 {currentItems.length > 0 ? (
                   currentItems.map((prod) => (
                     <ProductCard

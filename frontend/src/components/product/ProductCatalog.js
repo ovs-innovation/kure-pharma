@@ -407,7 +407,7 @@ const ProductCatalog = () => {
                   const itemInCart = items.find(i => i.id === product._id);
                   return (
                     <div key={product._id} className="bg-white rounded-xl border border-gray-100 p-3 sm:p-5 flex flex-col sm:flex-row gap-3 sm:gap-6 hover:shadow-lg transition-all duration-300 relative group min-w-0">
-                      <div className="w-full sm:w-36 md:w-40 h-36 sm:h-40 relative flex-shrink-0 bg-gray-50 rounded-lg overflow-hidden border border-gray-50 mx-auto sm:mx-0">
+                      <div className="w-full sm:w-36 md:w-40 h-56 sm:h-40 relative flex-shrink-0 bg-gray-50 rounded-lg overflow-hidden border border-gray-50 mx-auto sm:mx-0">
                         {product.image?.[0] ? (
                           <Image src={product.image[0]} alt={getTitle(product.title)} fill className="object-contain p-2 group-hover:scale-105 transition-transform" />
                         ) : (

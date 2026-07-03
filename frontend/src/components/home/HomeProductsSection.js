@@ -124,7 +124,7 @@ const PremiumGridSection = ({
         showViewAll={products.length > ROW_LIMIT}
       />
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-5">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
         {visible.map((product) => (
           <div key={product._id} className="min-w-0 h-full">
             <HomePremiumProductCard product={product} onEnquire={onEnquire} />

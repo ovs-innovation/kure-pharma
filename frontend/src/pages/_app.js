@@ -19,6 +19,7 @@ import SessionSync from "@components/common/SessionSync";
 import { SidebarProvider } from "@context/SidebarContext";
 import { WishlistProvider } from "@context/WishlistContext";
 import SettingServices from "@services/SettingServices";
+import SplashLoader from "@components/preloader/SplashLoader";
 
 let persistor = persistStore(store);
 
@@ -94,6 +95,7 @@ function MyApp({ Component, pageProps }) {
                 <SidebarProvider>
                   <WishlistProvider>
                     <AppCartProvider>
+                      <SplashLoader />
                       <SessionSync />
                       <DefaultSeo />
                       <Component {...pageProps} />

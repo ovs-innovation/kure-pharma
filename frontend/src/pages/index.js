@@ -98,13 +98,10 @@ const ProductCard = ({ prod, onEnquire, style = "default" }) => {
 
   if (style === "deal") {
     return (
-      <div
-        className="bg-white rounded-2xl border border-slate-100 hover:border-orange-100 shadow-[0_10px_40px_-20px_rgba(216,83,0,0.14)] hover:shadow-[0_12px_36px_-18px_rgba(216,83,0,0.16)] hover:-translate-y-0.5 transition-all duration-300 flex-shrink-0 group p-3.5 text-center flex flex-col justify-between relative overflow-hidden"
-        style={{ width: 232 }}
-      >
+      <div className="bg-white rounded-2xl border border-slate-100 hover:shadow-[0_20px_50px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 transition-all duration-300 flex-shrink-0 snap-start group p-3.5 text-left flex flex-col justify-between relative overflow-hidden w-[185px] sm:w-[232px]">
         {/* Category Pill Tag */}
         <span
-          className="absolute top-2.5 left-2.5 text-[10px] font-black px-2 py-0.5 rounded-full border tracking-wider uppercase z-10"
+          className="absolute top-2.5 left-2.5 text-[8px] sm:text-[9px] font-bold px-2 py-0.5 rounded-md border tracking-wider uppercase z-10"
           style={{
             background: colors.light,
             color: colors.badge,
@@ -114,29 +111,29 @@ const ProductCard = ({ prod, onEnquire, style = "default" }) => {
           {cat}
         </span>
         {/* Image area */}
-        <div className="relative h-[240px] w-full flex items-center justify-center bg-[#FAF6F0] mb-2.5 mt-2 overflow-hidden rounded-lg">
+        <div className="relative h-[180px] sm:h-[240px] w-full flex items-center justify-center bg-slate-50/50 border-b border-slate-100/40 mb-3 overflow-hidden rounded-xl">
           <img
             src={imageUrl}
             alt={title}
-            className="h-full w-full object-contain p-1 transition-transform duration-500 group-hover:scale-105"
+            className="h-full w-full object-contain p-2 sm:p-3 transition-transform duration-500 group-hover:scale-105"
           />
         </div>
         {/* Info */}
-        <div className="flex flex-col flex-grow items-center justify-between">
+        <div className="flex flex-col flex-grow justify-between">
           <div className="w-full">
-            <h3 className="text-[13px] font-bold text-slate-800 leading-snug line-clamp-2 min-h-[34px] group-hover:text-[#0A5C36] transition-colors duration-200">
+            <h3 className="text-xs sm:text-sm font-extrabold text-slate-800 leading-snug line-clamp-2 min-h-[2rem] sm:min-h-[2.5rem] mb-1 group-hover:text-[#0F4C81] transition-colors duration-200">
               {title}
             </h3>
-            <p className="text-[11px] text-slate-400 font-medium truncate mt-1 mb-3">
+            <p className="text-[10px] sm:text-xs text-slate-400 font-semibold truncate mt-1 mb-3">
               {prod.composition || "Specialty Formulation"}
             </p>
           </div>
           <div className="mt-auto w-full flex flex-col gap-1.5 pb-0.5">
             <Link
               href={`/product/${prod.slug}`}
-              className="inline-flex items-center justify-center w-full text-[11px] font-extrabold text-[#0A5C36] hover:text-white border border-[#0A5C36]/25 hover:border-[#0A5C36] hover:bg-[#0A5C36] py-1.5 px-3 rounded-lg transition-all duration-200 uppercase tracking-wider"
+              className="inline-flex items-center justify-center w-full text-[10px] sm:text-[11px] font-black text-[#0F4C81] bg-[#0F4C81]/5 hover:bg-[#0F4C81] hover:text-white py-1.5 px-3 rounded-xl transition-all duration-300 uppercase tracking-widest"
             >
-              Read more
+              Details
             </Link>
             {onEnquire && (
               <button
@@ -144,9 +141,9 @@ const ProductCard = ({ prod, onEnquire, style = "default" }) => {
                   e.stopPropagation();
                   onEnquire(prod);
                 }}
-                className="inline-flex items-center justify-center w-full text-[11px] font-extrabold text-white bg-[#E85B18] hover:bg-[#ca4d11] py-1.5 px-3 rounded-lg transition-all duration-200 uppercase tracking-wider cursor-pointer"
+                className="inline-flex items-center justify-center w-full text-[10px] sm:text-[11px] font-black text-white bg-[#0F4C81] hover:bg-[#0a3560] py-2 px-3 rounded-xl transition-all duration-300 uppercase tracking-widest shadow-sm shadow-[#0F4C81]/15 cursor-pointer"
               >
-                Enquire Now
+                Enquire
               </button>
             )}
           </div>
@@ -157,11 +154,11 @@ const ProductCard = ({ prod, onEnquire, style = "default" }) => {
 
   // Trending / default grid card
   return (
-    <div className="bg-gradient-to-br from-white via-[#FAF6F0] to-white rounded-2xl border border-slate-100 hover:border-slate-200/60 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_12px_24px_-6px_rgba(10,92,54,0.08)] hover:-translate-y-1 transition-all duration-300 flex flex-col group p-5 text-center relative overflow-hidden">
+    <div className="bg-white rounded-2xl border border-slate-100 hover:shadow-[0_20px_50px_rgba(0,0,0,0.06)] hover:-translate-y-1 transition-all duration-300 flex flex-col group p-3.5 sm:p-4 text-left relative overflow-hidden">
       {/* Category Pill Tag */}
       <div className="absolute top-3 left-3 z-10">
         <span
-          className="text-[10px] font-black px-2.5 py-1 rounded-full border tracking-wider uppercase"
+          className="text-[8px] sm:text-[9px] font-bold px-2 py-0.5 rounded-md border tracking-wider uppercase"
           style={{
             background: colors.light,
             color: colors.badge,
@@ -172,29 +169,29 @@ const ProductCard = ({ prod, onEnquire, style = "default" }) => {
         </span>
       </div>
       {/* Image */}
-      <div className="relative h-[270px] w-full flex items-center justify-center bg-[#FAF6F0] mb-4 mt-2 overflow-hidden rounded-2xl">
+      <div className="relative h-[200px] sm:h-[260px] w-full flex items-center justify-center bg-slate-50/50 border-b border-slate-100/40 mb-3 overflow-hidden rounded-xl">
         <img
           src={imageUrl}
           alt={title}
-          className="h-full w-full object-contain p-1 transition-transform duration-500 group-hover:scale-[1.08]"
+          className="h-full w-full object-contain p-2 sm:p-3 transition-transform duration-500 group-hover:scale-105"
         />
       </div>
       {/* Info */}
-      <div className="flex flex-col flex-grow items-center justify-between">
+      <div className="flex flex-col flex-grow justify-between">
         <div className="w-full">
-          <h3 className="text-[14px] font-bold text-slate-800 leading-snug line-clamp-2 min-h-[36px] group-hover:text-[#0A5C36] transition-colors duration-200">
+          <h3 className="text-xs sm:text-sm font-extrabold text-slate-800 leading-snug line-clamp-2 min-h-[2rem] sm:min-h-[2.5rem] mb-1 group-hover:text-[#0F4C81] transition-colors duration-200">
             {title}
           </h3>
-          <p className="text-[12px] text-slate-400 font-medium truncate mt-1 mb-4">
+          <p className="text-[10px] sm:text-xs text-slate-400 font-semibold truncate mb-4">
             {prod.composition || "Specialty Formulation"}
           </p>
         </div>
-        <div className="mt-auto w-full flex gap-2 justify-center pb-1">
+        <div className="mt-auto w-full flex flex-col sm:flex-row gap-1.5 sm:gap-2">
           <Link
             href={`/product/${prod.slug}`}
-            className="inline-flex items-center justify-center flex-1 text-[11px] font-extrabold text-[#0A5C36] hover:text-white border border-[#0A5C36]/25 hover:border-[#0A5C36] hover:bg-[#0A5C36] py-2 px-4 rounded-lg transition-all duration-200 uppercase tracking-wider"
+            className="inline-flex items-center justify-center w-full sm:flex-1 text-[10px] sm:text-[11px] font-black text-[#0F4C81] bg-[#0F4C81]/5 hover:bg-[#0F4C81] hover:text-white py-1.5 sm:py-2 rounded-xl transition-all duration-300 uppercase tracking-widest"
           >
-            Read more
+            Details
           </Link>
           {onEnquire && (
             <button
@@ -202,9 +199,9 @@ const ProductCard = ({ prod, onEnquire, style = "default" }) => {
                 e.stopPropagation();
                 onEnquire(prod);
               }}
-              className="inline-flex items-center justify-center flex-1 text-[11px] font-extrabold text-white bg-[#E85B18] hover:bg-[#ca4d11] py-2 px-4 rounded-lg transition-all duration-200 uppercase tracking-wider cursor-pointer"
+              className="inline-flex items-center justify-center w-full sm:flex-1 text-[10px] sm:text-[11px] font-black text-white bg-[#0F4C81] hover:bg-[#0a3560] py-2 sm:py-2.5 rounded-xl transition-all duration-300 uppercase tracking-widest shadow-sm shadow-[#0F4C81]/15 cursor-pointer"
             >
-              Enquire Now
+              Enquire
             </button>
           )}
         </div>
@@ -290,10 +287,10 @@ const Home = ({ featuredProducts, allProducts, homepageSettings, brands }) => {
 
           {/* Left White Overlay Panel */}
           <div
-            className="relative z-10 w-full md:w-[54%] lg:w-[48%] h-full bg-white flex flex-col justify-center pl-6 pr-12 sm:pl-12 md:pl-16 lg:pl-24 xl:pl-32 md:pr-20 py-8 transition-all duration-500"
+            className="relative z-10 w-full md:w-[54%] lg:w-[48%] h-auto md:h-full mt-auto md:mt-0 bg-white/95 md:bg-white backdrop-blur-sm md:backdrop-blur-none flex flex-col justify-center pl-6 pr-6 sm:pl-12 md:pl-16 lg:pl-24 xl:pl-32 md:pr-20 py-8 md:py-8 rounded-t-3xl md:rounded-none transition-all duration-500"
             style={{
               clipPath:
-                isMounted && window.innerWidth >= 768
+                isMounted && typeof window !== "undefined" && window.innerWidth >= 768
                   ? "polygon(0 0, 88% 0, 100% 100%, 0 100%)"
                   : "none",
               filter: "drop-shadow(8px 0 16px rgba(0,0,0,0.06))",
@@ -304,7 +301,7 @@ const Home = ({ featuredProducts, allProducts, homepageSettings, brands }) => {
                 {slides[currentSlide].tagline}
               </span>
 
-              <h1 className="text-3xl md:text-[38px] font-black leading-[1.12] text-[#0A1D37] tracking-tight transition-all duration-300">
+              <h1 className="text-2xl md:text-[38px] font-black leading-[1.2] md:leading-[1.12] text-[#0A1D37] tracking-tight transition-all duration-300">
                 {slides[currentSlide].titleLine1 ||
                   slides[currentSlide].titleText}
                 {slides[currentSlide].titleLine1 ? (
@@ -325,7 +322,7 @@ const Home = ({ featuredProducts, allProducts, homepageSettings, brands }) => {
               </p>
 
               {/* Trust Badges Bar */}
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-4 pb-2 border-t border-slate-100">
+              <div className="hidden sm:flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-4 pb-2 border-t border-slate-100">
                 {heroBadges.map((badge, idx) => (
                   <div key={idx} className="flex items-center gap-2.5">
                     <div className="w-9 h-9 rounded-lg bg-[#EAF2FB] flex items-center justify-center flex-shrink-0">
@@ -344,10 +341,10 @@ const Home = ({ featuredProducts, allProducts, homepageSettings, brands }) => {
               </div>
 
               {/* Action Buttons */}
-              <div className="flex items-center gap-3 pt-2">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 pt-2">
                 <Link
                   href={homepageSettings?.hero?.ctaPrimary?.link || "/products"}
-                  className="inline-flex items-center gap-1.5 bg-[#d35400] text-white text-[11px] font-extrabold px-5 py-3 rounded-lg hover:bg-[#c03f00] transition-all shadow-sm uppercase tracking-wide"
+                  className="flex items-center justify-center gap-1.5 bg-[#d35400] text-white text-[11px] font-extrabold px-5 py-3 rounded-lg hover:bg-[#c03f00] transition-all shadow-sm uppercase tracking-wide w-full sm:w-auto"
                 >
                   {homepageSettings?.hero?.ctaPrimary?.text ||
                     "Explore Products"}{" "}
@@ -355,7 +352,7 @@ const Home = ({ featuredProducts, allProducts, homepageSettings, brands }) => {
                 </Link>
                 <button
                   onClick={() => setGenericEnquiryOpen(true)}
-                  className="inline-flex items-center gap-1.5 border border-[#059669]/20 text-[#059669] text-[11px] font-extrabold px-5 py-3 rounded-lg hover:bg-slate-50 transition-all cursor-pointer uppercase tracking-wide"
+                  className="flex items-center justify-center gap-1.5 border border-[#059669]/20 text-[#059669] text-[11px] font-extrabold px-5 py-3 rounded-lg hover:bg-slate-50 transition-all cursor-pointer uppercase tracking-wide w-full sm:w-auto"
                 >
                   {homepageSettings?.hero?.ctaSecondary?.text || "Send Enquiry"}{" "}
                   <span className="text-[9px]">↗</span>
@@ -395,7 +392,7 @@ const Home = ({ featuredProducts, allProducts, homepageSettings, brands }) => {
         qualityItems.length > 0 && (
           <section className="bg-[#0A1D37] py-6 relative overflow-hidden select-none border-b border-gray-800">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 divide-x divide-white/5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 lg:divide-x divide-white/5">
                 {qualityItems.map((item, idx) => (
                   <div
                     key={idx}
@@ -467,7 +464,7 @@ const Home = ({ featuredProducts, allProducts, homepageSettings, brands }) => {
                     "Today's Best Deals For You!"}
                 </h2>
                 <div className="flex items-center gap-4">
-                  <div className="flex gap-1.5">
+                  <div className="hidden sm:flex gap-1.5">
                     <button
                       onClick={() => scroll(dealScrollRef, -1)}
                       className="w-8 h-8 rounded-full border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 flex items-center justify-center transition-colors cursor-pointer"
@@ -673,7 +670,7 @@ const Home = ({ featuredProducts, allProducts, homepageSettings, brands }) => {
               </div>
 
               {/* Category Filter Tabs */}
-              <div className="flex items-center gap-2 flex-wrap mb-8">
+              <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide snap-x mb-8 w-full">
                 {[
                   { label: "All", key: "" },
                   ...popularCategories.map((c) => ({
@@ -684,7 +681,7 @@ const Home = ({ featuredProducts, allProducts, homepageSettings, brands }) => {
                   <button
                     key={tab.key}
                     onClick={() => setActiveCatFilter(tab.key)}
-                    className={`px-5 py-2 rounded-full text-[13px] font-extrabold border transition-all cursor-pointer ${
+                    className={`px-5 py-2 rounded-full text-[13px] font-extrabold border transition-all cursor-pointer whitespace-nowrap flex-shrink-0 ${
                       activeCatFilter === tab.key
                         ? "bg-[#0F4C81] text-white border-[#0F4C81]"
                         : "bg-white text-gray-500 border-gray-200 hover:border-[#0F4C81] hover:text-[#0F4C81]"
@@ -696,7 +693,7 @@ const Home = ({ featuredProducts, allProducts, homepageSettings, brands }) => {
               </div>
 
               {/* Product Grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {allProducts
                   .filter(
                     (p) =>

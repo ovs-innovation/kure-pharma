@@ -1,4 +1,6 @@
 require("dotenv").config();
+const dns = require("node:dns/promises");
+dns.setServers(["8.8.8.8","1.1.1.1"])
 const express = require("express");
 const helmet = require("helmet");
 const cors = require("cors");
@@ -64,6 +66,8 @@ app.get("/", (req, res) => {
   res.send("App works properly!");
 });
 
+
+
 //this for route will need for store front, also for admin dashboard
 app.use("/api/products/", productRoutes);
 app.use("/api/category/", categoryRoutes);
@@ -107,6 +111,7 @@ const PORT = process.env.PORT || 5058;
 
 connectDB()
   .then(() => {
+
     const server = app.listen(PORT, () =>
       console.log(`server running on port ${PORT}`)
     );

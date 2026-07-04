@@ -1,6 +1,11 @@
-import { FiSlack, FiHelpCircle } from "react-icons/fi";
+import { FiSlack, FiHelpCircle, FiMail, FiGrid, FiSettings } from "react-icons/fi";
 
 const sidebar = [
+  {
+    path: "/dashboard",
+    icon: FiGrid,
+    name: "Dashboard",
+  },
   {
     icon: FiSlack,
     name: "Catalog",
@@ -24,9 +29,19 @@ const sidebar = [
     ],
   },
   {
+    path: "/leads",
+    icon: FiMail,
+    name: "Enquiries",
+  },
+  {
     path: "/faq",
     icon: FiHelpCircle,
     name: "FAQ",
+  },
+  {
+    path: "/settings",
+    icon: FiSettings,
+    name: "Settings",
   },
 ];
 

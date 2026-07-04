@@ -15,14 +15,11 @@ const DEFAULT_SCENES = [
   "/about-indian-healthcare.png",
 ];
 
-const isProductPackshot = (src) =>
-  typeof src === "string" && src.startsWith("/products/");
-
 const getSlideScene = (slide, index) => {
+  if (slide?.bgImage) return slide.bgImage;
   if (slide?.heroScene) return slide.heroScene;
   if (slide?.sceneImage) return slide.sceneImage;
-  const candidate = slide?.heroImage || slide?.bgImage;
-  if (candidate && !isProductPackshot(candidate)) return candidate;
+  if (slide?.heroImage) return slide.heroImage;
   return DEFAULT_SCENES[index % DEFAULT_SCENES.length];
 };
 
@@ -31,6 +28,8 @@ const HomeHero = ({
   ctaPrimary = { text: "View Full Product Range", link: "/products" },
   ctaSecondary = { text: "Send Enquiry" },
   onEnquiry,
+  phone = "+91 99119 72234",
+  whatsapp = "919911972234",
 }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideCount = slides.length;
@@ -105,20 +104,26 @@ const HomeHero = ({
             </div>
 
             <div className="kure-hero-v2__contact">
-              <a href="tel:+919911972234" className="kure-hero-v2__phone">
-                <FiPhone className="w-3.5 h-3.5" aria-hidden />
-                +91 99119 72234
-              </a>
-              <span className="kure-hero-v2__contact-dot" aria-hidden />
-              <a
-                href="https://wa.me/919911972234?text=Hello%20Kure%20Pharma%2C%20I%20need%20a%20sourcing%20quote."
-                target="_blank"
-                rel="noopener noreferrer"
-                className="kure-hero-v2__whatsapp-link"
-              >
-                <FaWhatsapp className="w-3.5 h-3.5" aria-hidden />
-                WhatsApp
-              </a>
+              {phone && (
+                <a href={`tel:${phone.replace(/\s+/g, '')}`} className="kure-hero-v2__phone">
+                  <FiPhone className="w-3.5 h-3.5" aria-hidden />
+                  {phone}
+                </a>
+              )}
+              {phone && whatsapp && (
+                <span className="kure-hero-v2__contact-dot" aria-hidden />
+              )}
+              {whatsapp && (
+                <a
+                  href={`https://wa.me/${whatsapp.replace(/\+/g, '').replace(/\s+/g, '')}?text=Hello%20Kure%20Pharma%2C%20I%20need%20a%20sourcing%20quote.`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="kure-hero-v2__whatsapp-link"
+                >
+                  <FaWhatsapp className="w-3.5 h-3.5" aria-hidden />
+                  WhatsApp
+                </a>
+              )}
             </div>
           </div>
 

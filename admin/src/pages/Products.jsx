@@ -13,8 +13,11 @@ import {
   Pagination,
 } from "@windmill/react-ui";
 import { useTranslation } from "react-i18next";
-import { FiPlus } from "react-icons/fi";
-import { FiEdit, FiTrash2 } from "react-icons/fi";
+import { FiPlus, FiEdit, FiTrash2, FiZoomIn } from "react-icons/fi";
+import { Link } from "react-router-dom";
+import EditDeleteButton from "@/components/table/EditDeleteButton";
+import ShowHideButton from "@/components/table/ShowHideButton";
+import useUtilsFunction from "@/hooks/useUtilsFunction";
 
 //internal import
 
@@ -37,8 +40,9 @@ import SelectCategory from "@/components/form/selectOption/SelectCategory";
 import AnimatedContent from "@/components/common/AnimatedContent";
 
 const Products = () => {
-  const { title, allId, serviceId, handleDeleteMany, handleUpdateMany } =
+  const { title, allId, serviceId, handleDeleteMany, handleUpdateMany, handleModalOpen, handleUpdate } =
     useToggleDrawer();
+  const { currency, showingTranslateValue, getNumberTwo } = useUtilsFunction();
 
   const { t } = useTranslation();
   const {
@@ -77,6 +81,17 @@ const Products = () => {
     if (isCheckAll) {
       setIsCheck([]);
     }
+  };
+
+  const handleCardCheckboxClick = (e) => {
+    const { id, checked } = e.target;
+    setIsCheck((prevCheck) => {
+      if (checked) {
+        return [...prevCheck, id];
+      } else {
+        return prevCheck.filter((item) => item !== id);
+      }
+    });
   };
   // handle reset field
   const handleResetField = () => {
@@ -237,48 +252,160 @@ const Products = () => {
       ) : error ? (
         <span className="text-center mx-auto text-red-500">{error}</span>
       ) : serviceData?.length !== 0 ? (
-        <TableContainer className="mb-8 rounded-b-lg">
-          <Table>
-            <TableHeader>
-              <tr>
-                <TableCell>
-                  <CheckBox
-                    type="checkbox"
-                    name="selectAll"
-                    id="selectAll"
-                    isChecked={isCheckAll}
-                    handleClick={handleSelectAll}
-                  />
-                </TableCell>
-                <TableCell>{t("ProductNameTbl")}</TableCell>
-                <TableCell>{t("CategoryTbl")}</TableCell>
-                <TableCell>SKU</TableCell>
-                <TableCell>Price</TableCell>
-                <TableCell>Min Order Qty</TableCell>
-                <TableCell>Highlights</TableCell>
-                <TableCell className="text-center">{t("DetailsTbl")}</TableCell>
-                <TableCell className="text-center">
-                  {t("PublishedTbl")}
-                </TableCell>
-                <TableCell className="text-right">{t("ActionsTbl")}</TableCell>
-              </tr>
-            </TableHeader>
-            <ProductTable
-              lang={lang}
-              isCheck={isCheck}
-              products={data?.products}
-              setIsCheck={setIsCheck}
-            />
-          </Table>
-          <TableFooter>
-            <Pagination
-              totalResults={data?.totalDoc}
-              resultsPerPage={limitData}
-              onChange={handleChangePage}
-              label="Product Page Navigation"
-            />
-          </TableFooter>
-        </TableContainer>
+        <>
+          {/* Mobile Product Card Layout */}
+          <div className="block lg:hidden space-y-4 mb-8">
+            {data?.products?.map((product) => {
+              const productTitle = showingTranslateValue(product?.title);
+              const categoryName = showingTranslateValue(product?.category?.name);
+              const productHighlights = product.highlights ? showingTranslateValue(product?.highlights) : "";
+              
+              return (
+                <div
+                  key={product._id}
+                  className="bg-white dark:bg-gray-850 rounded-2xl border border-gray-150 dark:border-gray-750 p-4 shadow-xs relative space-y-3"
+                >
+                  {/* Checkbox, Thumbnail, Title & SKU */}
+                  <div className="flex items-start gap-3">
+                    <div className="pt-1.5">
+                      <CheckBox
+                        type="checkbox"
+                        name={product?.title?.en}
+                        id={product._id}
+                        handleClick={handleCardCheckboxClick}
+                        isChecked={isCheck?.includes(product._id)}
+                      />
+                    </div>
+                    
+                    {product?.image?.[0] ? (
+                      <img
+                        src={product?.image?.[0]}
+                        alt="product"
+                        className="w-12 h-12 object-cover rounded-xl border border-gray-150 dark:border-gray-700 bg-gray-50 flex-shrink-0"
+                      />
+                    ) : (
+                      <div className="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-xl flex-shrink-0 flex items-center justify-center text-xs text-gray-400">
+                        No Img
+                      </div>
+                    )}
+                    
+                    <div className="min-w-0 flex-1">
+                      <h4 className="font-extrabold text-sm text-gray-800 dark:text-gray-100 truncate">
+                        {productTitle}
+                      </h4>
+                      <p className="text-[10px] text-gray-400 mt-0.5 font-mono">
+                        SKU: {product?.sku || "N/A"}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Category & Pricing */}
+                  <div className="grid grid-cols-2 gap-2 text-[11px] text-gray-500 border-t border-b border-gray-100 dark:border-gray-750 py-2">
+                    <div>
+                      <span className="text-[9px] text-gray-400 uppercase font-black tracking-widest block mb-0.5">Category</span>
+                      <span className="font-bold text-gray-700 dark:text-gray-300">{categoryName || "Uncategorized"}</span>
+                    </div>
+                    <div>
+                      <span className="text-[9px] text-gray-400 uppercase font-black tracking-widest block mb-0.5">Price / MOQ</span>
+                      <span className="font-bold text-gray-800 dark:text-gray-100">
+                        {currency}{getNumberTwo(product?.price || 0)} / {product?.minOrderQuantity || 1}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Highlights */}
+                  {productHighlights && (
+                    <div className="text-[11px] text-gray-550 dark:text-gray-350 bg-gray-50 dark:bg-gray-750 p-2 rounded-xl">
+                      <span className="font-bold text-[9px] text-gray-400 uppercase tracking-widest block mb-0.5">Highlights</span>
+                      <p className="line-clamp-2">{productHighlights}</p>
+                    </div>
+                  )}
+
+                  {/* Show/Hide, Edit, Delete and Detail actions */}
+                  <div className="flex items-center justify-between pt-2 border-t border-gray-100 dark:border-gray-750">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[9px] text-gray-400 uppercase font-black tracking-widest">Status:</span>
+                      <ShowHideButton id={product._id} status={product.status} />
+                    </div>
+                    
+                    <div className="flex items-center gap-1">
+                      <Link
+                        to={`/product/${product._id}`}
+                        className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 p-1.5 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/10"
+                        title="View Details"
+                      >
+                        <FiZoomIn className="w-4 h-4" />
+                      </Link>
+                      
+                      <EditDeleteButton
+                        id={product._id}
+                        product={product}
+                        isCheck={isCheck}
+                        handleUpdate={handleUpdate}
+                        handleModalOpen={handleModalOpen}
+                        title={productTitle}
+                      />
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+            
+            {/* Mobile Pagination */}
+            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-150 dark:border-gray-750 p-4 flex justify-center shadow-xs">
+              <Pagination
+                totalResults={data?.totalDoc}
+                resultsPerPage={limitData}
+                onChange={handleChangePage}
+                label="Product Page Navigation"
+              />
+            </div>
+          </div>
+
+          {/* Desktop Table View */}
+          <TableContainer className="hidden lg:block mb-8 rounded-b-lg">
+            <Table>
+              <TableHeader>
+                <tr>
+                  <TableCell>
+                    <CheckBox
+                      type="checkbox"
+                      name="selectAll"
+                      id="selectAll"
+                      isChecked={isCheckAll}
+                      handleClick={handleSelectAll}
+                    />
+                  </TableCell>
+                  <TableCell>{t("ProductNameTbl")}</TableCell>
+                  <TableCell>{t("CategoryTbl")}</TableCell>
+                  <TableCell>SKU</TableCell>
+                  <TableCell>Price</TableCell>
+                  <TableCell>Min Order Qty</TableCell>
+                  <TableCell>Highlights</TableCell>
+                  <TableCell className="text-center">{t("DetailsTbl")}</TableCell>
+                  <TableCell className="text-center">
+                    {t("PublishedTbl")}
+                  </TableCell>
+                  <TableCell className="text-right">{t("ActionsTbl")}</TableCell>
+                </tr>
+              </TableHeader>
+              <ProductTable
+                lang={lang}
+                isCheck={isCheck}
+                products={data?.products}
+                setIsCheck={setIsCheck}
+              />
+            </Table>
+            <TableFooter>
+              <Pagination
+                totalResults={data?.totalDoc}
+                resultsPerPage={limitData}
+                onChange={handleChangePage}
+                label="Product Page Navigation"
+              />
+            </TableFooter>
+          </TableContainer>
+        </>
       ) : (
         <NotFound title="Product" />
       )}

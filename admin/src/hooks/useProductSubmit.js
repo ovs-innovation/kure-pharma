@@ -1066,6 +1066,7 @@ const useProductSubmit = (id, selectedServices = []) => {
     language,
     register,
     watch,
+    setValue,
     onSubmit,
     errors,
     slug,

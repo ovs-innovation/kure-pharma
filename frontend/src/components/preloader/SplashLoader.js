@@ -28,81 +28,50 @@ const SplashLoader = () => {
 
   return (
     <div
-      className={`fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-[#0b1d3d] text-white transition-opacity duration-500 ease-in-out ${
+      className={`fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-[#fcfbf9] text-[#0b1d3d] transition-opacity duration-500 ease-in-out ${
         fadeOut ? "opacity-0 pointer-events-none" : "opacity-100"
       }`}
     >
       <div className="flex flex-col items-center max-w-md px-4 text-center">
-        {/* Animated ECG Pulse and Cross Container */}
-        <div className="relative w-48 h-32 flex items-center justify-center mb-6">
-          {/* Medical Cross Background Glow */}
-          <div className="absolute w-20 h-20 rounded-2xl bg-gradient-to-br from-[#ED1C24]/10 to-[#ED1C24]/30 blur-xl animate-pulse-glow" />
+        {/* Animated Kure Pharma Logo Container */}
+        <div className="relative w-48 h-32 flex items-center justify-center mb-4">
+          {/* Logo Background Glow */}
+          <div className="absolute w-36 h-36 rounded-full bg-gradient-to-tr from-[#ED1C24]/10 via-[#c9a066]/10 to-[#0b1d3d]/5 blur-2xl animate-pulse-glow" />
 
-          {/* Medical Cross SVG */}
-          <svg
-            className="absolute w-12 h-12 text-[#ED1C24] animate-med-cross"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-          >
-            <path d="M19 10.5h-5.5V5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v5.5H5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5h5.5V19c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-5.5H19c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5z" />
-          </svg>
-
-          {/* Heartbeat ECG Line Drawing SVG */}
-          <svg
-            className="absolute inset-0 w-full h-full text-white/40"
-            viewBox="0 0 200 100"
-            fill="none"
-          >
-            <path
-              className="animate-heartbeat-line"
-              d="M 10 50 L 50 50 L 65 50 L 73 30 L 81 75 L 89 15 L 97 60 L 105 50 L 120 50 L 190 50"
-              stroke="#ED1C24"
-              strokeWidth="3.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          {/* Actual Kure Pharma Logo */}
+          <img
+            src="/kure-logo.png"
+            alt="Kure Pharma"
+            className="w-40 h-auto object-contain relative z-10 animate-kure-logo-pulse"
+          />
         </div>
 
         {/* Brand Text with Typing & Tracking Animations */}
-        <h1 className="text-3xl sm:text-4xl font-black tracking-[0.2em] text-white uppercase mb-2 animate-tracking-in">
+        <h1 className="text-2xl sm:text-3xl font-black tracking-[0.2em] text-[#0b1d3d] uppercase mb-2 animate-tracking-in">
           KURE <span className="text-[#ED1C24]">PHARMA</span>
         </h1>
         
         {/* Slogan */}
-        <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.3em] text-gray-400/90 animate-fade-in-slogan">
+        <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.3em] text-gray-550/90 animate-fade-in-slogan">
           Specialty Medicine & Healthcare
         </p>
 
         {/* Sub-loading indicator */}
-        <div className="w-32 h-[3px] bg-white/10 rounded-full mt-8 overflow-hidden">
+        <div className="w-32 h-[3px] bg-gray-200/60 rounded-full mt-8 overflow-hidden">
           <div className="h-full bg-gradient-to-r from-[#ED1C24] to-[#B8860B] rounded-full animate-progress-bar" />
         </div>
       </div>
 
       {/* Styled Animations */}
       <style jsx global>{`
-        @keyframes heartbeat {
+        @keyframes kureLogoPulse {
           0%, 100% {
-            transform: scale(0.95);
-            opacity: 0.9;
+            transform: scale(0.96);
+            filter: drop-shadow(0 4px 10px rgba(11, 29, 61, 0.08));
           }
           50% {
-            transform: scale(1.1);
-            opacity: 1;
-            filter: drop-shadow(0 0 12px rgba(237, 28, 36, 0.8));
-          }
-        }
-        @keyframes drawLine {
-          0% {
-            stroke-dashoffset: 400;
-          }
-          70% {
-            stroke-dashoffset: 0;
-          }
-          100% {
-            stroke-dashoffset: 0;
-            opacity: 0.3;
+            transform: scale(1.04);
+            filter: drop-shadow(0 10px 25px rgba(11, 29, 61, 0.15));
           }
         }
         @keyframes pulseGlow {
@@ -155,13 +124,8 @@ const SplashLoader = () => {
           }
         }
 
-        .animate-med-cross {
-          animation: heartbeat 1.5s infinite ease-in-out;
-        }
-        .animate-heartbeat-line {
-          stroke-dasharray: 400;
-          stroke-dashoffset: 400;
-          animation: drawLine 2.2s infinite ease-in-out;
+        .animate-kure-logo-pulse {
+          animation: kureLogoPulse 2s infinite ease-in-out;
         }
         .animate-pulse-glow {
           animation: pulseGlow 1.5s infinite ease-in-out;

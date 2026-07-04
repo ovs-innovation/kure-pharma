@@ -28,6 +28,8 @@ const kureHomepageDefaults = {
     ],
     ctaPrimary: { text: "View Full Product Range", link: "/products" },
     ctaSecondary: { text: "Send Enquiry", action: "enquiry" },
+    phone: "+91 99119 72234",
+    whatsapp: "919911972234",
     slides: [
       {
         tagline: "Prescription Medicines · Specialty Pharma",
@@ -37,7 +39,7 @@ const kureHomepageDefaults = {
         subtitle:
           "Government-approved pharmaceutical wholesaler supplying hospitals, pharmacies and clinics across India.",
         cities: "Delhi NCR · Mumbai · Lucknow · Kolkata · Chandigarh · Pan-India",
-        heroScene: "/hero-indian-pharma.png",
+        bgImage: "/hero-indian-pharma.png",
       },
       {
         tagline: "Oncology & Critical Care",
@@ -47,7 +49,7 @@ const kureHomepageDefaults = {
         subtitle:
           "Temperature-controlled logistics for injectable and lifesaving medicines — reliable pan-India distribution.",
         cities: "Delhi NCR · Mumbai · Lucknow · Kolkata · Pan-India",
-        heroScene: "/hero-indian-distribution.png",
+        bgImage: "/hero-indian-distribution.png",
       },
       {
         tagline: "HIV · Nephrology · Imported Medicines",
@@ -57,7 +59,7 @@ const kureHomepageDefaults = {
         subtitle:
           "Ethical wholesale distribution with GDP practices — serving patients, doctors and hospitals nationwide.",
         cities: "Delhi NCR · Mumbai · Lucknow · Kolkata · Pan-India",
-        heroScene: "/about-indian-healthcare.png",
+        bgImage: "/about-indian-healthcare.png",
       },
     ],
   },

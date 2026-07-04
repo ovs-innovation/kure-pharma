@@ -64,7 +64,7 @@ const SidebarContent = () => {
 
   return (
     <div className="py-4 text-gray-500 dark:text-gray-400">
-      <a className=" text-gray-900 dark:text-gray-200" href="/products">
+      <a className=" text-gray-900 dark:text-gray-200" href="/dashboard">
         {mode === "dark" ? (
           <img src={logoLight} alt="Kure Pharma" width="135" className="pl-6" />
         ) : (

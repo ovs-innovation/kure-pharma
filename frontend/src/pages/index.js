@@ -157,6 +157,8 @@ const Home = ({ featuredProducts, allProducts, homepageSettings, brands }) => {
           ctaPrimary={homepageSettings?.hero?.ctaPrimary}
           ctaSecondary={homepageSettings?.hero?.ctaSecondary}
           onEnquiry={() => setGenericEnquiryOpen(true)}
+          phone={homepageSettings?.hero?.phone}
+          whatsapp={homepageSettings?.hero?.whatsapp}
         />
       )}
 

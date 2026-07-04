@@ -124,70 +124,72 @@ const Brands = () => {
         <span className="text-center mx-auto text-red-500">{error}</span>
       ) : (
         data.length !== 0 && (
-          <TableContainer className="mb-8 rounded-b-lg">
-            <Table>
-              <TableHeader>
-                <tr>
-                  <TableCell>
-                    <CheckBox
-                      type="checkbox"
-                      name="selectAll"
-                      id="selectAll"
-                      isChecked={isCheckAll}
-                      handleClick={handleSelectAll}
-                    />
-                  </TableCell>
-                  <TableCell className="text-center">Name</TableCell>
-                  <TableCell className="text-center">Slug</TableCell>
-                  <TableCell className="text-center">Status</TableCell>
-                  <TableCell className="text-right">Actions</TableCell>
-                </tr>
-              </TableHeader>
-              <tbody>
-                {dataTable.map((brand) => (
-                  <tr key={brand._id}>
+          <div style={{ overflowX: "auto", width: "100%" }}>
+            <TableContainer className="mb-8 rounded-b-lg">
+              <Table>
+                <TableHeader>
+                  <tr>
                     <TableCell>
                       <CheckBox
                         type="checkbox"
-                        name={brand._id}
-                        id={brand._id}
-                        isChecked={isCheck.includes(brand._id)}
-                        handleClick={() =>
-                          setIsCheck((prev) =>
-                            prev.includes(brand._id)
-                              ? prev.filter((id) => id !== brand._id)
-                              : [...prev, brand._id],
-                          )
-                        }
+                        name="selectAll"
+                        id="selectAll"
+                        isChecked={isCheckAll}
+                        handleClick={handleSelectAll}
                       />
                     </TableCell>
-                    <TableCell className="text-center">{brand.name}</TableCell>
-                    <TableCell className="text-center">{brand.slug}</TableCell>
-                    <TableCell className="text-center">
-                      {brand.status}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <Button
-                        size="small"
-                        layout="link"
-                        onClick={() => handleUpdate(brand._id)}
-                      >
-                        Edit
-                      </Button>
-                    </TableCell>
+                    <TableCell className="text-center">Name</TableCell>
+                    <TableCell className="text-center">Slug</TableCell>
+                    <TableCell className="text-center">Status</TableCell>
+                    <TableCell className="text-right">Actions</TableCell>
                   </tr>
-                ))}
-              </tbody>
-            </Table>
-            <TableFooter>
-              <Pagination
-                totalResults={totalResults}
-                resultsPerPage={resultsPerPage}
-                onChange={handleChangePage}
-                label="Table navigation"
-              />
-            </TableFooter>
-          </TableContainer>
+                </TableHeader>
+                <tbody>
+                  {dataTable.map((brand) => (
+                    <tr key={brand._id}>
+                      <TableCell>
+                        <CheckBox
+                          type="checkbox"
+                          name={brand._id}
+                          id={brand._id}
+                          isChecked={isCheck.includes(brand._id)}
+                          handleClick={() =>
+                            setIsCheck((prev) =>
+                              prev.includes(brand._id)
+                                ? prev.filter((id) => id !== brand._id)
+                                : [...prev, brand._id],
+                            )
+                          }
+                        />
+                      </TableCell>
+                      <TableCell className="text-center">{brand.name}</TableCell>
+                      <TableCell className="text-center">{brand.slug}</TableCell>
+                      <TableCell className="text-center">
+                        {brand.status}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <Button
+                          size="small"
+                          layout="link"
+                          onClick={() => handleUpdate(brand._id)}
+                        >
+                          Edit
+                        </Button>
+                      </TableCell>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+              <TableFooter>
+                <Pagination
+                  totalResults={totalResults}
+                  resultsPerPage={resultsPerPage}
+                  onChange={handleChangePage}
+                  label="Table navigation"
+                />
+              </TableFooter>
+            </TableContainer>
+          </div>
         )
       )}
       {!loading && data.length === 0 && !error && (

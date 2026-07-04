@@ -215,53 +215,55 @@ const Category = () => {
       ) : error ? (
         <span className="text-center mx-auto text-red-500">{error}</span>
       ) : serviceData?.length !== 0 ? (
-        <TableContainer className="mb-8">
-          <Table>
-            <TableHeader>
-              <tr>
-                <TableCell>
-                  <CheckBox
-                    type="checkbox"
-                    name="selectAll"
-                    id="selectAll"
-                    handleClick={handleSelectAll}
-                    isChecked={isCheckAll}
-                  />
-                </TableCell>
+        <div style={{ overflowX: "auto", width: "100%" }}>
+          <TableContainer className="mb-8">
+            <Table>
+              <TableHeader>
+                <tr>
+                  <TableCell>
+                    <CheckBox
+                      type="checkbox"
+                      name="selectAll"
+                      id="selectAll"
+                      handleClick={handleSelectAll}
+                      isChecked={isCheckAll}
+                    />
+                  </TableCell>
 
-                <TableCell>{t("catIdTbl")}</TableCell>
-                <TableCell>{t("catIconTbl")}</TableCell>
-                <TableCell>{t("CatTbName")}</TableCell>
-                <TableCell>{t("CatTbDescription")}</TableCell>
-                <TableCell className="text-center">
-                  {t("catPublishedTbl")}
-                </TableCell>
-                <TableCell className="text-right">
-                  {t("catActionsTbl")}
-                </TableCell>
-              </tr>
-            </TableHeader>
+                  <TableCell>{t("catIdTbl")}</TableCell>
+                  <TableCell>{t("catIconTbl")}</TableCell>
+                  <TableCell>{t("CatTbName")}</TableCell>
+                  <TableCell>{t("CatTbDescription")}</TableCell>
+                  <TableCell className="text-center">
+                    {t("catPublishedTbl")}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    {t("catActionsTbl")}
+                  </TableCell>
+                </tr>
+              </TableHeader>
 
-            <CategoryTable
-              data={data}
-              lang={lang}
-              isCheck={isCheck}
-              categories={dataTable}
-              setIsCheck={setIsCheck}
-              variant="parent"
-              handleUpdate={handleUpdate}
-            />
-          </Table>
+              <CategoryTable
+                data={data}
+                lang={lang}
+                isCheck={isCheck}
+                categories={dataTable}
+                setIsCheck={setIsCheck}
+                variant="parent"
+                handleUpdate={handleUpdate}
+              />
+            </Table>
 
-          <TableFooter>
-            <Pagination
-              totalResults={totalResults}
-              resultsPerPage={resultsPerPage}
-              onChange={handleChangePage}
-              label="Table navigation"
-            />
-          </TableFooter>
-        </TableContainer>
+            <TableFooter>
+              <Pagination
+                totalResults={totalResults}
+                resultsPerPage={resultsPerPage}
+                onChange={handleChangePage}
+                label="Table navigation"
+              />
+            </TableFooter>
+          </TableContainer>
+        </div>
       ) : (
         <NotFound title="No parent categories found." />
       )}

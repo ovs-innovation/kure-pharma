@@ -3,8 +3,6 @@ import {
   Button,
   Card,
   CardBody,
-  Input,
-  Label,
   Pagination,
   Table,
   TableCell,
@@ -13,7 +11,19 @@ import {
   TableHeader,
 } from "@windmill/react-ui";
 import { IoCloudDownloadOutline } from "react-icons/io5";
-import { FiTrash2 } from "react-icons/fi";
+import {
+  FiTrash2,
+  FiUser,
+  FiMail,
+  FiMessageCircle,
+  FiCheck,
+  FiSearch,
+  FiFilter,
+  FiRefreshCw,
+  FiEye,
+  FiPhone,
+  FiCalendar,
+} from "react-icons/fi";
 import exportFromJSON from "export-from-json";
 import PageTitle from "@/components/Typography/PageTitle";
 import TableLoading from "@/components/preloader/TableLoading";
@@ -48,6 +58,19 @@ const Leads = () => {
   const [endDate, setEndDate] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [resultsPerPage, setResultsPerPage] = useState(10);
+  const [stats, setStats] = useState(null);
+  const [statsLoading, setStatsLoading] = useState(true);
+
+  const fetchStats = async () => {
+    try {
+      const res = await LeadServices.getDashboardCount();
+      setStats(res);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setStatsLoading(false);
+    }
+  };
   const [totalResults, setTotalResults] = useState(0);
   const [loadingExport, setLoadingExport] = useState(false);
   const [selectedLead, setSelectedLead] = useState(null);
@@ -104,6 +127,10 @@ const Leads = () => {
     currentPage,
     resultsPerPage,
   ]);
+
+  useEffect(() => {
+    fetchStats();
+  }, [leads]);
 
   const handleFilter = (e) => {
     e.preventDefault();
@@ -246,67 +273,106 @@ const Leads = () => {
 
   return (
     <>
-      <PageTitle>Leads</PageTitle>
-      <Card className="min-w-0 shadow-xs overflow-hidden bg-white dark:bg-gray-800 mb-5">
-        <CardBody>
-          <form onSubmit={handleFilter}>
-            {/* First Row */}
-            <div className="grid gap-4 lg:gap-4 xl:gap-6 md:gap-2 md:grid-cols-6 py-2">
-              <Input
-                type="search"
-                name="searchName"
-                value={searchName}
-                onChange={(e) => setSearchName(e.target.value)}
-                placeholder="Search by Name"
-              />
-              <Input
-                type="search"
-                name="searchEmail"
-                value={searchEmail}
-                onChange={(e) => setSearchEmail(e.target.value)}
-                placeholder="Search by Email"
-              />
-              <Input
-                type="search"
-                name="searchPhone"
-                value={searchPhone}
-                onChange={(e) => setSearchPhone(e.target.value)}
-                placeholder="Search by Phone"
-              />
-              <Input
-                type="search"
-                name="searchVariant"
-                value={searchVariant}
-                onChange={(e) => setSearchVariant(e.target.value)}
-                placeholder="Search by Variant"
-              />
-              <Button
-                type="button"
-                className="h-12 bg-green-500 text-white flex items-center w-full"
-                onClick={handleDownloadLeads}
-                disabled={loadingExport}
-              >
-                {loadingExport ? (
-                  <span>Processing...</span>
-                ) : (
-                  <>
-                    Download All Leads
-                    <span className="ml-2 text-base">
-                      <IoCloudDownloadOutline />
-                    </span>
-                  </>
-                )}
-              </Button>
-            </div>
-            {/* Second Row */}
-            <div className="grid gap-4 lg:gap-6 xl:gap-6 lg:grid-cols-4 xl:grid-cols-4 md:grid-cols-4 sm:grid-cols-1 py-2">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between my-6 gap-4">
+        <div>
+          <h1 className="text-2xl font-black text-gray-800 dark:text-gray-150 tracking-tight">
+            Customer Enquiries
+          </h1>
+          <p className="text-xs text-gray-450 dark:text-gray-450 mt-1">
+            Manage incoming product and service inquiries
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={handleDownloadLeads}
+          disabled={loadingExport}
+          className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs py-2.5 px-4 rounded-xl shadow-sm transition-all"
+        >
+          {loadingExport ? (
+            <span>Processing...</span>
+          ) : (
+            <>
+              Download CSV
+              <IoCloudDownloadOutline className="text-sm" />
+            </>
+          )}
+        </button>
+      </div>
+
+
+      {/* Filter Card */}
+      <Card className="min-w-0 shadow-sm overflow-hidden bg-white/90 dark:bg-gray-800/90 backdrop-blur-md border border-gray-150 dark:border-gray-700/80 mb-6 rounded-2xl">
+        <CardBody className="p-5">
+          <form onSubmit={handleFilter} className="space-y-4">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
               <div>
-                <Label>Status</Label>
+                <label className="text-[10px] font-black text-gray-400 dark:text-gray-555 uppercase tracking-widest block mb-1.5">Search Name</label>
+                <div style={{ position: "relative" }}>
+                  <input
+                    type="search"
+                    value={searchName}
+                    onChange={(e) => setSearchName(e.target.value)}
+                    placeholder="E.g. Glenza"
+                    style={{ paddingLeft: "36px" }}
+                    className="w-full pr-4 py-2 border border-gray-250 dark:border-gray-650 rounded-xl text-xs dark:bg-gray-750 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-[#0b1d3d]"
+                  />
+                  <FiUser style={{ position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)", zIndex: 10, pointerEvents: "none" }} className="text-gray-400 w-4 h-4" />
+                </div>
+              </div>
+
+              <div>
+                <label className="text-[10px] font-black text-gray-400 dark:text-gray-555 uppercase tracking-widest block mb-1.5">Search Email</label>
+                <div style={{ position: "relative" }}>
+                  <input
+                    type="search"
+                    value={searchEmail}
+                    onChange={(e) => setSearchEmail(e.target.value)}
+                    placeholder="E.g. customer@kure.com"
+                    style={{ paddingLeft: "36px" }}
+                    className="w-full pr-4 py-2 border border-gray-250 dark:border-gray-650 rounded-xl text-xs dark:bg-gray-750 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-[#0b1d3d]"
+                  />
+                  <FiMail style={{ position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)", zIndex: 10, pointerEvents: "none" }} className="text-gray-400 w-4 h-4" />
+                </div>
+              </div>
+
+              <div>
+                <label className="text-[10px] font-black text-gray-400 dark:text-gray-555 uppercase tracking-widest block mb-1.5">Search Phone</label>
+                <div style={{ position: "relative" }}>
+                  <input
+                    type="search"
+                    value={searchPhone}
+                    onChange={(e) => setSearchPhone(e.target.value)}
+                    placeholder="E.g. +91 9898..."
+                    style={{ paddingLeft: "36px" }}
+                    className="w-full pr-4 py-2 border border-gray-250 dark:border-gray-650 rounded-xl text-xs dark:bg-gray-750 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-[#0b1d3d]"
+                  />
+                  <FiPhone style={{ position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)", zIndex: 10, pointerEvents: "none" }} className="text-gray-400 w-4 h-4" />
+                </div>
+              </div>
+
+              <div>
+                <label className="text-[10px] font-black text-gray-400 dark:text-gray-555 uppercase tracking-widest block mb-1.5">Search Variant / Product</label>
+                <div style={{ position: "relative" }}>
+                  <input
+                    type="search"
+                    value={searchVariant}
+                    onChange={(e) => setSearchVariant(e.target.value)}
+                    placeholder="E.g. Eltrombopag"
+                    style={{ paddingLeft: "36px" }}
+                    className="w-full pr-4 py-2 border border-gray-250 dark:border-gray-650 rounded-xl text-xs dark:bg-gray-750 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-[#0b1d3d]"
+                  />
+                  <FiSearch style={{ position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)", zIndex: 10, pointerEvents: "none" }} className="text-gray-400 w-4 h-4" />
+                </div>
+              </div>
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-4 items-end pt-2">
+              <div>
+                <label className="text-[10px] font-black text-gray-400 dark:text-gray-555 uppercase tracking-widest block mb-1.5">Filter Status</label>
                 <select
-                  name="searchStatus"
                   value={searchStatus}
                   onChange={(e) => setSearchStatus(e.target.value)}
-                  className="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                  className="block w-full text-xs border border-gray-250 dark:border-gray-650 dark:bg-gray-750 dark:text-gray-200 py-2 px-3 rounded-xl focus:outline-none focus:ring-1 focus:ring-[#0b1d3d] cursor-pointer"
                 >
                   <option value="">All Status</option>
                   <option value="pending">Pending</option>
@@ -316,42 +382,49 @@ const Leads = () => {
                   <option value="cancelled">Cancelled</option>
                 </select>
               </div>
+
               <div>
-                <Label>Start Date</Label>
-                <Input
-                  type="date"
-                  name="startDate"
-                  value={startDate}
-                  onChange={(e) => setStartDate(e.target.value)}
-                />
+                <label className="text-[10px] font-black text-gray-400 dark:text-gray-555 uppercase tracking-widest block mb-1.5">Start Date</label>
+                <div style={{ position: "relative" }}>
+                  <input
+                    type="date"
+                    value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
+                    style={{ paddingLeft: "36px" }}
+                    className="w-full pr-4 py-2 border border-gray-250 dark:border-gray-650 rounded-xl text-xs dark:bg-gray-750 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-[#0b1d3d] cursor-pointer"
+                  />
+                  <FiCalendar style={{ position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)", zIndex: 10, pointerEvents: "none" }} className="text-gray-400 w-4 h-4" />
+                </div>
               </div>
+
               <div>
-                <Label>End Date</Label>
-                <Input
-                  type="date"
-                  name="endDate"
-                  value={endDate}
-                  onChange={(e) => setEndDate(e.target.value)}
-                />
+                <label className="text-[10px] font-black text-gray-400 dark:text-gray-555 uppercase tracking-widest block mb-1.5">End Date</label>
+                <div style={{ position: "relative" }}>
+                  <input
+                    type="date"
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
+                    style={{ paddingLeft: "36px" }}
+                    className="w-full pr-4 py-2 border border-gray-250 dark:border-gray-650 rounded-xl text-xs dark:bg-gray-750 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-[#0b1d3d] cursor-pointer"
+                  />
+                  <FiCalendar style={{ position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)", zIndex: 10, pointerEvents: "none" }} className="text-gray-400 w-4 h-4" />
+                </div>
               </div>
-              <div className="mt-2 md:mt-0 flex items-center xl:gap-x-4 gap-x-1 flex-grow-0 md:flex-grow lg:flex-grow xl:flex-grow">
-                <div className="w-full mx-1">
-                  <Label style={{ visibility: "hidden" }}>Filter</Label>
-                  <Button type="submit" className="h-12 w-full bg-green-700">
-                    Filter
-                  </Button>
-                </div>
-                <div className="w-full">
-                  <Label style={{ visibility: "hidden" }}>Reset</Label>
-                  <Button
-                    layout="outline"
-                    onClick={handleReset}
-                    type="reset"
-                    className="px-4 md:py-1 py-3 text-sm dark:bg-gray-700"
-                  >
-                    <span className="text-black dark:text-gray-200">Reset</span>
-                  </Button>
-                </div>
+
+              <div className="flex gap-3">
+                <button
+                  type="submit"
+                  className="flex-1 bg-[#0b1d3d] hover:bg-[#152e5a] text-white font-bold text-xs py-2.5 rounded-xl shadow-xs transition-colors flex items-center justify-center gap-1.5"
+                >
+                  <FiFilter /> Filter
+                </button>
+                <button
+                  type="button"
+                  onClick={handleReset}
+                  className="flex-1 border border-gray-250 dark:border-gray-650 dark:bg-gray-750 dark:text-gray-200 hover:bg-gray-55 dark:hover:bg-gray-750 font-bold text-xs py-2.5 rounded-xl shadow-xs transition-colors flex items-center justify-center gap-1.5"
+                >
+                  <FiRefreshCw /> Reset
+                </button>
               </div>
             </div>
           </form>
@@ -360,102 +433,125 @@ const Leads = () => {
       {loading ? (
         <TableLoading row={8} col={5} width={160} height={20} />
       ) : error ? (
-        <span className="text-center mx-auto text-red-500">{error}</span>
-      ) : leads.length > 0 ? (
-        <TableContainer className="mb-8 dark:bg-gray-900 overflow-x-auto">
-          <Table className="min-w-[720px]">
-            <TableHeader>
-              <tr>
-                <TableCell>Name</TableCell>
-                <TableCell>Service / Product</TableCell>
-                <TableCell>Schedule</TableCell>
-                <TableCell>Status</TableCell>
-                <TableCell>Date</TableCell>
-                <TableCell>Actions</TableCell>
-              </tr>
-            </TableHeader>
-            <tbody>
-              {leads.map((lead) => (
-                <tr
-                  key={lead._id}
-                  className="hover:bg-green-50 dark:hover:bg-gray-700"
-                >
-                  <TableCell 
-                    className="cursor-pointer"
-                    onClick={() => {
-                      setSelectedLead(lead);
-                      setModalOpen(true);
-                    }}
-                  >
-                    <div className="flex flex-col">
-                      <div className="flex items-center gap-2">
-                        <span className="font-bold text-gray-800">{lead.name}</span>
-                        {lead.isEnterprise && (
-                          <span className="text-[9px] bg-[#0b1d3d] text-white px-1.5 py-0.5 rounded font-black uppercase tracking-tighter">Enterprise</span>
-                        )}
-                      </div>
-                      <span className="text-[10px] text-gray-500">{lead.email}</span>
-                      <span className="text-[10px] text-gray-500">{lead.phone}</span>
-                    </div>
-                  </TableCell>
-                  <TableCell 
-                    className="cursor-pointer"
-                    onClick={() => {
-                      setSelectedLead(lead);
-                      setModalOpen(true);
-                    }}
-                  >
-                    <div className="flex flex-col">
-                      <span className="text-xs font-semibold text-red-600">{lead.service || "N/A"}</span>
-                      <div className="flex items-center space-x-2 mt-1">
-                         {lead.product?.items?.length > 0 ? (
-                          <span className="text-[11px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded">
-                            {lead.product.items.length} Products
-                          </span>
-                        ) : (
-                          <span className="text-[11px] text-gray-600 italic truncate max-w-[140px] sm:max-w-[200px]">{getLangValue(lead.product?.title) || "No Product"}</span>
-                        )}
-                      </div>
-                      {(lead.quantity || lead.estimatedTotal) && (
-                        <div className="mt-1.5 flex flex-wrap gap-1.5">
-                          {lead.quantity != null && (
-                            <span className="text-[10px] font-bold text-[#0b1d3d] bg-[#0b1d3d]/5 px-2 py-0.5 rounded">
-                              Qty: {lead.quantity}
-                            </span>
-                          )}
-                          {lead.estimatedTotal != null && (
-                            <span className="text-[10px] font-bold text-green-800 bg-green-50 px-2 py-0.5 rounded">
-                              Est: {lead.currency || "₹"}
-                              {lead.estimatedTotal}
-                            </span>
-                          )}
-                          {lead.enquiryType === "bulk" && (
-                            <span className="text-[9px] font-black uppercase text-amber-800 bg-amber-50 px-1.5 py-0.5 rounded">
-                              Bulk
-                            </span>
-                          )}
-                        </div>
+        <span className="text-center mx-auto text-red-500">{error}</span>      ) : leads.length > 0 ? (
+        <>
+          {/* Mobile Enquiries Card Layout */}
+          <div className="block lg:hidden space-y-4 mb-8">
+            {leads.map((lead) => (
+              <div
+                key={lead._id}
+                className="bg-white dark:bg-gray-850 rounded-2xl border border-gray-150 dark:border-gray-750 p-4 shadow-xs relative space-y-3"
+              >
+                {/* Header: Name and badges */}
+                <div className="flex items-start justify-between gap-2">
+                  <div>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h4 className="font-extrabold text-sm text-gray-800 dark:text-gray-100">
+                        {lead.name}
+                      </h4>
+                      {lead.isEnterprise && (
+                        <span className="text-[8px] bg-indigo-600 text-white px-1.5 py-0.5 rounded font-black uppercase tracking-wider">
+                          Enterprise
+                        </span>
                       )}
                     </div>
-                  </TableCell>
-                  <TableCell 
-                    className="cursor-pointer"
-                    onClick={() => {
-                      setSelectedLead(lead);
-                      setModalOpen(true);
-                    }}
-                  >
-                    <span className="text-xs text-gray-700 font-medium bg-gray-100 px-2 py-1 rounded">
-                      {lead.serviceDate || "N/A"}
+                    <p className="text-[10px] text-gray-400 mt-0.5">
+                      {new Date(lead.createdAt).toLocaleString()}
+                    </p>
+                  </div>
+                  
+                  {/* Action buttons */}
+                  <div className="flex items-center gap-1">
+                    <button
+                      onClick={() => {
+                        setSelectedLead(lead);
+                        setModalOpen(true);
+                      }}
+                      className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 p-1.5 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/10"
+                      title="View details"
+                    >
+                      <FiEye className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setLeadToDelete(lead);
+                        setDeleteModalOpen(true);
+                      }}
+                      className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/10"
+                      title="Delete Lead"
+                    >
+                      <FiTrash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Contact Data */}
+                <div className="grid grid-cols-2 gap-2 text-[11px] text-gray-500 border-t border-b border-gray-100 dark:border-gray-750 py-2">
+                  <div className="flex items-center gap-1.5 truncate">
+                    <FiMail className="w-3.5 h-3.5 text-gray-400 flex-shrink-0" />
+                    <span className="truncate font-mono">{lead.email}</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <FiPhone className="w-3.5 h-3.5 text-gray-400 flex-shrink-0" />
+                    <span>{lead.phone}</span>
+                  </div>
+                </div>
+
+                {/* Service/Product Requested */}
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-gray-400 font-bold uppercase text-[9px] tracking-wider">Requested:</span>
+                    <span className="font-extrabold text-indigo-600 dark:text-indigo-400">
+                      {lead.service || "General enquiry"}
                     </span>
-                  </TableCell>
-                  <TableCell>
+                  </div>
+                  
+                  <div className="text-[11px] text-gray-700 dark:text-gray-300">
+                    {lead.product?.items?.length > 0 ? (
+                      <span className="font-bold text-blue-600 bg-blue-50 dark:bg-blue-900/20 dark:text-blue-300 px-2 py-0.5 rounded">
+                        {lead.product.items.length} Products
+                      </span>
+                    ) : (
+                      <span className="italic">{getLangValue(lead.product?.title) || "No Product"}</span>
+                    )}
+                  </div>
+
+                  {/* Quantity and Price Tags */}
+                  {(lead.quantity || lead.estimatedTotal) && (
+                    <div className="flex flex-wrap gap-1.5 pt-0.5">
+                      {lead.quantity != null && (
+                        <span className="text-[9px] font-bold text-[#0b1d3d] dark:text-blue-300 bg-[#0b1d3d]/5 dark:bg-blue-900/10 px-2 py-0.5 rounded">
+                          Qty: {lead.quantity}
+                        </span>
+                      )}
+                      {lead.estimatedTotal != null && (
+                        <span className="text-[9px] font-bold text-green-800 dark:text-green-300 bg-green-50/10 dark:bg-green-900/10 px-2 py-0.5 rounded">
+                          Est: {lead.currency || "₹"}{lead.estimatedTotal}
+                        </span>
+                      )}
+                      {lead.enquiryType === "bulk" && (
+                        <span className="text-[8px] font-black uppercase text-amber-850 dark:text-amber-300 bg-amber-50/10 dark:bg-amber-900/10 px-1.5 py-0.5 rounded">
+                          Bulk
+                        </span>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                {/* Footer: Schedule & Status select */}
+                <div className="flex items-center justify-between pt-2 border-t border-gray-100 dark:border-gray-750">
+                  <div className="flex items-center gap-1.5 text-[10px] text-gray-600 dark:text-gray-400 font-bold bg-gray-50 dark:bg-gray-750 border border-gray-100 dark:border-gray-700 px-2.5 py-1 rounded-lg">
+                    <FiCalendar className="w-3.5 h-3.5 text-gray-400" />
+                    <span>{lead.serviceDate || "N/A"}</span>
+                  </div>
+
+                  <div>
                     <select
                       value={lead.status || "pending"}
                       onChange={(e) => handleStatusChange(lead._id, e.target.value)}
                       disabled={updatingStatus === lead._id}
-                      onClick={(e) => e.stopPropagation()}
-                      className={`text-xs font-semibold px-2 py-1 rounded-full border-0 ${getStatusColor(lead.status || "pending")} ${
+                      className={`text-[10px] font-black uppercase tracking-wider px-3 py-1.5 rounded-full border-0 ${getStatusColor(lead.status || "pending")} ${
                         updatingStatus === lead._id ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
                       }`}
                     >
@@ -465,42 +561,174 @@ const Leads = () => {
                       <option value="completed">Completed</option>
                       <option value="cancelled">Cancelled</option>
                     </select>
-                  </TableCell>
-                  <TableCell 
-                    className="cursor-pointer"
-                    onClick={() => {
-                      setSelectedLead(lead);
-                      setModalOpen(true);
-                    }}
-                  >
-                    {new Date(lead.createdAt).toLocaleString()}
-                  </TableCell>
-                  <TableCell>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setLeadToDelete(lead);
-                        setDeleteModalOpen(true);
-                      }}
-                      className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-600 p-1"
-                      title="Delete Lead"
-                    >
-                      <FiTrash2 className="w-5 h-5" />
-                    </button>
-                  </TableCell>
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            {/* Mobile Pagination Card */}
+            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-150 dark:border-gray-750 p-4 flex justify-center shadow-xs">
+              <Pagination
+                totalResults={totalResults}
+                resultsPerPage={resultsPerPage}
+                onChange={setCurrentPage}
+                label="Table navigation"
+              />
+            </div>
+          </div>
+
+          {/* Desktop Table View */}
+          <TableContainer className="hidden lg:block mb-8 rounded-3xl overflow-hidden border border-gray-150 dark:border-gray-700/80 shadow-xs">
+            <Table className="min-w-[720px]">
+              <TableHeader>
+                <tr className="bg-gray-50/50 dark:bg-gray-900/20 text-gray-500 uppercase tracking-wider text-[10px] font-black">
+                  <TableCell className="py-3">Customer Info</TableCell>
+                  <TableCell className="py-3">Service / Product Requested</TableCell>
+                  <TableCell className="py-3">Schedule Date</TableCell>
+                  <TableCell className="py-3">Current Status</TableCell>
+                  <TableCell className="py-3">Date Submitted</TableCell>
+                  <TableCell className="py-3 text-right">Actions</TableCell>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
-          <TableFooter>
-            <Pagination
-              totalResults={totalResults}
-              resultsPerPage={resultsPerPage}
-              onChange={setCurrentPage}
-              label="Table navigation"
-            />
-          </TableFooter>
-        </TableContainer>
+              </TableHeader>
+              <tbody className="divide-y divide-gray-100 dark:divide-gray-750 text-xs font-semibold text-gray-755 dark:text-gray-305 bg-white dark:bg-gray-800">
+                {leads.map((lead) => (
+                  <tr
+                    key={lead._id}
+                    className="hover:bg-blue-50/30 dark:hover:bg-gray-755/20 transition-colors"
+                  >
+                    <TableCell
+                      className="cursor-pointer py-3.5"
+                      onClick={() => {
+                        setSelectedLead(lead);
+                        setModalOpen(true);
+                      }}
+                    >
+                      <div className="flex flex-col gap-0.5">
+                        <div className="flex items-center gap-2">
+                          <span className="font-bold text-gray-855 dark:text-gray-100">{lead.name}</span>
+                          {lead.isEnterprise && (
+                            <span className="text-[8px] bg-indigo-650 text-white px-1.5 py-0.5 rounded font-black uppercase tracking-widest">Enterprise</span>
+                          )}
+                        </div>
+                        <span className="text-[10px] text-gray-500 font-mono">{lead.email}</span>
+                        <span className="text-[10px] text-gray-500 font-medium">{lead.phone}</span>
+                      </div>
+                    </TableCell>
+                    <TableCell
+                      className="cursor-pointer py-3.5"
+                      onClick={() => {
+                        setSelectedLead(lead);
+                        setModalOpen(true);
+                      }}
+                    >
+                      <div className="flex flex-col">
+                        <span className="text-xs font-bold text-indigo-600 dark:text-indigo-400">{lead.service || "N/A"}</span>
+                        <div className="flex items-center space-x-2 mt-1">
+                           {lead.product?.items?.length > 0 ? (
+                            <span className="text-[10px] font-bold text-blue-600 bg-blue-50 dark:bg-blue-900/20 dark:text-blue-300 px-2 py-0.5 rounded">
+                              {lead.product.items.length} Products
+                            </span>
+                          ) : (
+                            <span className="text-[10px] text-gray-500 italic truncate max-w-[140px] sm:max-w-[200px]">{getLangValue(lead.product?.title) || "No Product"}</span>
+                          )}
+                        </div>
+                        {(lead.quantity || lead.estimatedTotal) && (
+                          <div className="mt-1.5 flex flex-wrap gap-1.5">
+                            {lead.quantity != null && (
+                              <span className="text-[9px] font-bold text-[#0b1d3d] dark:text-blue-300 bg-[#0b1d3d]/5 dark:bg-blue-900/10 px-2 py-0.5 rounded">
+                                Qty: {lead.quantity}
+                              </span>
+                            )}
+                            {lead.estimatedTotal != null && (
+                              <span className="text-[9px] font-bold text-green-800 dark:text-green-300 bg-green-55/10 dark:bg-green-900/10 px-2 py-0.5 rounded">
+                                Est: {lead.currency || "₹"}{lead.estimatedTotal}
+                              </span>
+                            )}
+                            {lead.enquiryType === "bulk" && (
+                              <span className="text-[8px] font-black uppercase text-amber-850 dark:text-amber-300 bg-amber-50/10 dark:bg-amber-900/10 px-1.5 py-0.5 rounded">
+                                Bulk
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell
+                      className="cursor-pointer py-3.5"
+                      onClick={() => {
+                        setSelectedLead(lead);
+                        setModalOpen(true);
+                      }}
+                    >
+                      <span className="text-[10px] text-gray-600 dark:text-gray-400 font-bold bg-gray-50 dark:bg-gray-750 border border-gray-100 dark:border-gray-700 px-2 py-1 rounded-lg">
+                        {lead.serviceDate || "N/A"}
+                      </span>
+                    </TableCell>
+                    <TableCell className="py-3.5">
+                      <select
+                        value={lead.status || "pending"}
+                        onChange={(e) => handleStatusChange(lead._id, e.target.value)}
+                        disabled={updatingStatus === lead._id}
+                        onClick={(e) => e.stopPropagation()}
+                        className={`text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full border-0 ${getStatusColor(lead.status || "pending")} ${
+                          updatingStatus === lead._id ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+                        }`}
+                      >
+                        <option value="pending">Pending</option>
+                        <option value="contacted">Contacted</option>
+                        <option value="in_progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                        <option value="cancelled">Cancelled</option>
+                      </select>
+                    </TableCell>
+                    <TableCell
+                      className="cursor-pointer py-3.5"
+                      onClick={() => {
+                        setSelectedLead(lead);
+                        setModalOpen(true);
+                      }}
+                    >
+                      <span className="text-gray-500 dark:text-gray-450">{new Date(lead.createdAt).toLocaleString()}</span>
+                    </TableCell>
+                    <TableCell className="py-3.5 text-right">
+                      <div className="flex items-center justify-end gap-1">
+                        <button
+                          onClick={() => {
+                            setSelectedLead(lead);
+                            setModalOpen(true);
+                          }}
+                          className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 p-1.5 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/10"
+                          title="View details"
+                        >
+                          <FiEye className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setLeadToDelete(lead);
+                            setDeleteModalOpen(true);
+                          }}
+                          className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/10"
+                          title="Delete Lead"
+                        >
+                          <FiTrash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </TableCell>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+            <TableFooter className="bg-gray-50/50 dark:bg-gray-900/20">
+              <Pagination
+                totalResults={totalResults}
+                resultsPerPage={resultsPerPage}
+                onChange={setCurrentPage}
+                label="Table navigation"
+              />
+            </TableFooter>
+          </TableContainer>
+        </>
       ) : (
         <NotFound title="No leads found." />
       )}

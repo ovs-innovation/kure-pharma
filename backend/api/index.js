@@ -66,6 +66,16 @@ app.get("/", (req, res) => {
   res.send("App works properly!");
 });
 
+// Testing/Health Check routes
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "OK", message: "Backend is running smoothly!" });
+});
+
+app.get("/api/health", (req, res) => {
+  res.status(200).json({ status: "OK", message: "API is running smoothly!" });
+});
+
+
 
 
 //this for route will need for store front, also for admin dashboard

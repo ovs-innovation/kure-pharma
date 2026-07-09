@@ -41,7 +41,7 @@ const sidebar = [
   {
     path: "/settings",
     icon: FiSettings,
-    name: "Settings",
+    name: "Homepage & Footer",
   },
 ];
 

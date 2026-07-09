@@ -40,45 +40,6 @@ const collectImageCandidates = (product) => {
 
 /** Resolve the best product image URL with Cloudinary optimization and category fallbacks */
 export const getProductImageSrc = (product, index = 0, { width = 800 } = {}) => {
-  if (product) {
-    const title = (typeof product.title === "object" ? product.title?.en : product.title) || product.name || "";
-    const cleanTitle = title.toLowerCase().trim();
-    
-    // Explicit unique name/brand to packshot image mapping
-    if (cleanTitle.includes("midostar")) return "/products/ramiven.png";
-    if (cleanTitle.includes("intazumab")) return "/products/hertuma.png";
-    if (cleanTitle.includes("ibruzee")) return "/products/brukinsa.png";
-    if (cleanTitle.includes("somalinx")) return "/products/adcetris.png";
-    if (cleanTitle.includes("mediopa")) return "/products/darzalex.png";
-    if (cleanTitle.includes("tucanat")) return "/products/xospata.png";
-    if (cleanTitle.includes("carzomib")) return "/products/darzalex.png";
-    if (cleanTitle.includes("tishta")) return "/products/adcetris.png";
-    if (cleanTitle.includes("denosteorel")) return "/products/lorbriqua.png";
-    if (cleanTitle.includes("treoall")) return "/products/darzalex.png";
-    if (cleanTitle.includes("tukavo")) return "/products/tagrisso.png";
-    if (cleanTitle.includes("tucaliv")) return "/products/crizalk.png";
-    if (cleanTitle.includes("denotec")) return "/products/lorbriqua.png";
-    if (cleanTitle.includes("abritiga")) return "/products/lorbriqua.png";
-    if (cleanTitle.includes("hertraz")) return "/products/hertuma.png";
-    if (cleanTitle.includes("golimurel")) return "/products/ramiven.png";
-    
-    const comp = (product.composition || "").toLowerCase();
-    if (comp.includes("midostaurin")) return "/products/ramiven.png";
-    if (comp.includes("pertuzumab")) return "/products/hertuma.png";
-    if (comp.includes("ibrutinib")) return "/products/brukinsa.png";
-    if (comp.includes("octreotide")) return "/products/adcetris.png";
-    if (comp.includes("thiotepa")) return "/products/darzalex.png";
-    if (comp.includes("tucatinib")) return "/products/xospata.png";
-    if (comp.includes("carfilzomib")) return "/products/darzalex.png";
-    if (comp.includes("nivolumab")) return "/products/adcetris.png";
-    if (comp.includes("denosumab")) return "/products/lorbriqua.png";
-    if (comp.includes("treosulfan")) return "/products/darzalex.png";
-    if (comp.includes("midostaurin")) return "/products/ramiven.png";
-    if (comp.includes("abiraterone")) return "/products/lorbriqua.png";
-    if (comp.includes("trastuzumab")) return "/products/hertuma.png";
-    if (comp.includes("golimumab")) return "/products/ramiven.png";
-  }
-
   const candidates = collectImageCandidates(product);
   const src = candidates[index] ?? candidates[0];
 

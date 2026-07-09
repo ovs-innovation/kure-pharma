@@ -170,7 +170,10 @@ const Home = ({ featuredProducts, allProducts, homepageSettings, brands }) => {
           />
         )}
 
-      <BreakthroughDrugs onEnquire={() => setGenericEnquiryOpen(true)} />
+      <BreakthroughDrugs
+        products={allProducts}
+        onEnquire={() => setGenericEnquiryOpen(true)}
+      />
 
       {homepageSettings?.bestDeals?.enabled !== false &&
         featuredProducts?.length > 0 && (

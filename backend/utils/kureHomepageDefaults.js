@@ -166,6 +166,20 @@ const kureHomepageDefaults = {
     phoneHref: "tel:+919911972234",
     enquiryButtonText: "Send Enquiry",
   },
+  footer: {
+    description:
+      "भारत का विश्वसनीय फार्मास्युटिकल वितरक — Oncology, Critical Care, HIV & Specialty medicines. Serving hospitals & pharmacies across India since 2016.",
+    badges: ["Quality Assured", "Pan-India"],
+    phone: "+91 99119 72234",
+    phoneHref: "tel:+919911972234",
+    email: "Kure.export@gmail.com",
+    address:
+      "B-1/D, Saurav Vihar, Jaitpur,\nBadarpur, New Delhi – 110044",
+    hours: "Mon–Sat: 10 AM – 7 PM IST",
+    whatsappUrl: "https://wa.me/919911972234",
+    facebookUrl: "https://facebook.com",
+    copyright: "Proudly serving India.",
+  },
 };
 
 module.exports = kureHomepageDefaults;

@@ -150,21 +150,12 @@ const useProductSubmit = (id, selectedServices = []) => {
       // }
       if (!defaultCategory[0]) {
         setIsSubmitting(false);
-        return notifyError("Default Category is required!");
+        return notifyError("Please select a main category.");
       }
 
-      const finalPrice =
-        getNumber(data.basePrice) +
-        (getNumber(data.basePrice) * Number(data.gstPercentage || 0)) / 100;
-      const mrp = Number(data.originalPrice) || 0;
-      if (mrp > 0 && mrp <= finalPrice) {
-        setIsSubmitting(false);
-        return notifyError(
-          "Price Before Discount (MRP) must be higher than Final Sale Price.",
-        );
-      }
-
-      const hsnRaw = String(data.hsnCode || "").trim();
+      const hsnRaw = String(
+        updatedId && resData?.hsnCode ? resData.hsnCode : data.hsnCode || "",
+      ).trim();
       if (hsnRaw && !HSN_PATTERN.test(hsnRaw)) {
         setIsSubmitting(false);
         return notifyError(
@@ -201,15 +192,16 @@ const useProductSubmit = (id, selectedServices = []) => {
         resData?.description,
       );
       const highlightsTranslates = await handlerTextTranslateHandler(
-        data.highlights,
+        data.highlights || "",
         language,
         resData?.highlights,
       );
 
+      const slugValue = data.slug
+        ? data.slug
+        : data.title.toLowerCase().replace(/[^A-Z0-9]+/gi, "-");
+
       const productData = {
-        productId: productId || "",
-        sku: data.sku || "",
-        barcode: data.barcode || "",
         title: {
           ...titleTranslates,
           [language]: data.title,
@@ -222,9 +214,7 @@ const useProductSubmit = (id, selectedServices = []) => {
           ...highlightsTranslates,
           [language]: data.highlights || "",
         },
-        slug: data.slug
-          ? data.slug
-          : data.title.toLowerCase().replace(/[^A-Z0-9]+/gi, "-"),
+        slug: slugValue,
 
         categories:
           selectedCategory && Array.isArray(selectedCategory)
@@ -235,39 +225,7 @@ const useProductSubmit = (id, selectedServices = []) => {
 
         image: imageUrl || [],
         status: data.status || "show",
-        productId: data.productId || productId || "",
-        // stock: variants?.length < 1 ? data.stock : Number(totalStock),
-        tag: Array.isArray(tag) ? tag.filter(Boolean) : [],
-
-        // prices: {
-        //   price: getNumber(data.price),
-        //   originalPrice: getNumberTwo(data.originalPrice),
-        //   discount: Number(data.originalPrice) - Number(data.price),
-        // },
-        isCombination: variants && variants.length > 0 ? isCombination : false,
-        variants: isCombination && variants ? variants : [],
-        basePrice: getNumber(data.basePrice),
-        gstPercentage: Number(data.gstPercentage || 0),
-        price:
-          getNumber(data.basePrice) +
-          (getNumber(data.basePrice) * Number(data.gstPercentage || 0)) / 100,
-        originalPrice:
-          Number(data.originalPrice) > 0 ? getNumber(data.originalPrice) : 0,
-        minOrderQuantity: Number(data.minOrderQuantity || 1),
-        maxOrderQuantity: Math.max(0, Number(data.maxOrderQuantity || 0)),
-        quantityTiers: sanitizeQuantityTiers(quantityTiers),
-        deliveryCharge: Number(data.deliveryCharge || 0),
         type: data.type || "normal",
-        services: selectedServices || [],
-        videoUrl: data.videoUrl || "",
-        hsnCode: hsnRaw,
-        stock: Math.max(0, parseInt(data.stock, 10) || 0),
-        trackInventory: Boolean(data.trackInventory),
-        lowStockThreshold: Math.max(
-          0,
-          parseInt(data.lowStockThreshold, 10) ?? 5,
-        ),
-        datasheetUrl: datasheetUrl || "",
         manufacturer: data.manufacturer || "",
         strength: data.strength || "",
         storage: data.storage || "",
@@ -279,17 +237,82 @@ const useProductSubmit = (id, selectedServices = []) => {
         packaging: data.packaging || "",
         dosageForm: data.dosageForm || "",
         route: data.route || "",
-        availability: data.availability || "",
+        availability: data.availability || "Sourcing Available",
         coldChain: Boolean(data.coldChain),
         subCategory: data.subCategory || "",
-        medicineType: data.medicineType || "",
-        importedOrIndian: data.importedOrIndian || "",
-        seoTitle: data.seoTitle || "",
-        seoDescription: data.seoDescription || "",
-        seoKeywords: data.seoKeywords || "",
-        customSections: customSections || [],
         productFaqs: productFaqs || [],
+        isCombination: false,
+        variants: [],
+        basePrice: 0,
+        gstPercentage: 0,
+        price: 0,
+        originalPrice: 0,
+        minOrderQuantity: 1,
+        maxOrderQuantity: 0,
+        quantityTiers: [],
+        deliveryCharge: 0,
+        services: [],
+        videoUrl: "",
+        hsnCode: "",
+        stock: 0,
+        trackInventory: false,
+        lowStockThreshold: 5,
+        datasheetUrl: "",
+        tag: [],
+        sku: "",
+        barcode: "",
+        productId: "",
+        medicineType: "",
+        importedOrIndian: "",
+        seoTitle: "",
+        seoDescription: "",
+        seoKeywords: "",
+        customSections: [],
       };
+
+      if (updatedId && resData && Object.keys(resData).length > 0) {
+        const serviceIds = Array.isArray(resData.services)
+          ? resData.services.map((s) => (typeof s === "object" ? s._id : s))
+          : [];
+
+        Object.assign(productData, {
+          productId: resData.productId || "",
+          sku: resData.sku || "",
+          barcode: resData.barcode || "",
+          tag: parseProductTags(resData.tag),
+          isCombination: Boolean(resData.isCombination),
+          variants: Array.isArray(resData.variants) ? resData.variants : [],
+          basePrice: Number(resData.basePrice) || 0,
+          gstPercentage: Number(resData.gstPercentage) || 0,
+          price: Number(resData.price) || 0,
+          originalPrice: Number(resData.originalPrice) || 0,
+          minOrderQuantity: resData.minOrderQuantity ?? 1,
+          maxOrderQuantity: resData.maxOrderQuantity ?? 0,
+          quantityTiers: Array.isArray(resData.quantityTiers)
+            ? resData.quantityTiers
+            : [],
+          deliveryCharge: Number(resData.deliveryCharge) || 0,
+          services: serviceIds,
+          videoUrl: resData.videoUrl || "",
+          hsnCode: resData.hsnCode || "",
+          stock: resData.stock ?? 0,
+          trackInventory: Boolean(resData.trackInventory),
+          lowStockThreshold: resData.lowStockThreshold ?? 5,
+          datasheetUrl: resData.datasheetUrl || "",
+          medicineType: resData.medicineType || "",
+          importedOrIndian: resData.importedOrIndian || "",
+          seoTitle: resData.seoTitle || "",
+          seoDescription: resData.seoDescription || "",
+          seoKeywords: resData.seoKeywords || "",
+          customSections: Array.isArray(resData.customSections)
+            ? resData.customSections
+            : [],
+        });
+
+        if (resData.highlights) {
+          productData.highlights = resData.highlights;
+        }
+      }
 
       // console.log("productData ===========>", productData, "data", data);
       // return setIsSubmitting(false);
@@ -297,85 +320,19 @@ const useProductSubmit = (id, selectedServices = []) => {
       if (updatedId) {
         const res = await ProductServices.updateProduct(updatedId, productData);
         if (res && typeof res === "object") {
-          if (isCombination) {
-            setIsUpdate(true);
-            notifySuccess(res.message);
-            setIsBasicComplete(true);
-            setIsSubmitting(false);
-            handleProductTap("Combination", true);
-          } else {
-            setIsUpdate(true);
-            notifySuccess(res.message);
-            setIsSubmitting(false);
-          }
+          setIsUpdate(true);
+          notifySuccess(res.message || "Product updated successfully!");
         }
-
-        if (
-          tapValue === "Combination" ||
-          (tapValue !== "Combination" && !isCombination)
-        ) {
-          closeDrawer();
-        }
+        setIsSubmitting(false);
+        closeDrawer();
       } else {
         const res = await ProductServices.addProduct(productData);
-        // console.log("res is ", res);
-        if (res && typeof res === "object" && isCombination) {
-          setUpdatedId(res._id);
-          setValue("title", res.title[language ? language : "en"]);
-          setValue("description", res.description[language ? language : "en"]);
-          setValue("slug", res.slug);
-          setValue("status", res.status);
-          setValue("barcode", res.barcode);
-          setValue("stock", res.stock);
-          setTag(parseProductTags(res.tag));
-          setImageUrl(res.image || []);
-          setVariants(res.variants || []);
-          setValue("productId", res.productId);
-          setProductId(res.productId);
-          // setOriginalPrice(res?.prices?.originalPrice);
-          // setPrice(res?.prices?.price);
-          setBarcode(res.barcode);
-          setSku(res.sku);
-          if (res.variants && Array.isArray(res.variants)) {
-            const result = res.variants.map(
-              ({
-                originalPrice,
-                price,
-                discount,
-                quantity,
-                barcode,
-                sku,
-                productId,
-                image,
-                images,
-                title,
-                description,
-                highlights,
-                slug,
-                ...rest
-              }) => rest,
-            );
-
-            setVariant(result);
-          }
-
+        if (res && typeof res === "object") {
           setIsUpdate(true);
-          setIsBasicComplete(true);
-          setIsSubmitting(false);
-          handleProductTap("Combination", true);
-          notifySuccess("Product Added Successfully!");
-        } else {
-          setIsUpdate(true);
-          notifySuccess("Product Added Successfully!");
+          notifySuccess("Product added successfully!");
         }
-
-        if (
-          tapValue === "Combination" ||
-          (tapValue !== "Combination" && !isCombination)
-        ) {
-          setIsSubmitting(false);
-          closeDrawer();
-        }
+        setIsSubmitting(false);
+        closeDrawer();
       }
     } catch (err) {
       // console.log("err", err);

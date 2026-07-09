@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
 import { FaFacebookF, FaWhatsapp } from "react-icons/fa";
 import {
   FiPhoneCall,
@@ -9,9 +10,32 @@ import {
   FiShield,
   FiTruck,
 } from "react-icons/fi";
+
+import SettingServices from "@services/SettingServices";
+import kureHomepageDefaults from "@utils/kureHomepageDefaults";
 import { kureTherapeuticCategories } from "@utils/kureTherapeuticCategories";
 
+const BADGE_ICONS = [FiShield, FiTruck];
+
 const Footer = () => {
+  const { data: homepageSettings } = useQuery({
+    queryKey: ["kureHomepage"],
+    queryFn: () => SettingServices.getKureHomepageSetting(),
+    staleTime: 10 * 60 * 1000,
+    gcTime: 15 * 60 * 1000,
+    retry: false,
+    refetchOnWindowFocus: false,
+  });
+
+  const footer = {
+    ...kureHomepageDefaults.footer,
+    ...homepageSettings?.footer,
+  };
+
+  const badges = (footer.badges || kureHomepageDefaults.footer.badges).filter(
+    Boolean,
+  );
+
   return (
     <footer className="bg-[#0f1a33] text-blue-100 relative overflow-hidden">
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#FF9933] via-[#B8860B] to-[#138808]" />
@@ -30,24 +54,24 @@ const Footer = () => {
               />
             </Link>
             <p className="text-sm leading-relaxed text-blue-100/75 max-w-sm">
-              भारत का विश्वसनीय फार्मास्युटिकल वितरक — Oncology, Critical Care,
-              HIV & Specialty medicines. Serving hospitals & pharmacies across
-              India since 2016.
+              {footer.description}
             </p>
-            <div className="flex flex-wrap gap-2">
-              {[
-                { icon: FiShield, label: "Quality Assured" },
-                { icon: FiTruck, label: "Pan-India" },
-              ].map(({ icon: Icon, label }) => (
-                <span
-                  key={label}
-                  className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider bg-white/8 border border-white/10 rounded-full px-3 py-1.5"
-                >
-                  <Icon className="w-3 h-3 text-[#FF9933]" />
-                  {label}
-                </span>
-              ))}
-            </div>
+            {badges.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {badges.map((label, index) => {
+                  const Icon = BADGE_ICONS[index % BADGE_ICONS.length];
+                  return (
+                    <span
+                      key={`${label}-${index}`}
+                      className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider bg-white/8 border border-white/10 rounded-full px-3 py-1.5"
+                    >
+                      <Icon className="w-3 h-3 text-[#FF9933]" />
+                      {label}
+                    </span>
+                  );
+                })}
+              </div>
+            )}
           </div>
 
           <div className="lg:col-span-2">
@@ -91,64 +115,69 @@ const Footer = () => {
             <h4 className="kure-footer-heading mb-5">Get In Touch</h4>
             <div className="space-y-4 text-sm">
               <a
-                href="tel:+919911972234"
+                href={footer.phoneHref || `tel:${footer.phone?.replace(/\s/g, "")}`}
                 className="flex items-center gap-3 text-blue-100/80 hover:text-[#FF9933] transition-colors"
               >
                 <span className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 text-[#FF9933] flex items-center justify-center flex-shrink-0 transition-colors">
                   <FiPhoneCall className="w-4 h-4" />
                 </span>
-                <span>+91 99119 72234</span>
+                <span>{footer.phone}</span>
               </a>
               <a
-                href="mailto:Kure.export@gmail.com"
+                href={`mailto:${footer.email}`}
                 className="flex items-center gap-3 text-blue-100/80 hover:text-[#FF9933] transition-colors"
               >
                 <span className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 text-[#FF9933] flex items-center justify-center flex-shrink-0 transition-colors">
                   <FiMail className="w-4 h-4" />
                 </span>
-                <span>Kure.export@gmail.com</span>
+                <span>{footer.email}</span>
               </a>
               <div className="flex items-start gap-3 text-blue-100/80">
                 <span className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 text-[#FF9933] flex items-center justify-center flex-shrink-0 mt-0.5">
                   <FiMapPin className="w-4 h-4" />
                 </span>
-                <span className="leading-relaxed">
-                  B-1/D, Saurav Vihar, Jaitpur,<br />
-                  Badarpur, New Delhi – 110044
+                <span className="leading-relaxed whitespace-pre-line">
+                  {footer.address}
                 </span>
               </div>
               <div className="flex items-center gap-3 text-blue-100/80">
                 <span className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 text-[#FF9933] flex items-center justify-center flex-shrink-0">
                   <FiClock className="w-4 h-4" />
                 </span>
-                <span>Mon–Sat: 10 AM – 7 PM IST</span>
+                <span>{footer.hours}</span>
               </div>
             </div>
             <div className="flex gap-2.5 mt-5">
-              <a
-                href="https://wa.me/919911972234"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-[#138808] flex items-center justify-center hover:scale-105 transition-transform"
-                aria-label="WhatsApp"
-              >
-                <FaWhatsapp className="w-5 h-5 text-white" />
-              </a>
-              <a
-                href="https://facebook.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-[#3b5998] flex items-center justify-center hover:scale-105 transition-transform"
-                aria-label="Facebook"
-              >
-                <FaFacebookF className="w-4 h-4 text-white" />
-              </a>
+              {footer.whatsappUrl && (
+                <a
+                  href={footer.whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-full bg-[#138808] flex items-center justify-center hover:scale-105 transition-transform"
+                  aria-label="WhatsApp"
+                >
+                  <FaWhatsapp className="w-5 h-5 text-white" />
+                </a>
+              )}
+              {footer.facebookUrl && (
+                <a
+                  href={footer.facebookUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-full bg-[#3b5998] flex items-center justify-center hover:scale-105 transition-transform"
+                  aria-label="Facebook"
+                >
+                  <FaFacebookF className="w-4 h-4 text-white" />
+                </a>
+              )}
             </div>
           </div>
         </div>
 
         <div className="pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-blue-100/50">
-          <p>© {new Date().getFullYear()} Kure Pharma. Proudly serving India.</p>
+          <p>
+            © {new Date().getFullYear()} Kure Pharma. {footer.copyright}
+          </p>
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
             <Link href="/privacy-policy" className="hover:text-[#FF9933] transition-colors">
               Privacy

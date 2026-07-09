@@ -7,7 +7,7 @@ import ProductServices from "@services/ProductServices";
 import CategoryServices from "@services/CategoryServices";
 import ProductEnquiryModal from "@components/modal/ProductEnquiryModal";
 import ProductCard from "@components/product/ProductCard";
-import { getProductImageSrc } from "@utils/productImage";
+import { filterStorefrontProducts } from "@utils/storefrontProducts";
 import { FiSearch, FiChevronRight, FiChevronLeft } from "react-icons/fi";
 
 const DOSAGE_FORMS = ["Tablets", "Capsules", "Injections", "Liquid", "Others"];
@@ -61,11 +61,11 @@ const getTitleString = (titleObj) => {
   return "";
 };
 
-const getProductImage = (prod) => getProductImageSrc(prod);
-
 const Products = ({ initialProducts, categories }) => {
   const router = useRouter();
-  const [products, setProducts] = useState(initialProducts);
+  const [products, setProducts] = useState(
+    filterStorefrontProducts(initialProducts),
+  );
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedDosage, setSelectedDosage] = useState("");
@@ -105,7 +105,7 @@ const Products = ({ initialProducts, categories }) => {
           category: selectedCategory,
           name: searchQuery,
         });
-        setProducts(res.products || []);
+        setProducts(filterStorefrontProducts(res.products || []));
         setCurrentPage(1);
       } catch (err) {
         console.error(err);
@@ -671,7 +671,9 @@ export const getServerSideProps = async (context) => {
     const categoriesRes = await CategoryServices.getAllCategories();
 
     // /products/store returns { products: [...], ... } in all cases
-    const initialProducts = productsRes?.products || [];
+    const initialProducts = filterStorefrontProducts(
+      productsRes?.products || [],
+    );
 
     // /categories/show returns a direct array
     const categories = Array.isArray(categoriesRes)

@@ -113,6 +113,30 @@ const useHomepageSubmit = () => {
     }));
   };
 
+  const updateNestedObject = (sectionKey, objectKey, field, value) => {
+    setSettings((prev) => ({
+      ...prev,
+      [sectionKey]: {
+        ...prev?.[sectionKey],
+        [objectKey]: {
+          ...prev?.[sectionKey]?.[objectKey],
+          [field]: value,
+        },
+      },
+    }));
+  };
+
+  const updateFooterBadge = (index, value) => {
+    setSettings((prev) => {
+      const badges = [...(prev?.footer?.badges || [])];
+      badges[index] = value;
+      return {
+        ...prev,
+        footer: { ...prev?.footer, badges },
+      };
+    });
+  };
+
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -141,6 +165,8 @@ const useHomepageSubmit = () => {
     updateHeroSlide,
     addHeroSlide,
     removeHeroSlide,
+    updateNestedObject,
+    updateFooterBadge,
   };
 };
 

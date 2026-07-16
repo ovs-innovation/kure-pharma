@@ -120,11 +120,11 @@ const ProductDrawer = ({ id }) => {
       import("@/services/ProductServices").then(({ default: PS }) => {
         PS.getProductById(id)
           .then((res) => {
-            if (res && res.category) {
+          if (res && res.category) {
               const catId =
                 typeof res.category === "object" ? res.category._id : res.category;
-              setSelectedMainCatId(catId || "");
-            }
+            setSelectedMainCatId(catId || "");
+          }
           })
           .catch(() => {});
       });
@@ -194,358 +194,358 @@ const ProductDrawer = ({ id }) => {
 
       <Scrollbars className="track-horizontal thumb-horizontal w-full md:w-7/12 lg:w-8/12 xl:w-8/12 relative dark:bg-gray-700 dark:text-gray-200">
         <form onSubmit={handleSubmit(onSubmit)} className="block" id="block">
-          <div className="px-6 pt-8 flex-grow w-full h-full max-h-full pb-40 md:pb-32 lg:pb-32 xl:pb-32">
+            <div className="px-6 pt-8 flex-grow w-full h-full max-h-full pb-40 md:pb-32 lg:pb-32 xl:pb-32">
 
             <SectionHeader title="Product Details" />
 
-            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label="Brand / Product Name *" />
-              <div className="col-span-8 sm:col-span-4">
-                <Input
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label="Brand / Product Name *" />
+                <div className="col-span-8 sm:col-span-4">
+                  <Input
                   {...register("title", { required: "Product name is required!" })}
-                  name="title"
-                  type="text"
-                  placeholder="e.g. Darzalex / Herceptin"
-                  onBlur={(e) => handleProductSlug(e.target.value)}
-                />
-                <Error errorName={errors.title} />
+                    name="title"
+                    type="text"
+                    placeholder="e.g. Darzalex / Herceptin"
+                    onBlur={(e) => handleProductSlug(e.target.value)}
+                  />
+                  <Error errorName={errors.title} />
+                </div>
               </div>
-            </div>
 
-            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label="Generic / Salt Name" />
-              <div className="col-span-8 sm:col-span-4">
-                <InputArea
-                  register={register}
-                  label="Generic Name"
-                  name="composition"
-                  type="text"
-                  placeholder="e.g. Daratumumab / Trastuzumab"
-                />
-                <Error errorName={errors.composition} />
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label="Generic / Salt Name" />
+                <div className="col-span-8 sm:col-span-4">
+                  <InputArea
+                    register={register}
+                    label="Generic Name"
+                    name="composition"
+                    type="text"
+                    placeholder="e.g. Daratumumab / Trastuzumab"
+                  />
+                  <Error errorName={errors.composition} />
+                </div>
               </div>
-            </div>
 
             <input type="hidden" {...register("slug")} />
 
             <SectionHeader title="Category" />
 
-            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label="Main Category *" />
-              <div className="col-span-8 sm:col-span-4">
-                <CategoryDropdown
-                  categories={parentCategories}
-                  value={selectedMainCatId}
-                  onChange={setSelectedMainCatId}
-                  placeholder="-- Select Main Category --"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label="Sub Category" />
-              <div className="col-span-8 sm:col-span-4">
-                {subCategories.length > 0 ? (
-                  <select
-                    className="border text-sm block w-full bg-gray-100 border-gray-200 rounded-md p-2"
-                    value={selectedSubCatId}
-                    onChange={(e) => {
-                      setSelectedSubCatId(e.target.value);
-                      const sub = allCategories.find((c) => c._id === e.target.value);
-                      if (sub) setValue("subCategory", showingTranslateValue(sub.name));
-                    }}
-                  >
-                    <option value="">-- No Sub Category --</option>
-                    {subCategories.map((sub) => (
-                      <option key={sub._id} value={sub._id}>
-                        {showingTranslateValue(sub.name)}
-                      </option>
-                    ))}
-                  </select>
-                ) : (
-                  <InputArea
-                    register={register}
-                    label="Sub Category"
-                    name="subCategory"
-                    type="text"
-                    placeholder="e.g. Breast Cancer / Monoclonal Antibody"
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label="Main Category *" />
+                <div className="col-span-8 sm:col-span-4">
+                  <CategoryDropdown
+                    categories={parentCategories}
+                    value={selectedMainCatId}
+                    onChange={setSelectedMainCatId}
+                    placeholder="-- Select Main Category --"
                   />
-                )}
-                <Error errorName={errors.subCategory} />
+                </div>
               </div>
-            </div>
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label="Sub Category" />
+                <div className="col-span-8 sm:col-span-4">
+                  {subCategories.length > 0 ? (
+                    <select
+                      className="border text-sm block w-full bg-gray-100 border-gray-200 rounded-md p-2"
+                      value={selectedSubCatId}
+                      onChange={(e) => {
+                        setSelectedSubCatId(e.target.value);
+                        const sub = allCategories.find((c) => c._id === e.target.value);
+                        if (sub) setValue("subCategory", showingTranslateValue(sub.name));
+                      }}
+                    >
+                      <option value="">-- No Sub Category --</option>
+                      {subCategories.map((sub) => (
+                        <option key={sub._id} value={sub._id}>
+                          {showingTranslateValue(sub.name)}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                      <InputArea
+                        register={register}
+                        label="Sub Category"
+                        name="subCategory"
+                        type="text"
+                        placeholder="e.g. Breast Cancer / Monoclonal Antibody"
+                      />
+                  )}
+                  <Error errorName={errors.subCategory} />
+                </div>
+              </div>
 
             <SectionHeader title="Medicine Info" />
 
-            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label="Manufacturer" />
-              <div className="col-span-8 sm:col-span-4">
-                <InputArea
-                  register={register}
-                  label="Manufacturer"
-                  name="manufacturer"
-                  type="text"
-                  placeholder="e.g. Roche / Pfizer / Janssen"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label="Strength" />
-              <div className="col-span-8 sm:col-span-4">
-                <InputArea
-                  register={register}
-                  label="Strength"
-                  name="strength"
-                  type="text"
-                  placeholder="e.g. 1800mg / 150mg/ml"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label="Dosage Form" />
-              <div className="col-span-8 sm:col-span-4">
-                <select
-                  {...register("dosageForm")}
-                  className="border text-sm block w-full bg-gray-100 border-gray-200 rounded-md p-2"
-                >
-                  <option value="">-- Select Dosage Form --</option>
-                  <option value="Tablet">Tablet</option>
-                  <option value="Capsule">Capsule</option>
-                  <option value="Injection">Injection</option>
-                  <option value="IV Infusion">IV Infusion</option>
-                  <option value="Vial">Vial</option>
-                  <option value="Lyophilized Powder">Lyophilized Powder</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label="Route" />
-              <div className="col-span-8 sm:col-span-4">
-                <select
-                  {...register("route")}
-                  className="border text-sm block w-full bg-gray-100 border-gray-200 rounded-md p-2"
-                >
-                  <option value="">-- Select Route --</option>
-                  <option value="Oral">Oral</option>
-                  <option value="IV Infusion">IV Infusion</option>
-                  <option value="Subcutaneous">Subcutaneous</option>
-                  <option value="Intravenous">Intravenous</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label="Cold Chain" />
-              <div className="col-span-8 sm:col-span-4">
-                <label className="inline-flex items-center gap-2 cursor-pointer mt-2">
-                  <input
-                    type="checkbox"
-                    {...register("coldChain")}
-                    className="rounded border-gray-300 text-red-600 focus:ring-red-500 w-4 h-4"
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label="Manufacturer" />
+                <div className="col-span-8 sm:col-span-4">
+                  <InputArea
+                    register={register}
+                    label="Manufacturer"
+                    name="manufacturer"
+                    type="text"
+                    placeholder="e.g. Roche / Pfizer / Janssen"
                   />
-                  <span className="text-sm text-gray-700 font-medium">
+                </div>
+              </div>
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label="Strength" />
+                <div className="col-span-8 sm:col-span-4">
+                  <InputArea
+                    register={register}
+                    label="Strength"
+                    name="strength"
+                    type="text"
+                    placeholder="e.g. 1800mg / 150mg/ml"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label="Dosage Form" />
+                <div className="col-span-8 sm:col-span-4">
+                  <select
+                    {...register("dosageForm")}
+                    className="border text-sm block w-full bg-gray-100 border-gray-200 rounded-md p-2"
+                  >
+                    <option value="">-- Select Dosage Form --</option>
+                    <option value="Tablet">Tablet</option>
+                    <option value="Capsule">Capsule</option>
+                    <option value="Injection">Injection</option>
+                    <option value="IV Infusion">IV Infusion</option>
+                    <option value="Vial">Vial</option>
+                    <option value="Lyophilized Powder">Lyophilized Powder</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+              <LabelArea label="Route" />
+                <div className="col-span-8 sm:col-span-4">
+                  <select
+                    {...register("route")}
+                    className="border text-sm block w-full bg-gray-100 border-gray-200 rounded-md p-2"
+                  >
+                    <option value="">-- Select Route --</option>
+                    <option value="Oral">Oral</option>
+                    <option value="IV Infusion">IV Infusion</option>
+                    <option value="Subcutaneous">Subcutaneous</option>
+                    <option value="Intravenous">Intravenous</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label="Cold Chain" />
+                <div className="col-span-8 sm:col-span-4">
+                  <label className="inline-flex items-center gap-2 cursor-pointer mt-2">
+                    <input
+                      type="checkbox"
+                      {...register("coldChain")}
+                      className="rounded border-gray-300 text-red-600 focus:ring-red-500 w-4 h-4"
+                    />
+                    <span className="text-sm text-gray-700 font-medium">
                     Requires Cold Chain (2-8Â°C)
-                  </span>
-                </label>
+                    </span>
+                  </label>
+                </div>
               </div>
-            </div>
 
-            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label="Packaging" />
-              <div className="col-span-8 sm:col-span-4">
-                <InputArea
-                  register={register}
-                  label="Packaging"
-                  name="packaging"
-                  type="text"
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label="Packaging" />
+                <div className="col-span-8 sm:col-span-4">
+                  <InputArea
+                    register={register}
+                    label="Packaging"
+                    name="packaging"
+                    type="text"
                   placeholder="e.g. 1 Vial of 1800mg"
-                />
+                  />
+                </div>
               </div>
-            </div>
 
-            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
               <LabelArea label="Storage" />
-              <div className="col-span-8 sm:col-span-4">
-                <InputArea
-                  register={register}
-                  label="Storage"
-                  name="storage"
-                  type="text"
+                <div className="col-span-8 sm:col-span-4">
+                  <InputArea
+                    register={register}
+                    label="Storage"
+                    name="storage"
+                    type="text"
                   placeholder="e.g. Store at 2-8Â°C"
-                />
+                  />
+                </div>
               </div>
-            </div>
 
-            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
               <LabelArea label="Availability" />
-              <div className="col-span-8 sm:col-span-4">
-                <select
-                  {...register("availability")}
-                  className="border text-sm block w-full bg-gray-100 border-gray-200 rounded-md p-2"
-                >
+                <div className="col-span-8 sm:col-span-4">
+                  <select
+                    {...register("availability")}
+                    className="border text-sm block w-full bg-gray-100 border-gray-200 rounded-md p-2"
+                  >
                   <option value="Sourcing Available">Sourcing Available</option>
                   <option value="Global Distribution">Global Distribution</option>
                   <option value="Limited Stock">Limited Stock</option>
                   <option value="Pre Order">Pre Order</option>
                   <option value="Coming Soon">Coming Soon</option>
-                </select>
+                  </select>
+                </div>
               </div>
-            </div>
 
             <SectionHeader title="Description" />
 
-            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label="Short Description" />
-              <div className="col-span-8 sm:col-span-4">
-                <Textarea
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label="Short Description" />
+                <div className="col-span-8 sm:col-span-4">
+                  <Textarea
                   className="border text-sm block w-full bg-gray-100 border-gray-200"
                   {...register("description")}
-                  name="description"
+                    name="description"
                   placeholder="Brief overview for product card (2-3 lines)"
-                  rows="3"
-                />
-                <Error errorName={errors.description} />
+                    rows="3"
+                  />
+                  <Error errorName={errors.description} />
+                </div>
               </div>
-            </div>
 
-            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label="Indications / Uses" />
-              <div className="col-span-8 sm:col-span-4">
-                <Textarea
-                  className="border text-sm block w-full bg-gray-100 border-gray-200"
-                  {...register("indications")}
-                  name="indications"
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label="Indications / Uses" />
+                <div className="col-span-8 sm:col-span-4">
+                  <Textarea
+                    className="border text-sm block w-full bg-gray-100 border-gray-200"
+                    {...register("indications")}
+                    name="indications"
                   placeholder="e.g. Multiple Myeloma, Breast Cancer (HER2+)"
-                  rows="3"
-                />
+                    rows="3"
+                  />
+                </div>
               </div>
-            </div>
 
-            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label="Dosage Guidelines" />
-              <div className="col-span-8 sm:col-span-4">
-                <InputArea
-                  register={register}
-                  label="Dosage"
-                  name="dosage"
-                  type="text"
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label="Dosage Guidelines" />
+                <div className="col-span-8 sm:col-span-4">
+                  <InputArea
+                    register={register}
+                    label="Dosage"
+                    name="dosage"
+                    type="text"
                   placeholder="e.g. As directed by specialist"
-                />
+                  />
+                </div>
               </div>
-            </div>
 
             <SectionHeader title="Product Images" />
 
-            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label={t("ProductImage")} />
-              <div className="col-span-8 sm:col-span-4">
-                <Uploader
-                  product
-                  folder="product"
-                  imageUrl={imageUrl}
-                  setImageUrl={setImageUrl}
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={t("ProductImage")} />
+                <div className="col-span-8 sm:col-span-4">
+                  <Uploader
+                    product
+                    folder="product"
+                    imageUrl={imageUrl}
+                    setImageUrl={setImageUrl}
                   maxFilesOverride={4}
-                />
+                  />
                 <p className="text-xs text-gray-400 mt-1">Up to 4 images. First image is the main photo.</p>
+                </div>
               </div>
-            </div>
 
             <SectionHeader title="Publish" />
 
-            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
-              <LabelArea label={t("ProductStatus")} />
-              <div className="col-span-8 sm:col-span-4">
-                <select
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label={t("ProductStatus")} />
+                <div className="col-span-8 sm:col-span-4">
+                  <select
                   {...register("status", { required: "Status is required!" })}
-                  className="border text-sm block w-full bg-gray-100 border-gray-200 rounded-md p-2"
-                  name="status"
-                  defaultValue={values?.status || "show"}
-                >
-                  <option value="show">{t("Published")}</option>
-                  <option value="hide">{t("Unpublished")}</option>
-                </select>
-                <Error errorName={errors.status} />
+                    className="border text-sm block w-full bg-gray-100 border-gray-200 rounded-md p-2"
+                    name="status"
+                    defaultValue={values?.status || "show"}
+                  >
+                    <option value="show">{t("Published")}</option>
+                    <option value="hide">{t("Unpublished")}</option>
+                  </select>
+                  <Error errorName={errors.status} />
+                </div>
               </div>
-            </div>
 
-            <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
               <LabelArea label="Homepage Label" />
-              <div className="col-span-8 sm:col-span-4">
-                <select
-                  {...register("type")}
-                  className="border text-sm block w-full bg-gray-100 border-gray-200 rounded-md p-2"
-                  name="type"
-                  defaultValue={values?.type || "normal"}
-                >
-                  <option value="normal">Normal</option>
+                <div className="col-span-8 sm:col-span-4">
+                  <select
+                    {...register("type")}
+                    className="border text-sm block w-full bg-gray-100 border-gray-200 rounded-md p-2"
+                    name="type"
+                    defaultValue={values?.type || "normal"}
+                  >
+                    <option value="normal">Normal</option>
                   <option value="popular">Popular</option>
                   <option value="trending">Trending</option>
                   <option value="new">New Arrival</option>
-                </select>
+                  </select>
                 <p className="text-xs text-gray-400 mt-1">Optional â€” feature on homepage sections.</p>
+                </div>
               </div>
-            </div>
 
             <SectionHeader title="Product FAQs (optional)" />
 
             <div className="mb-6">
               <div className="flex justify-end mb-3">
-                <button
-                  type="button"
+                  <button
+                    type="button"
                   onClick={handleAddProductFaq}
                   className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-1.5 px-3 rounded-lg"
-                >
+                  >
                   + Add FAQ
-                </button>
-              </div>
+                  </button>
+                </div>
 
               {productFaqs && productFaqs.length > 0 ? (
                 <div className="space-y-4 border border-gray-200 rounded-xl p-4 bg-gray-50/50">
                   {productFaqs.map((faq, idx) => (
                     <div key={idx} className="border border-gray-200 rounded-lg p-3 bg-white space-y-3 relative">
-                      <button
-                        type="button"
+                        <button
+                          type="button"
                         onClick={() => handleRemoveProductFaq(idx)}
                         className="absolute top-2 right-2 text-xs font-bold text-red-500 hover:text-red-700 bg-red-50 px-2 py-1 rounded"
-                      >
-                        Remove
-                      </button>
-                      <div className="pr-16">
+                        >
+                          Remove
+                        </button>
+                        <div className="pr-16">
                         <label className="block text-xs font-semibold text-gray-500 mb-1">Question</label>
-                        <input
-                          type="text"
+                          <input
+                            type="text"
                           value={faq.question}
                           onChange={(e) => handleProductFaqChange(idx, "question", e.target.value)}
                           placeholder="e.g. Is a prescription required?"
                           className="w-full border border-gray-200 rounded-lg py-1.5 px-3 text-sm"
-                        />
-                      </div>
-                      <div>
+                          />
+                        </div>
+                        <div>
                         <label className="block text-xs font-semibold text-gray-500 mb-1">Answer</label>
-                        <textarea
+                          <textarea
                           value={faq.answer}
                           onChange={(e) => handleProductFaqChange(idx, "answer", e.target.value)}
                           placeholder="Answer shown on product page"
                           rows="3"
                           className="w-full border border-gray-200 rounded-lg py-1.5 px-3 text-sm"
-                        />
+                          />
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
+                    ))}
+                  </div>
+                ) : (
                 <p className="text-xs text-gray-400 italic">No FAQs added. Default FAQs will show on the website.</p>
-              )}
+                )}
+              </div>
+
             </div>
 
-          </div>
-
-          <DrawerButton id={id} title="Product" isSubmitting={isSubmitting} />
+            <DrawerButton id={id} title="Product" isSubmitting={isSubmitting} />
         </form>
       </Scrollbars>
     </>

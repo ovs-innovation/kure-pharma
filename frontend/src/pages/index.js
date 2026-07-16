@@ -159,6 +159,7 @@ const Home = ({ featuredProducts, allProducts, homepageSettings, brands }) => {
           onEnquiry={() => setGenericEnquiryOpen(true)}
           phone={homepageSettings?.hero?.phone}
           whatsapp={homepageSettings?.hero?.whatsapp}
+          qualityBar={homepageSettings?.qualityBar}
         />
       )}
 

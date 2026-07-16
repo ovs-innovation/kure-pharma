@@ -32,34 +32,14 @@ const kureHomepageDefaults = {
     whatsapp: "919911972234",
     slides: [
       {
-        tagline: "Prescription Medicines · Specialty Pharma",
-        titleLine1: "Leading Pharmaceutical Wholesale",
-        titleHighlight: "Distributors",
-        titleLine2: "in India.",
+        tagline: "Oncology & Specialty Medicines | Prescription Products",
+        titleLine1: "Your Trusted Partner in Healthcare.",
+        titleHighlight: "Across India.",
         subtitle:
-          "Government-approved pharmaceutical wholesaler supplying hospitals, pharmacies and clinics across India.",
-        cities: "Delhi NCR · Mumbai · Lucknow · Kolkata · Chandigarh · Pan-India",
-        bgImage: "/hero-indian-pharma.png",
-      },
-      {
-        tagline: "Oncology & Critical Care",
-        titleLine1: "Cold Chain",
-        titleHighlight: "Assured Supply",
-        titleLine2: "Across India.",
-        subtitle:
-          "Temperature-controlled logistics for injectable and lifesaving medicines — reliable pan-India distribution.",
-        cities: "Delhi NCR · Mumbai · Lucknow · Kolkata · Pan-India",
+          "CDSCO-compliant sourcing for hospitals, pharmacies and clinics with reliable supply, quality assurance and pan-India delivery.",
+        cities:
+          "Delhi NCR | Mumbai | Lucknow | Kolkata | Chandigarh | & Many More",
         bgImage: "/hero-indian-distribution.png",
-      },
-      {
-        tagline: "HIV · Nephrology · Imported Medicines",
-        titleLine1: "Trusted Healthcare",
-        titleHighlight: "Supply Partner",
-        titleLine2: "Since 2016.",
-        subtitle:
-          "Ethical wholesale distribution with GDP practices — serving patients, doctors and hospitals nationwide.",
-        cities: "Delhi NCR · Mumbai · Lucknow · Kolkata · Pan-India",
-        bgImage: "/about-indian-healthcare.png",
       },
     ],
   },
@@ -67,24 +47,26 @@ const kureHomepageDefaults = {
     enabled: true,
     items: [
       {
-        icon: "FiShield",
-        title: "Quality Assured",
-        description: "Strict quality checks & temperature controlled handling",
+        icon: "FiPackage",
+        title: "Wide Range",
+        description:
+          "Extensive portfolio of oncology, specialty and prescription medicines.",
       },
       {
-        icon: "FiAward",
+        icon: "FiTruck",
         title: "Timely Delivery",
-        description: "On-time delivery across India",
-      },
-      {
-        icon: "FiHeadphones",
-        title: "Customer Support",
-        description: "Dedicated support team for your assistance",
+        description: "On-time delivery with temperature-controlled logistics.",
       },
       {
         icon: "FiUsers",
-        title: "Ethical Business",
-        description: "Transparent & ethical business practices",
+        title: "Trusted by Experts",
+        description: "Serving hospitals, clinics and pharmacies across India.",
+      },
+      {
+        icon: "FiHeadphones",
+        title: "Dedicated Support",
+        description:
+          "Responsive support for sourcing, pricing and availability.",
       },
     ],
   },

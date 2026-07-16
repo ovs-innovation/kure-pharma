@@ -270,7 +270,573 @@
   background-clip: text;
 }
 
-/* ── Homepage Hero v2 — light professional pharma ── */
+/* ── Homepage Hero — exact design match ── */
+.kure-hero-exact {
+  position: relative;
+  overflow: hidden;
+  background: #fff9f0;
+  color: var(--kure-navy);
+  padding: 2.25rem 0 0;
+}
+
+@media (min-width: 1024px) {
+  .kure-hero-exact {
+    padding: 2.75rem 0 0;
+  }
+}
+
+.kure-hero-exact__body {
+  position: relative;
+  z-index: 1;
+}
+
+.kure-hero-exact__main {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  align-items: center;
+  padding-bottom: 2rem;
+}
+
+@media (min-width: 1024px) {
+  .kure-hero-exact__main {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: 2.5rem 3rem;
+    min-height: 26rem;
+    padding-bottom: 2.5rem;
+  }
+}
+
+.kure-hero-exact__copy {
+  max-width: 36rem;
+}
+
+.kure-hero-exact__eyebrow {
+  margin: 0 0 0.85rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #c9922a;
+}
+
+.kure-hero-exact__title {
+  margin: 0 0 1rem;
+  font-size: clamp(2.1rem, 5vw, 3.25rem);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: var(--kure-navy);
+}
+
+.kure-hero-exact__script {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  font-weight: 800;
+  line-height: 1.1;
+  color: #c9922a;
+  letter-spacing: -0.02em;
+}
+
+.kure-hero-exact__script-inline {
+  font-weight: 700;
+  color: #c9922a;
+}
+
+.kure-hero-exact__desc {
+  margin: 0 0 1.25rem;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: #64748b;
+  font-weight: 500;
+  max-width: 32rem;
+}
+
+.kure-hero-exact__trust-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .kure-hero-exact__trust-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+}
+
+.kure-hero-exact__trust-item {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #334155;
+  line-height: 1.3;
+}
+
+.kure-hero-exact__trust-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 0.4rem;
+  background: rgba(201, 146, 42, 0.12);
+  color: #c9922a;
+  flex-shrink: 0;
+}
+
+.kure-hero-exact__cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.15rem;
+}
+
+.kure-hero-exact__cta-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.85rem 1.35rem;
+  border-radius: 0.45rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--kure-navy);
+  text-decoration: none;
+  border: 1px solid var(--kure-navy);
+  box-shadow: 0 4px 14px rgba(26, 46, 91, 0.18);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.kure-hero-exact__cta-primary:hover {
+  background: var(--kure-navy-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(26, 46, 91, 0.22);
+}
+
+.kure-hero-exact__cta-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 1.35rem;
+  border-radius: 0.45rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--kure-navy);
+  background: #fff;
+  border: 1.5px solid var(--kure-navy);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.kure-hero-exact__cta-secondary:hover {
+  background: rgba(26, 46, 91, 0.04);
+}
+
+.kure-hero-exact__contact {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem 1rem;
+}
+
+.kure-hero-exact__phone {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #64748b;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.kure-hero-exact__phone:hover {
+  color: var(--kure-navy);
+}
+
+.kure-hero-exact__contact-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #cbd5e1;
+}
+
+.kure-hero-exact__whatsapp-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #25d366;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.kure-hero-exact__whatsapp-link:hover {
+  color: #1da851;
+}
+
+.kure-hero-exact__visual {
+  position: relative;
+  width: 100%;
+}
+
+.kure-hero-exact__showcase {
+  position: relative;
+  border-radius: 1.35rem;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  min-height: 16rem;
+  border: 2px solid rgba(201, 146, 42, 0.35);
+  box-shadow:
+    0 4px 6px rgba(15, 23, 42, 0.05),
+    0 20px 50px rgba(26, 46, 91, 0.12);
+  background: #e8edf3;
+}
+
+@media (min-width: 1024px) {
+  .kure-hero-exact__showcase {
+    min-height: 22rem;
+    aspect-ratio: 5 / 4;
+  }
+}
+
+.kure-hero-exact__showcase-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.kure-hero-exact__stats {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 7.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0;
+  padding: 1rem 0.75rem;
+  background: rgba(15, 26, 51, 0.88);
+  backdrop-filter: blur(4px);
+}
+
+@media (min-width: 640px) {
+  .kure-hero-exact__stats {
+    width: 8.5rem;
+    padding: 1.25rem 0.85rem;
+  }
+}
+
+.kure-hero-exact__stat {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.kure-hero-exact__stat:last-child {
+  border-bottom: none;
+}
+
+.kure-hero-exact__stat-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.65rem;
+  height: 1.65rem;
+  border-radius: 0.35rem;
+  background: rgba(201, 146, 42, 0.2);
+  color: #d4a831;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.kure-hero-exact__stat strong {
+  display: block;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.15;
+}
+
+.kure-hero-exact__stat span {
+  display: block;
+  font-size: 0.62rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.3;
+  margin-top: 0.1rem;
+}
+
+/* Feature cards row */
+.kure-hero-exact__features {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  background: #fff;
+  border-radius: 0.85rem;
+  box-shadow: 0 4px 24px rgba(26, 46, 91, 0.08);
+  border: 1px solid #e8edf3;
+  overflow: hidden;
+  margin-bottom: 0;
+}
+
+@media (min-width: 640px) {
+  .kure-hero-exact__features {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .kure-hero-exact__features {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.kure-hero-exact__feature-card {
+  position: relative;
+  padding: 1.35rem 1.25rem 1.5rem;
+  text-align: center;
+  border-right: 1px solid #eef2f6;
+  border-bottom: 1px solid #eef2f6;
+}
+
+@media (min-width: 1024px) {
+  .kure-hero-exact__feature-card {
+    border-bottom: none;
+  }
+
+  .kure-hero-exact__feature-card:last-child {
+    border-right: none;
+  }
+}
+
+.kure-hero-exact__feature-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  background: #f5ebe0;
+  margin-bottom: 0.75rem;
+}
+
+.kure-hero-exact__feature-card h3 {
+  margin: 0 0 0.45rem;
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--kure-navy);
+}
+
+.kure-hero-exact__feature-card p {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.55;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.kure-hero-exact__feature-line {
+  display: block;
+  width: 1.75rem;
+  height: 2px;
+  background: #c9922a;
+  margin: 0.75rem auto 0;
+  border-radius: 1px;
+}
+
+/* Locations bar */
+.kure-hero-exact__locations {
+  width: 100%;
+  border-top: 1px solid #e8e0d4;
+  background: #faf6ef;
+}
+
+.kure-hero-exact__locations-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+}
+
+@media (min-width: 768px) {
+  .kure-hero-exact__locations-inner {
+    flex-direction: row;
+    padding: 0.85rem 1.5rem;
+  }
+}
+
+.kure-hero-exact__cities {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--kure-navy);
+  line-height: 1.4;
+}
+
+.kure-hero-exact__cities svg {
+  color: #c9922a;
+  flex-shrink: 0;
+}
+
+.kure-hero-exact__tagline {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #64748b;
+  white-space: nowrap;
+}
+
+.kure-hero-exact__handshake {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+/* Phone-only hero fixes */
+@media (max-width: 639px) {
+  .kure-hero-exact {
+    padding: 1.25rem 0 0;
+  }
+
+  .kure-hero-exact__main {
+    gap: 1.25rem;
+    padding-bottom: 1.25rem;
+  }
+
+  .kure-hero-exact__visual {
+    order: 1;
+  }
+
+  .kure-hero-exact__copy {
+    order: 2;
+    max-width: none;
+  }
+
+  .kure-hero-exact__eyebrow {
+    font-size: 0.6rem;
+    margin-bottom: 0.55rem;
+  }
+
+  .kure-hero-exact__title {
+    font-size: 1.65rem;
+    margin-bottom: 0.65rem;
+  }
+
+  .kure-hero-exact__script {
+    font-size: 1.75rem;
+  }
+
+  .kure-hero-exact__desc {
+    font-size: 0.88rem;
+    margin-bottom: 1rem;
+  }
+
+  .kure-hero-exact__trust-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 1.15rem;
+  }
+
+  .kure-hero-exact__trust-item {
+    font-size: 0.65rem;
+  }
+
+  .kure-hero-exact__showcase {
+    aspect-ratio: 16 / 11;
+    min-height: 0;
+    max-height: 13rem;
+    border-radius: 0.9rem;
+  }
+
+  .kure-hero-exact__stats {
+    width: 6.5rem;
+    padding: 0.65rem 0.5rem;
+  }
+
+  .kure-hero-exact__stat {
+    padding: 0.45rem 0;
+  }
+
+  .kure-hero-exact__stat strong {
+    font-size: 0.85rem;
+  }
+
+  .kure-hero-exact__stat span {
+    font-size: 0.55rem;
+  }
+
+  .kure-hero-exact__stat-icon {
+    width: 1.35rem;
+    height: 1.35rem;
+  }
+
+  .kure-hero-exact__stat-icon svg {
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+
+  .kure-hero-exact__cta-row {
+    flex-direction: column;
+    gap: 0.55rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .kure-hero-exact__cta-primary,
+  .kure-hero-exact__cta-secondary {
+    width: 100%;
+    padding: 0.72rem 1rem;
+    font-size: 0.68rem;
+  }
+
+  .kure-hero-exact__feature-card {
+    padding: 1rem;
+  }
+
+  .kure-hero-exact__locations-inner {
+    padding: 0.75rem 1rem;
+  }
+
+  .kure-hero-exact__cities {
+    font-size: 0.6rem;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .kure-hero-exact__tagline {
+    font-size: 0.75rem;
+    white-space: normal;
+    text-align: center;
+    justify-content: center;
+  }
+}
+
+/* Legacy hero v2 — kept for PageHero compatibility */
 .kure-hero-v2 {
   position: relative;
   overflow: hidden;

@@ -1,26 +1,81 @@
-import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import {
   FiArrowRight,
-  FiChevronLeft,
-  FiChevronRight,
+  FiAward,
+  FiHeadphones,
   FiMapPin,
+  FiPackage,
   FiPhone,
+  FiShield,
+  FiTruck,
+  FiUsers,
 } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
+import { renderHomepageIcon } from "@utils/homepageIcons";
 
-const DEFAULT_SCENES = [
-  "/hero-indian-pharma.png",
-  "/hero-indian-distribution.png",
-  "/about-indian-healthcare.png",
+const DEFAULT_HERO_IMAGE = "/hero-indian-distribution.png";
+
+const DEFAULT_TRUST_ICONS = [
+  { icon: FiShield, label: "CDSCO Compliant" },
+  { icon: FiTruck, label: "Cold Chain Delivery" },
+  { icon: FiAward, label: "Quality Assured" },
+  { icon: FiMapPin, label: "Pan-India Network" },
 ];
 
-const getSlideScene = (slide, index) => {
-  if (slide?.bgImage) return slide.bgImage;
-  if (slide?.heroScene) return slide.heroScene;
-  if (slide?.sceneImage) return slide.sceneImage;
-  if (slide?.heroImage) return slide.heroImage;
-  return DEFAULT_SCENES[index % DEFAULT_SCENES.length];
+const DEFAULT_STATS = [
+  { icon: FiUsers, value: "500+", label: "Happy Clients" },
+  { icon: FiPackage, value: "10,000+", label: "Products" },
+  { icon: FiAward, value: "50+", label: "Top Brands" },
+  { icon: FiShield, value: "8+", label: "Years of Trust" },
+];
+
+const DEFAULT_FEATURE_CARDS = [
+  {
+    icon: "FiPackage",
+    title: "Wide Range",
+    description:
+      "Extensive portfolio of oncology, specialty and prescription medicines.",
+  },
+  {
+    icon: "FiTruck",
+    title: "Timely Delivery",
+    description: "On-time delivery with temperature-controlled logistics.",
+  },
+  {
+    icon: "FiUsers",
+    title: "Trusted by Experts",
+    description: "Serving hospitals, clinics and pharmacies across India.",
+  },
+  {
+    icon: "FiHeadphones",
+    title: "Dedicated Support",
+    description: "Responsive support for sourcing, pricing and availability.",
+  },
+];
+
+const isMedicineProductImage = (url) => {
+  if (!url || typeof url !== "string") return false;
+  const normalized = url.toLowerCase();
+  return (
+    normalized.includes("/products/") ||
+    normalized.includes("medicine") ||
+    normalized.includes("injection") ||
+    normalized.includes("oncology_box") ||
+    normalized.includes("vial") ||
+    normalized.includes("capsule")
+  );
+};
+
+const getHeroImage = (slide) => {
+  const candidates = [
+    slide?.bgImage,
+    slide?.heroScene,
+    slide?.sceneImage,
+    slide?.heroImage,
+  ];
+
+  const safeImage = candidates.find((url) => url && !isMedicineProductImage(url));
+  return safeImage || DEFAULT_HERO_IMAGE;
 };
 
 const HomeHero = ({
@@ -30,66 +85,59 @@ const HomeHero = ({
   onEnquiry,
   phone = "+91 99119 72234",
   whatsapp = "919911972234",
+  stats = DEFAULT_STATS,
+  featureCards = DEFAULT_FEATURE_CARDS,
+  qualityBar,
 }) => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const slideCount = slides.length;
+  const slide = slides[0] || {};
+  const heroImage = getHeroImage(slide);
 
-  const goTo = useCallback(
-    (index) => {
-      if (!slideCount) return;
-      setCurrentSlide((index + slideCount) % slideCount);
-    },
-    [slideCount],
-  );
+  const titleLine1 =
+    slide.titleLine1 || "Your Trusted Partner in Healthcare.";
+  const titleScript = slide.titleHighlight || "Across India.";
+  const subtitle =
+    slide.subtitle ||
+    "CDSCO-compliant sourcing for hospitals, pharmacies and clinics with reliable supply, quality assurance and pan-India delivery.";
+  const tagline =
+    slide.tagline ||
+    "Oncology & Specialty Medicines | Prescription Products";
 
-  const nextSlide = useCallback(() => goTo(currentSlide + 1), [currentSlide, goTo]);
-  const prevSlide = useCallback(() => goTo(currentSlide - 1), [currentSlide, goTo]);
+  const cards =
+    qualityBar?.items?.length > 0 ? qualityBar.items : featureCards;
 
-  useEffect(() => {
-    if (slideCount <= 1) return undefined;
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slideCount);
-    }, 7000);
-    return () => clearInterval(timer);
-  }, [slideCount]);
-
-  if (!slideCount) return null;
-
-  const slide = slides[currentSlide];
-
-  const headline =
-    slide.titleLine1 && slide.titleHighlight
-      ? `${slide.titleLine1} ${slide.titleHighlight}${slide.titleLine2 ? ` ${slide.titleLine2}` : "."}`
-      : slide.titleText || "Leading Pharmaceutical Wholesale Distributors in India.";
+  const cities =
+    slide.cities ||
+    "Delhi NCR | Mumbai | Lucknow | Kolkata | Chandigarh | & Many More";
 
   return (
-    <section className="kure-hero-v2" aria-label="Kure Pharma hero">
-      <div className="kure-hero-v2__mesh" aria-hidden />
+    <section className="kure-hero-exact" aria-label="Kure Pharma hero">
+      <div className="kure-container kure-hero-exact__body">
+        <div className="kure-hero-exact__main">
+          <div className="kure-hero-exact__copy">
+            <p className="kure-hero-exact__eyebrow">{tagline}</p>
 
-      <div className="kure-container kure-hero-v2__body">
-        <div className="kure-hero-v2__main">
-          <div className="kure-hero-v2__copy">
-            <p className="kure-hero-v2__eyebrow">
-              {slide.tagline || "Prescription Medicines · Specialty Pharma"}
-            </p>
+            <h1 className="kure-hero-exact__title">
+              {titleLine1}
+              <span className="kure-hero-exact__script">{titleScript}</span>
+            </h1>
 
-            <h1 className="kure-hero-v2__title">{headline}</h1>
+            <p className="kure-hero-exact__desc">{subtitle}</p>
 
-            <p className="kure-hero-v2__desc">
-              {slide.subtitle ||
-                "Government-approved pharmaceutical wholesaler supplying hospitals, pharmacies and clinics across India."}
-            </p>
+            <div className="kure-hero-exact__trust-grid">
+              {DEFAULT_TRUST_ICONS.map(({ icon: Icon, label }) => (
+                <div key={label} className="kure-hero-exact__trust-item">
+                  <span className="kure-hero-exact__trust-icon" aria-hidden>
+                    <Icon className="w-4 h-4" />
+                  </span>
+                  <span>{label}</span>
+                </div>
+              ))}
+            </div>
 
-            <p className="kure-hero-v2__locations">
-              <FiMapPin className="w-3.5 h-3.5 shrink-0" aria-hidden />
-              {slide.cities ||
-                "Delhi NCR · Mumbai · Lucknow · Kolkata · Chandigarh · Pan-India"}
-            </p>
-
-            <div className="kure-hero-v2__cta-row">
+            <div className="kure-hero-exact__cta-row">
               <Link
                 href={ctaPrimary.link || "/products"}
-                className="kure-hero-v2__cta-primary"
+                className="kure-hero-exact__cta-primary"
               >
                 {ctaPrimary.text || "View Full Product Range"}
                 <FiArrowRight className="w-4 h-4" aria-hidden />
@@ -97,28 +145,31 @@ const HomeHero = ({
               <button
                 type="button"
                 onClick={onEnquiry}
-                className="kure-hero-v2__cta-secondary"
+                className="kure-hero-exact__cta-secondary"
               >
                 {ctaSecondary.text || "Send Enquiry"}
               </button>
             </div>
 
-            <div className="kure-hero-v2__contact">
+            <div className="kure-hero-exact__contact">
               {phone && (
-                <a href={`tel:${phone.replace(/\s+/g, '')}`} className="kure-hero-v2__phone">
+                <a
+                  href={`tel:${phone.replace(/\s+/g, "")}`}
+                  className="kure-hero-exact__phone"
+                >
                   <FiPhone className="w-3.5 h-3.5" aria-hidden />
                   {phone}
                 </a>
               )}
               {phone && whatsapp && (
-                <span className="kure-hero-v2__contact-dot" aria-hidden />
+                <span className="kure-hero-exact__contact-dot" aria-hidden />
               )}
               {whatsapp && (
                 <a
-                  href={`https://wa.me/${whatsapp.replace(/\+/g, '').replace(/\s+/g, '')}?text=Hello%20Kure%20Pharma%2C%20I%20need%20a%20sourcing%20quote.`}
+                  href={`https://wa.me/${whatsapp.replace(/\+/g, "").replace(/\s+/g, "")}?text=Hello%20Kure%20Pharma%2C%20I%20need%20a%20sourcing%20quote.`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="kure-hero-v2__whatsapp-link"
+                  className="kure-hero-exact__whatsapp-link"
                 >
                   <FaWhatsapp className="w-3.5 h-3.5" aria-hidden />
                   WhatsApp
@@ -127,55 +178,62 @@ const HomeHero = ({
             </div>
           </div>
 
-          <div className="kure-hero-v2__visual">
-            <div className="kure-hero-v2__showcase">
-              {slides.map((item, idx) => (
-                <img
-                  key={idx}
-                  src={getSlideScene(item, idx)}
-                  alt=""
-                  className={`kure-hero-v2__showcase-img ${
-                    idx === currentSlide ? "kure-hero-v2__showcase-img--active" : ""
-                  }`}
-                />
-              ))}
-              <div className="kure-hero-v2__showcase-shade" aria-hidden />
-
-              {slideCount > 1 && (
-                <>
-                  <button
-                    type="button"
-                    onClick={prevSlide}
-                    className="kure-hero-v2__showcase-btn kure-hero-v2__showcase-btn--prev"
-                    aria-label="Previous slide"
-                  >
-                    <FiChevronLeft className="w-5 h-5" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={nextSlide}
-                    className="kure-hero-v2__showcase-btn kure-hero-v2__showcase-btn--next"
-                    aria-label="Next slide"
-                  >
-                    <FiChevronRight className="w-5 h-5" />
-                  </button>
-                  <div className="kure-hero-v2__dots">
-                    {slides.map((_, idx) => (
-                      <button
-                        key={idx}
-                        type="button"
-                        onClick={() => goTo(idx)}
-                        className={`kure-hero-v2__dot ${
-                          currentSlide === idx ? "kure-hero-v2__dot--active" : ""
-                        }`}
-                        aria-label={`Slide ${idx + 1}`}
-                      />
-                    ))}
+          <div className="kure-hero-exact__visual">
+            <div className="kure-hero-exact__showcase">
+              <img
+                src={heroImage}
+                alt="Kure Pharma distribution facility"
+                className="kure-hero-exact__showcase-img"
+              />
+              <div className="kure-hero-exact__stats">
+                {stats.map(({ icon: Icon, value, label }) => (
+                  <div key={label} className="kure-hero-exact__stat">
+                    <span className="kure-hero-exact__stat-icon" aria-hidden>
+                      <Icon className="w-4 h-4" />
+                    </span>
+                    <div>
+                      <strong>{value}</strong>
+                      <span>{label}</span>
+                    </div>
                   </div>
-                </>
-              )}
+                ))}
+              </div>
             </div>
           </div>
+        </div>
+
+        {qualityBar?.enabled !== false && cards.length > 0 && (
+          <div className="kure-hero-exact__features">
+            {cards.map((item) => (
+              <div key={item.title} className="kure-hero-exact__feature-card">
+                <span className="kure-hero-exact__feature-icon" aria-hidden>
+                  {renderHomepageIcon(
+                    item.icon,
+                    "w-5 h-5 text-[#1A2E5B]",
+                  )}
+                </span>
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+                <span className="kure-hero-exact__feature-line" aria-hidden />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="kure-hero-exact__locations">
+        <div className="kure-container kure-hero-exact__locations-inner">
+          <p className="kure-hero-exact__cities">
+            <FiMapPin className="w-3.5 h-3.5 shrink-0" aria-hidden />
+            {cities}
+          </p>
+          <p className="kure-hero-exact__tagline">
+            <span className="kure-hero-exact__handshake" aria-hidden>
+              🤝
+            </span>
+            Building healthier tomorrows,{" "}
+            <em className="kure-hero-exact__script-inline">together.</em>
+          </p>
         </div>
       </div>
     </section>

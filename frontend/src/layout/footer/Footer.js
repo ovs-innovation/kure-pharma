@@ -43,12 +43,8 @@ const Footer = () => {
       <div className="kure-container pt-14 pb-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-12 border-b border-white/10">
           <div className="lg:col-span-4 space-y-5">
-            <Link href="/" className="kure-footer__logo">
-              <img
-                src="/logo/kurelogo.png"
-                alt="Kure Pharma"
-                className="kure-footer__logo-img"
-              />
+            <Link href="/" className="kure-footer__brand">
+              Kure Pharma
             </Link>
             <p className="text-sm leading-relaxed text-blue-100/75 max-w-sm">
               {footer.description}

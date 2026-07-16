@@ -121,9 +121,9 @@ const kureHomepageDefaults = {
     titleSuffix: "Therapeutics",
     description:
       "We distribute fully authenticated, temperature-controlled specialty medicines sourced directly from trusted global manufacturers to hospitals, pharmacy chains, and clinical networks across India.",
-    image: "/app/mido.jpeg",
-    imageLabel: "Midostar®",
-    imageSubLabel: "Zydus specialty oncology · Midostaurin 25 mg",
+    image: "/categories/hero-scene.png",
+    imageLabel: "Oncology & Specialty Care",
+    imageSubLabel: "Trusted distribution for hospitals & pharmacies across India",
   },
   featuredBrands: {
     enabled: true,

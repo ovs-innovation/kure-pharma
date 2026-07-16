@@ -30,9 +30,9 @@ export const CATEGORY_INDIAN_BRAND_IMAGES = {
 };
 
 export const THERAPEUTICS_SHOWCASE = {
-  image: "/app/mido.jpeg",
-  label: "Midostar®",
-  sublabel: "Zydus specialty oncology · Midostaurin 25 mg",
+  image: "/categories/hero-scene.png",
+  label: "Oncology & Specialty Care",
+  sublabel: "Trusted distribution for hospitals & pharmacies across India",
 };
 
 export const isGenericProductImage = (src) =>

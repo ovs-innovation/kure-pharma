@@ -3,9 +3,8 @@ import SectionHeader from "@components/ui/SectionHeader";
 import CatalogProductImage from "@components/ui/CatalogProductImage";
 import CatalogReadMore from "@components/ui/CatalogReadMore";
 import { getProductImageSrc } from "@utils/productImage";
-import {
-  filterStorefrontProducts,
-} from "@utils/storefrontProducts";
+import { breakthroughDrugs } from "@utils/kureHomepageRichContent";
+import { filterStorefrontProducts } from "@utils/storefrontProducts";
 
 const cardShell =
   "group flex flex-col h-full w-full min-w-0 border-2 border-[#c9a066]/55 rounded-sm bg-white overflow-hidden hover:border-[#b8860b]/80 hover:shadow-[0_6px_20px_rgba(184,134,11,0.12)] transition-all duration-300 text-center";
@@ -16,8 +15,19 @@ const getTitle = (product) => {
   return product.title.en || product.title[Object.keys(product.title)[0]] || "Product";
 };
 
+const staticBreakthroughItems = breakthroughDrugs.slice(0, 12).map((item, index) => ({
+  _id: `breakthrough-static-${index}`,
+  name: item.name,
+  title: { en: item.name },
+  slug: item.slug,
+  image: item.image,
+  composition: item.subtitle,
+  staticImage: item.image,
+}));
+
 const BreakthroughDrugs = ({ products = [], onEnquire }) => {
-  const items = filterStorefrontProducts(products).slice(0, 12);
+  const dbItems = filterStorefrontProducts(products).slice(0, 12);
+  const items = dbItems.length ? dbItems : staticBreakthroughItems;
 
   if (!items.length) return null;
 
@@ -45,7 +55,7 @@ const BreakthroughDrugs = ({ products = [], onEnquire }) => {
             return (
               <Link key={product._id} href={href} className={cardShell}>
                 <CatalogProductImage
-                  src={getProductImageSrc(product)}
+                  src={product.staticImage || getProductImageSrc(product)}
                   alt={title}
                 />
                 <div className="kure-catalog-card-body">

@@ -39,7 +39,10 @@ const fade = (delay = 0) => ({
   transition: { duration: 0.5, delay, ease: [0.22, 1, 0.36, 1] },
 });
 
-const LEGACY_SHOWCASE_IMAGES = new Set(["/products/hertuma.png"]);
+const LEGACY_SHOWCASE_IMAGES = new Set([
+  "/products/hertuma.png",
+  "/app/mido.jpeg",
+]);
 
 const TherapeuticsSection = ({ therapeutics = {} }) => {
   const rawCategories = therapeutics.items?.length
@@ -47,24 +50,21 @@ const TherapeuticsSection = ({ therapeutics = {} }) => {
     : kureTherapeuticCategories;
   const categories = rawCategories.map(enrichCategory);
 
-  const showcaseImage =
-    therapeutics.image &&
-    !LEGACY_SHOWCASE_IMAGES.has(therapeutics.image) &&
-    !isGenericProductImage(therapeutics.image)
+  const useDefaultShowcase =
+    !therapeutics.image ||
+    LEGACY_SHOWCASE_IMAGES.has(therapeutics.image);
+
+  const showcaseImage = useDefaultShowcase
+    ? THERAPEUTICS_SHOWCASE.image
+    : !isGenericProductImage(therapeutics.image)
       ? therapeutics.image
       : THERAPEUTICS_SHOWCASE.image;
-  const showcaseLabel =
-    therapeutics.imageLabel &&
-    therapeutics.image &&
-    !LEGACY_SHOWCASE_IMAGES.has(therapeutics.image)
-      ? therapeutics.imageLabel
-      : THERAPEUTICS_SHOWCASE.label;
-  const showcaseSubLabel =
-    therapeutics.imageSubLabel &&
-    therapeutics.image &&
-    !LEGACY_SHOWCASE_IMAGES.has(therapeutics.image)
-      ? therapeutics.imageSubLabel
-      : THERAPEUTICS_SHOWCASE.sublabel;
+  const showcaseLabel = useDefaultShowcase
+    ? THERAPEUTICS_SHOWCASE.label
+    : therapeutics.imageLabel || THERAPEUTICS_SHOWCASE.label;
+  const showcaseSubLabel = useDefaultShowcase
+    ? THERAPEUTICS_SHOWCASE.sublabel
+    : therapeutics.imageSubLabel || THERAPEUTICS_SHOWCASE.sublabel;
 
   return (
     <section className="kther" aria-label="Life-saving therapeutics">
@@ -102,11 +102,10 @@ const TherapeuticsSection = ({ therapeutics = {} }) => {
 
           <motion.div className="kther__showcase-wrap" {...fade(0.08)}>
             <div className="kther__showcase">
-              <div className="kther__showcase-badge">Featured Product</div>
               <div className="kther__showcase-media">
                 <img
                   src={showcaseImage}
-                  alt={showcaseLabel}
+                  alt="Kure Pharma specialty therapeutics"
                   className="kther__showcase-img"
                   loading="lazy"
                 />

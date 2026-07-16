@@ -11,6 +11,7 @@ import kureHomepageDefaults, {
   fallbackBrands,
 } from "@utils/kureHomepageDefaults";
 import { enrichBrandLogos } from "@utils/resolveBrandLogo";
+import { productMatchesCategoryFilter } from "@utils/storefrontProducts";
 import SectionHeader from "@components/ui/SectionHeader";
 import FeaturedBrands from "@components/home/FeaturedBrands";
 import HomeHero from "@components/home/HomeHero";
@@ -146,6 +147,10 @@ const Home = ({ featuredProducts, allProducts, homepageSettings, brands }) => {
       ref.current.scrollBy({ left: dir * 220, behavior: "smooth" });
   };
 
+  const filteredTrending = allProducts.filter((p) =>
+    productMatchesCategoryFilter(p, activeCatFilter),
+  );
+
   return (
     <Layout
       title={homepageSettings?.seo?.title}
@@ -257,7 +262,7 @@ const Home = ({ featuredProducts, allProducts, homepageSettings, brands }) => {
 
       {homepageSettings?.trendingProducts?.enabled !== false &&
         allProducts?.length > 0 && (
-          <section className="kure-section kure-section-cream">
+          <section className="kure-section kure-section-cream kure-trending">
             <div className="kure-container">
               <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-5 mb-8">
                 <SectionHeader
@@ -308,32 +313,34 @@ const Home = ({ featuredProducts, allProducts, homepageSettings, brands }) => {
               </div>
 
               {/* Product Grid */}
-              <div className="kure-catalog-grid grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {allProducts
-                  .filter(
-                    (p) =>
-                      !activeCatFilter ||
-                      getTitleString(p.category?.name || p.category) ===
-                        activeCatFilter,
-                  )
-                  .slice(0, showAllTrending ? undefined : 10)
-                  .map((prod) => (
-                    <ProductCard
-                      key={prod._id}
-                      prod={prod}
-                      onEnquire={handleEnquireClick}
-                      style="default"
-                    />
-                  ))}
+              <div className="kure-catalog-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredTrending.length > 0 ? (
+                  filteredTrending
+                    .slice(0, showAllTrending ? undefined : 10)
+                    .map((prod) => (
+                      <ProductCard
+                        key={prod._id}
+                        prod={prod}
+                        onEnquire={handleEnquireClick}
+                        style="default"
+                      />
+                    ))
+                ) : (
+                  <p className="col-span-full text-center text-sm text-gray-500 py-8">
+                    No products in this category yet.{" "}
+                    <button
+                      type="button"
+                      onClick={() => setActiveCatFilter("")}
+                      className="font-bold text-[#1A2E5B] underline cursor-pointer"
+                    >
+                      View all
+                    </button>
+                  </p>
+                )}
               </div>
 
               {/* CTA */}
-              {allProducts.filter(
-                (p) =>
-                  !activeCatFilter ||
-                  getTitleString(p.category?.name || p.category) ===
-                    activeCatFilter,
-              ).length > 10 && (
+              {filteredTrending.length > 10 && (
                 <div className="text-center mt-10">
                   <button
                     onClick={() => setShowAllTrending(!showAllTrending)}
@@ -406,10 +413,27 @@ const Home = ({ featuredProducts, allProducts, homepageSettings, brands }) => {
    SSR
 ───────────────────────────────────────────── */
 export const getServerSideProps = async () => {
+  const fetchWithRetry = async (fn, retries = 2) => {
+    let lastError;
+    for (let attempt = 0; attempt < retries; attempt += 1) {
+      try {
+        return await fn();
+      } catch (error) {
+        lastError = error;
+        if (attempt < retries - 1) {
+          await new Promise((resolve) => setTimeout(resolve, 400));
+        }
+      }
+    }
+    throw lastError;
+  };
+
   const [featuredResult, allResult, homepageResult, brandsResult] =
     await Promise.allSettled([
-      ProductServices.getAllProducts({ featured: "true", limit: 12 }),
-      ProductServices.getAllProducts({ limit: 40 }),
+      fetchWithRetry(() =>
+        ProductServices.getAllProducts({ featured: "true", limit: 12 }),
+      ),
+      fetchWithRetry(() => ProductServices.getAllProducts({ limit: 40 })),
       SettingServices.getKureHomepageSetting(),
       BrandServices.getFeaturedBrands(),
     ]);

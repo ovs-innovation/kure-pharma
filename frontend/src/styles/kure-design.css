@@ -30,10 +30,16 @@
   padding-right: 1rem;
 }
 @media (min-width: 640px) {
-  .kure-container { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .kure-container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
 }
 @media (min-width: 1024px) {
-  .kure-container { padding-left: 2rem; padding-right: 2rem; }
+  .kure-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
 }
 
 .kure-section {
@@ -41,12 +47,22 @@
   padding-bottom: 4rem;
 }
 @media (min-width: 1024px) {
-  .kure-section { padding-top: 5rem; padding-bottom: 5rem; }
+  .kure-section {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
 }
 
-.kure-section-cream { background-color: var(--kure-cream); }
-.kure-section-white { background-color: #ffffff; }
-.kure-section-navy { background-color: var(--kure-navy); color: #fff; }
+.kure-section-cream {
+  background-color: var(--kure-cream);
+}
+.kure-section-white {
+  background-color: #ffffff;
+}
+.kure-section-navy {
+  background-color: var(--kure-navy);
+  color: #fff;
+}
 
 /* ── Typography ── */
 .kure-eyebrow {
@@ -145,7 +161,9 @@
   border-radius: var(--kure-radius-lg);
   border: 1px solid rgba(26, 46, 91, 0.08);
   box-shadow: var(--kure-shadow);
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
 }
 .kure-card:hover {
   box-shadow: var(--kure-shadow-lg);
@@ -165,7 +183,9 @@
   background: linear-gradient(145deg, #0a1228 0%, #1a2e5b 100%);
 }
 @media (min-width: 1024px) {
-  .kure-page-hero { padding: 6rem 0 7rem; }
+  .kure-page-hero {
+    padding: 6rem 0 7rem;
+  }
 }
 
 .kure-page-hero__bg {
@@ -180,15 +200,28 @@
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(135deg, rgba(10, 18, 40, 0.92) 0%, rgba(26, 46, 91, 0.85) 50%, rgba(139, 26, 46, 0.55) 100%),
-    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(184, 134, 11, 0.15), transparent 60%);
+    linear-gradient(
+      135deg,
+      rgba(10, 18, 40, 0.92) 0%,
+      rgba(26, 46, 91, 0.85) 50%,
+      rgba(139, 26, 46, 0.55) 100%
+    ),
+    radial-gradient(
+      ellipse 70% 50% at 50% 0%,
+      rgba(184, 134, 11, 0.15),
+      transparent 60%
+    );
 }
 
 .kure-page-hero__pattern {
   position: absolute;
   inset: 0;
   opacity: 0.06;
-  background-image: radial-gradient(circle at 25% 25%, #d4a831 1px, transparent 1px);
+  background-image: radial-gradient(
+    circle at 25% 25%,
+    #d4a831 1px,
+    transparent 1px
+  );
   background-size: 32px 32px;
   pointer-events: none;
 }
@@ -275,8 +308,16 @@
   position: relative;
   overflow: hidden;
   background:
-    radial-gradient(ellipse 55% 45% at 78% 22%, rgba(201, 146, 42, 0.09), transparent 62%),
-    radial-gradient(ellipse 40% 35% at 12% 85%, rgba(26, 46, 91, 0.04), transparent 55%),
+    radial-gradient(
+      ellipse 55% 45% at 78% 22%,
+      rgba(201, 146, 42, 0.09),
+      transparent 62%
+    ),
+    radial-gradient(
+      ellipse 40% 35% at 12% 85%,
+      rgba(26, 46, 91, 0.04),
+      transparent 55%
+    ),
     linear-gradient(175deg, #fefcf8 0%, #fdfbf7 45%, #faf7f0 100%);
   color: var(--kure-navy);
   padding: 1.75rem 0 0;
@@ -286,7 +327,11 @@
   content: "";
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle at 1px 1px, rgba(26, 46, 91, 0.035) 1px, transparent 0);
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    rgba(26, 46, 91, 0.035) 1px,
+    transparent 0
+  );
   background-size: 28px 28px;
   pointer-events: none;
   opacity: 0.45;
@@ -411,7 +456,10 @@
   color: #c9922a;
   flex-shrink: 0;
   border: 1px solid rgba(201, 146, 42, 0.22);
-  transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .kure-hero-exact__trust-item:hover .kure-hero-exact__trust-icon {
@@ -451,7 +499,10 @@
   text-decoration: none;
   border: 1px solid var(--kure-navy);
   box-shadow: 0 4px 14px rgba(26, 46, 91, 0.18);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
 }
 
 .kure-hero-exact__cta-primary:hover {
@@ -474,7 +525,10 @@
   background: #fff;
   border: 1.5px solid var(--kure-navy);
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .kure-hero-exact__cta-secondary:hover {
@@ -567,7 +621,12 @@
   width: 78%;
   height: 78%;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(201, 146, 42, 0.16) 0%, rgba(201, 146, 42, 0.04) 45%, transparent 72%);
+  background: radial-gradient(
+    circle,
+    rgba(201, 146, 42, 0.16) 0%,
+    rgba(201, 146, 42, 0.04) 45%,
+    transparent 72%
+  );
   pointer-events: none;
   z-index: 0;
 }
@@ -584,7 +643,9 @@
   pointer-events: none;
   mix-blend-mode: multiply;
   filter: drop-shadow(0 14px 36px rgba(26, 46, 91, 0.14));
-  transition: transform 0.4s ease, filter 0.4s ease;
+  transition:
+    transform 0.4s ease,
+    filter 0.4s ease;
 }
 
 .kure-hero-ribbon:hover .kure-hero-ribbon__img {
@@ -667,7 +728,9 @@
   width: 100%;
   background: #fff;
   border-radius: 0.75rem;
-  box-shadow: 0 10px 40px rgba(26, 46, 91, 0.11), 0 2px 8px rgba(26, 46, 91, 0.04);
+  box-shadow:
+    0 10px 40px rgba(26, 46, 91, 0.11),
+    0 2px 8px rgba(26, 46, 91, 0.04);
   border: 1px solid #ebe6dc;
   overflow: hidden;
 }
@@ -690,7 +753,9 @@
   text-align: center;
   border-right: 1px solid #ebe6dc;
   border-bottom: 1px solid #ebe6dc;
-  transition: background 0.25s ease, transform 0.25s ease;
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease;
 }
 
 .kure-hero-exact__feature-card:hover {
@@ -724,7 +789,9 @@
   margin-bottom: 0.65rem;
   color: #c9922a;
   border: 1px solid rgba(201, 146, 42, 0.2);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .kure-hero-exact__feature-card h3 {
@@ -945,8 +1012,16 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 70% 55% at 90% 15%, rgba(255, 153, 51, 0.08) 0%, transparent 55%),
-    radial-gradient(ellipse 50% 40% at 5% 85%, rgba(26, 46, 91, 0.04) 0%, transparent 50%);
+    radial-gradient(
+      ellipse 70% 55% at 90% 15%,
+      rgba(255, 153, 51, 0.08) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 50% 40% at 5% 85%,
+      rgba(26, 46, 91, 0.04) 0%,
+      transparent 50%
+    );
   pointer-events: none;
 }
 
@@ -1053,7 +1128,10 @@
   text-decoration: none;
   border: 1px solid var(--kure-navy);
   box-shadow: 0 4px 14px rgba(26, 46, 91, 0.2);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
 }
 
 .kure-hero-v2__cta-primary:hover {
@@ -1076,7 +1154,9 @@
   background: #fff;
   border: 1.5px solid #cbd5e1;
   cursor: pointer;
-  transition: border-color 0.2s ease, background 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
 }
 
 .kure-hero-v2__cta-secondary:hover {
@@ -1099,7 +1179,9 @@
   background: #25d366;
   border: 1.5px solid #25d366;
   text-decoration: none;
-  transition: background 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    background 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .kure-hero-v2__cta-whatsapp:hover {
@@ -1223,7 +1305,9 @@
   color: var(--kure-navy);
   cursor: pointer;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-  transition: background 0.2s ease, transform 0.2s ease;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
   z-index: 2;
 }
 
@@ -1258,7 +1342,9 @@
   padding: 0;
   background: rgba(255, 255, 255, 0.55);
   cursor: pointer;
-  transition: width 0.2s ease, background 0.2s ease;
+  transition:
+    width 0.2s ease,
+    background 0.2s ease;
 }
 
 .kure-hero-v2__dot--active {
@@ -1405,12 +1491,12 @@
   align-items: center;
   flex: 1;
   min-width: 0;
-  max-width: 14rem;
+  max-width: 13.5rem;
 }
 
 @media (min-width: 1280px) {
   .kure-nav-search {
-    max-width: 16.5rem;
+    max-width: 15.5rem;
   }
 }
 
@@ -1425,7 +1511,8 @@
 
 .kure-nav-search__input {
   width: 100%;
-  padding: 0.55rem 0.85rem 0.55rem 2.35rem;
+  height: 2.375rem;
+  padding: 0 0.85rem 0 2.35rem;
   border: 1px solid #e2e8f0;
   border-radius: 9999px;
   font-size: 0.78rem;
@@ -1433,7 +1520,9 @@
   color: #1a2e5b;
   background: #fff;
   outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .kure-nav-search__input::placeholder {
@@ -1491,6 +1580,7 @@
   background: rgba(255, 255, 255, 0.98);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(26, 46, 91, 0.08);
+  overflow: visible;
 }
 
 .kure-navbar--scrolled {
@@ -1502,14 +1592,19 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.75rem 1rem;
+  gap: 0.75rem;
   min-height: 4rem;
+  padding: 0.5rem 0;
 }
 
 @media (min-width: 1024px) {
   .kure-navbar__inner {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) minmax(12rem, 15rem) auto;
+    align-items: center;
+    column-gap: 1.25rem;
     min-height: 5.25rem;
-    gap: 0.75rem 1rem;
+    padding: 0.5rem 0;
   }
 }
 
@@ -1518,30 +1613,94 @@
   align-items: center;
   flex-shrink: 0;
   min-width: 0;
+  height: 2.75rem;
+  overflow: visible;
+}
+
+@media (min-width: 1024px) {
+  .kure-navbar__logo {
+    height: 5.5rem;
+    width: 17rem;
+    max-width: 17vw;
+    overflow: visible;
+  }
+}
+
+.kure-navbar__logo-img {
+  display: block;
+  height: 2.75rem;
+  width: auto;
+  max-width: 10rem;
+  object-fit: contain;
+  object-position: left center;
+  transform: scale(1.85) translate(-0.42rem, 0.12rem);
+  transform-origin: left center;
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .kure-navbar__logo-img {
+    transform: scale(1.95) translate(-0.48rem, 0.14rem);
+  }
+}
+
+@media (min-width: 1024px) {
+  .kure-navbar__logo-img {
+    height: 100%;
+    max-width: 100%;
+    transform: scale(2) translate(-0.7rem, 0.3rem);
+    transform-origin: left center;
+  }
+}
+
+/* Desktop-only navbar blocks — must not show on mobile */
+.kure-navbar__desktop {
+  display: none !important;
+}
+
+@media (min-width: 1024px) {
+  .kure-navbar__desktop {
+    display: flex !important;
+  }
 }
 
 .kure-navbar__nav {
   align-items: center;
   justify-content: center;
-  gap: 0.15rem;
-  flex: 1;
+  gap: 0.125rem;
+  min-width: 0;
+  align-self: center;
 }
 
 .kure-navbar__search {
+  align-items: center;
+  align-self: center;
   flex-shrink: 1;
+  min-width: 0;
+  width: 100%;
+  max-width: 14rem;
+}
+
+@media (min-width: 1024px) {
+  .kure-navbar__search {
+    flex: none;
+    max-width: none;
+    width: 100%;
+  }
 }
 
 .kure-navbar__actions {
   align-items: center;
-  gap: 0.85rem;
+  gap: 0.625rem;
   flex-shrink: 0;
+  align-self: center;
 }
 
 .kure-navbar__phone {
   display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
-  font-size: 0.82rem;
+  gap: 0.5rem;
+  height: 2.375rem;
+  font-size: 0.8125rem;
   font-weight: 700;
   color: #1a2e5b;
   text-decoration: none;
@@ -1556,19 +1715,21 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.15rem;
-  height: 2.15rem;
+  width: 2.375rem;
+  height: 2.375rem;
   border-radius: 50%;
   background: rgba(26, 46, 91, 0.07);
   color: #1a2e5b;
+  flex-shrink: 0;
 }
 
 .kure-nav-cta {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.4rem;
-  padding: 0.62rem 1rem;
+  gap: 0.35rem;
+  height: 2.375rem;
+  padding: 0 0.9rem;
   border: none;
   border-radius: 0.45rem;
   background: var(--kure-navy);
@@ -1579,7 +1740,14 @@
   text-transform: uppercase;
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(26, 46, 91, 0.18);
-  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.kure-nav-cta.w-full {
+  height: 2.75rem;
 }
 
 .kure-nav-cta:hover {
@@ -1592,13 +1760,22 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.55rem;
-  border-radius: 0.55rem;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border-radius: 0.65rem;
   color: #1a2e5b;
-  background: transparent;
-  border: 1px solid rgba(26, 46, 91, 0.1);
+  background: #f8fafc;
+  border: 1px solid rgba(26, 46, 91, 0.12);
   cursor: pointer;
   transition: background 0.2s ease;
+  flex-shrink: 0;
+}
+
+@media (min-width: 1024px) {
+  .kure-navbar__menu-btn {
+    display: none !important;
+  }
 }
 
 .kure-navbar__menu-btn:hover {
@@ -1643,7 +1820,11 @@
   background: rgba(255, 255, 255, 0.88);
   border: 1px solid rgba(26, 46, 91, 0.06);
   box-shadow: 0 2px 12px rgba(26, 46, 91, 0.04);
-  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease, background 0.28s ease;
+  transition:
+    transform 0.28s ease,
+    box-shadow 0.28s ease,
+    border-color 0.28s ease,
+    background 0.28s ease;
 }
 
 .kure-cat-item:hover {
@@ -1673,7 +1854,8 @@
     circle at 35% 30%,
     #fff 0%,
     var(--cat-bg, #f8fafc) 55%,
-    color-mix(in srgb, var(--cat-color, #1a2e5b) 8%, var(--cat-bg, #f8fafc)) 100%
+    color-mix(in srgb, var(--cat-color, #1a2e5b) 8%, var(--cat-bg, #f8fafc))
+      100%
   );
   transition: transform 0.3s ease;
 }
@@ -1695,7 +1877,8 @@
 .kure-cat-circle__ring {
   position: absolute;
   border-radius: 50%;
-  border: 1.5px solid color-mix(in srgb, var(--cat-color, #1a2e5b) 14%, transparent);
+  border: 1.5px solid
+    color-mix(in srgb, var(--cat-color, #1a2e5b) 14%, transparent);
   pointer-events: none;
 }
 
@@ -1729,9 +1912,15 @@
   border-radius: 50%;
   background: #fff;
   color: var(--cat-color, #1a2e5b);
-  border: 2px solid color-mix(in srgb, var(--cat-color, #1a2e5b) 20%, transparent);
-  box-shadow: 0 4px 14px color-mix(in srgb, var(--cat-color, #1a2e5b) 18%, transparent);
-  transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  border: 2px solid
+    color-mix(in srgb, var(--cat-color, #1a2e5b) 20%, transparent);
+  box-shadow: 0 4px 14px
+    color-mix(in srgb, var(--cat-color, #1a2e5b) 18%, transparent);
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .kure-cat-circle__icon-wrap--therapy {
@@ -1759,14 +1948,17 @@
   background: #fff;
   color: var(--cat-color, #1a2e5b);
   border-color: color-mix(in srgb, var(--cat-color, #1a2e5b) 25%, transparent);
-  box-shadow: 0 6px 18px color-mix(in srgb, var(--cat-color, #1a2e5b) 24%, transparent);
+  box-shadow: 0 6px 18px
+    color-mix(in srgb, var(--cat-color, #1a2e5b) 24%, transparent);
 }
 
 .kure-cat-item:hover .kure-cat-circle__icon-wrap--therapy {
   background: transparent;
   border: none;
   box-shadow: none;
-  filter: drop-shadow(0 4px 10px color-mix(in srgb, var(--cat-color, #1a2e5b) 30%, transparent));
+  filter: drop-shadow(
+    0 4px 10px color-mix(in srgb, var(--cat-color, #1a2e5b) 30%, transparent)
+  );
 }
 
 .kure-cat-circle__icon {
@@ -1838,7 +2030,9 @@
   border-radius: 0.5rem;
   overflow: hidden;
   text-decoration: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
   box-shadow: 0 2px 8px rgba(26, 46, 91, 0.04);
 }
 
@@ -1908,7 +2102,9 @@
   font-size: 0.8rem;
   font-weight: 700;
   color: #1a2e5b;
-  transition: color 0.2s ease, gap 0.2s ease;
+  transition:
+    color 0.2s ease,
+    gap 0.2s ease;
 }
 
 .kure-promo-banner:hover .kure-promo-banner__link {
@@ -2030,7 +2226,10 @@
   overflow: hidden;
   padding: 0.4rem;
   cursor: pointer;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
 }
 
 .kure-product-gallery__thumb:hover:not(:disabled) {
@@ -2121,7 +2320,10 @@
   color: #5c5348;
   background: linear-gradient(180deg, #f5f2ec 0%, #ebe6dc 100%);
   border-top: 1px solid rgba(201, 160, 102, 0.4);
-  transition: background 0.22s ease, color 0.22s ease, border-color 0.22s ease;
+  transition:
+    background 0.22s ease,
+    color 0.22s ease,
+    border-color 0.22s ease;
 }
 
 .kure-read-more-btn-icon {
@@ -2129,7 +2331,9 @@
   height: 0.75rem;
   flex-shrink: 0;
   opacity: 0.65;
-  transition: transform 0.22s ease, opacity 0.22s ease;
+  transition:
+    transform 0.22s ease,
+    opacity 0.22s ease;
 }
 
 .kure-read-more-btn:hover {
@@ -2203,8 +2407,6 @@
 
 .kure-brands-marquee-item {
   flex-shrink: 0;
-  width: 7.25rem;
-  height: 7.25rem;
 }
 
 .kure-brands-marquee-fade {
@@ -2317,7 +2519,9 @@
   border: 1px solid rgba(26, 46, 91, 0.12);
   background: #fff;
   font-size: 0.9375rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
 .kure-input:focus {
   outline: none;
@@ -2338,13 +2542,17 @@
 /* ── Navbar links ── */
 .kure-nav-link {
   position: relative;
-  font-size: 0.875rem;
+  display: inline-flex;
+  align-items: center;
+  height: 2.375rem;
+  font-size: 0.8125rem;
   font-weight: 600;
   color: #64748b;
-  padding: 0.55rem 0.8rem;
+  padding: 0 0.65rem;
   border-radius: 0;
   text-decoration: none;
   transition: color 0.2s ease;
+  white-space: nowrap;
 }
 
 .kure-nav-link:hover {
@@ -2361,9 +2569,9 @@
 .kure-nav-link.active::after {
   content: "";
   position: absolute;
-  left: 0.8rem;
-  right: 0.8rem;
-  bottom: 0.2rem;
+  left: 0.65rem;
+  right: 0.65rem;
+  bottom: 0.35rem;
   height: 2px;
   border-radius: 1px;
   background: #c9922a;
@@ -2379,11 +2587,44 @@
   margin-bottom: 1.25rem;
 }
 
+.kure-footer__logo {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  height: 5.5rem;
+  overflow: visible;
+}
+
+@media (min-width: 1024px) {
+  .kure-footer__logo {
+    height: 6.25rem;
+    width: 17rem;
+    max-width: 100%;
+  }
+}
+
+.kure-footer__logo-img {
+  display: block;
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: left center;
+  transform: scale(2) translate(-0.7rem, 0.3rem);
+  transform-origin: left center;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.25));
+}
 
 /* ── Animations ── */
 @keyframes kure-fade-up {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 .kure-animate-in {
   animation: kure-fade-up 0.6s ease forwards;
@@ -2413,13 +2654,13 @@
   right: 0;
   display: flex;
   flex-direction: column;
-  width: min(100%, 20rem);
+  width: min(100%, 22rem);
   max-width: 100vw;
   height: 100%;
   height: 100dvh;
-  background: #fff9f0;
-  border-left: 1px solid #e8dcc8;
-  box-shadow: -12px 0 40px rgba(27, 42, 74, 0.18);
+  background: #fff;
+  border-left: 1px solid rgba(26, 46, 91, 0.08);
+  box-shadow: -12px 0 40px rgba(27, 42, 74, 0.15);
   pointer-events: auto;
   animation: kure-mobile-slide-in 0.28s ease;
 }
@@ -2429,10 +2670,41 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
-  min-height: 4rem;
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid #e8dcc8;
-  background: #fff9f0;
+  min-height: 4.5rem;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid rgba(26, 46, 91, 0.08);
+  background: #fff;
+}
+
+.kure-mobile-menu__logo-link {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  flex: 1;
+}
+
+.kure-mobile-menu__logo {
+  display: block;
+  height: 3rem;
+  width: auto;
+  max-width: 12rem;
+  object-fit: contain;
+  object-position: left center;
+  transform: scale(1.75) translate(-0.35rem, 0.08rem);
+  transform-origin: left center;
+}
+
+.kure-mobile-menu__search {
+  display: flex !important;
+  width: auto;
+  max-width: none;
+  margin: 0 1rem 0.5rem;
+  flex: none;
+}
+
+.kure-mobile-menu__search .kure-nav-search__input {
+  height: 2.75rem;
+  font-size: 0.875rem;
 }
 
 .kure-mobile-menu__close {
@@ -2465,7 +2737,9 @@
   font-weight: 600;
   color: #1c1814;
   text-decoration: none;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
 }
 
 .kure-mobile-menu__link:hover {
@@ -2482,8 +2756,14 @@
   flex-direction: column;
   gap: 0.75rem;
   padding: 1rem;
-  border-top: 1px solid #e8dcc8;
-  background: #fff9f0;
+  border-top: 1px solid rgba(26, 46, 91, 0.08);
+  background: #fff;
+}
+
+.kure-mobile-menu__footer .kure-nav-cta {
+  width: 100%;
+  height: 2.75rem;
+  font-size: 0.75rem;
 }
 
 .kure-mobile-menu__phone {
@@ -2500,13 +2780,21 @@
 }
 
 @keyframes kure-mobile-fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes kure-mobile-slide-in {
-  from { transform: translateX(100%); }
-  to { transform: translateX(0); }
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }
 
 /* Therapeutics showcase — Indian branded medicine card */
@@ -2517,7 +2805,9 @@
   border-radius: 1rem;
   box-shadow: 0 8px 32px rgba(26, 46, 91, 0.08);
   overflow: hidden;
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
 }
 
 .kure-therapeutics-showcase:hover {
@@ -2648,9 +2938,15 @@
   border-left-width: 4px;
 }
 
-.kure-supply-band--0 { border-left-color: #1a2e5b; }
-.kure-supply-band--1 { border-left-color: #8b1a2e; }
-.kure-supply-band--2 { border-left-color: #b8860b; }
+.kure-supply-band--0 {
+  border-left-color: #1a2e5b;
+}
+.kure-supply-band--1 {
+  border-left-color: #8b1a2e;
+}
+.kure-supply-band--2 {
+  border-left-color: #b8860b;
+}
 
 .kure-supply-band__eyebrow {
   margin: 0;
@@ -2758,7 +3054,9 @@
   border: 1px solid #e8dcc8;
   border-radius: 0.55rem;
   text-decoration: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .kure-therapy-access__card:hover {
@@ -3048,12 +3346,19 @@
   border-radius: 1rem;
   padding: 1.5rem;
   box-shadow: 0 4px 18px rgba(26, 46, 91, 0.05);
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
 }
 
 .kure-services-card:hover {
   transform: translateY(-4px);
-  border-color: color-mix(in srgb, var(--service-color, #1a2e5b) 30%, transparent);
+  border-color: color-mix(
+    in srgb,
+    var(--service-color, #1a2e5b) 30%,
+    transparent
+  );
   box-shadow: 0 14px 32px rgba(26, 46, 91, 0.1);
 }
 
@@ -3177,11 +3482,26 @@
   box-shadow: 0 0 12px rgba(201, 146, 42, 0.5);
 }
 
-.kure-services-tour__dots span:nth-child(1) { top: 22%; left: 28%; }
-.kure-services-tour__dots span:nth-child(2) { top: 35%; left: 62%; }
-.kure-services-tour__dots span:nth-child(3) { top: 58%; left: 42%; }
-.kure-services-tour__dots span:nth-child(4) { top: 48%; left: 72%; }
-.kure-services-tour__dots span:nth-child(5) { top: 68%; left: 55%; }
+.kure-services-tour__dots span:nth-child(1) {
+  top: 22%;
+  left: 28%;
+}
+.kure-services-tour__dots span:nth-child(2) {
+  top: 35%;
+  left: 62%;
+}
+.kure-services-tour__dots span:nth-child(3) {
+  top: 58%;
+  left: 42%;
+}
+.kure-services-tour__dots span:nth-child(4) {
+  top: 48%;
+  left: 72%;
+}
+.kure-services-tour__dots span:nth-child(5) {
+  top: 68%;
+  left: 55%;
+}
 
 .kure-services-tour__cities {
   display: grid;
@@ -3200,7 +3520,9 @@
   border: 1px solid #e8edf3;
   border-radius: 0.75rem;
   padding: 1rem 1.1rem;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .kure-services-tour__city:hover {

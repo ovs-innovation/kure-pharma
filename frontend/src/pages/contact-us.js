@@ -17,7 +17,10 @@ import {
 } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
 
-import { kureTherapeuticCategories } from "@utils/kureTherapeuticCategories";
+import {
+  KURE_ADDRESS_LINES,
+  KURE_ADDRESS_MAP_EMBED,
+} from "@utils/kureContactInfo";
 
 const enquiryTypes = [
   ...kureTherapeuticCategories.map((item) => item.name),
@@ -35,11 +38,7 @@ const contactCards = [
   {
     icon: FiMapPin,
     title: "Our Location",
-    lines: [
-      "B-1/D Ground Floor, Saurav Vihar,",
-      "Jaitpur Near Chokan Mandir,",
-      "Badarpur, Delhi – 110044, India",
-    ],
+    lines: KURE_ADDRESS_LINES,
     bg: "bg-red-50",
     color: "text-[#8B1A2E]",
   },
@@ -152,7 +151,7 @@ const ContactUs = () => {
               <div className="w-full h-[400px] rounded-[2rem] overflow-hidden border border-gray-100 shadow-lg">
                 <iframe
                   title="Kure Pharma Location"
-                  src="https://www.google.com/maps?q=B-1%2FD%20GROUND%20FLOOR%20SAURAV%20VIHAR%2C%20JAITPUR%20NEAR%20CHOKAN%20MANDIR%2C%20BADARPUR%2C%20DELHI%20110044&output=embed"
+                  src={KURE_ADDRESS_MAP_EMBED}
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}

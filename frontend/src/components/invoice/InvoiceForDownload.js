@@ -8,6 +8,7 @@ import {
   View,
 } from "@react-pdf/renderer";
 import dayjs from "dayjs";
+import { KURE_ADDRESS_WITH_COUNTRY } from "@utils/kureContactInfo";
 
 Font.register({
   family: "Open Sans",
@@ -307,8 +308,7 @@ const InvoiceForDownload = ({
                 />
               </Text>
               <Text style={styles.topAddress}>
-                {globalSetting?.address ||
-                  "B-1/D GROUND FLOOR SAURAV VIHAR, JAITPUR NEAR CHOKAN MANDIR, BADARPUR, DELHI 110044, NEW DELHI, DELHI, 110044, IN"}
+                {globalSetting?.address || KURE_ADDRESS_WITH_COUNTRY}
               </Text>
               {/* <Text style={styles.info}> DELHI 110044, NEW DELHI, DELHI, 110044, IN</Text> */}
             </View>

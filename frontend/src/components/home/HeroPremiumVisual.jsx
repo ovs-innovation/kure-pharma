@@ -8,6 +8,7 @@ import {
 
 const SPRING = { stiffness: 55, damping: 24, mass: 0.9 };
 const HOVER_SPRING = { stiffness: 180, damping: 26, mass: 0.6 };
+const MOBILE_MQ = "(max-width: 1023px)";
 
 const useLayerParallax = (springX, springY, factor) => {
   const x = useTransform(springX, [-0.5, 0.5], [-30 * factor, 30 * factor]);
@@ -17,6 +18,7 @@ const useLayerParallax = (springX, springY, factor) => {
 
 const HeroPremiumVisual = ({ trackRef }) => {
   const [isActive, setIsActive] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -37,8 +39,16 @@ const HeroPremiumVisual = ({ trackRef }) => {
   const glowLayer = useLayerParallax(springX, springY, 0.1);
 
   useEffect(() => {
+    const mq = window.matchMedia(MOBILE_MQ);
+    const syncMobile = () => setIsMobile(mq.matches);
+    syncMobile();
+    mq.addEventListener("change", syncMobile);
+    return () => mq.removeEventListener("change", syncMobile);
+  }, []);
+
+  useEffect(() => {
     const trackEl = trackRef?.current;
-    if (!trackEl) return undefined;
+    if (!trackEl || isMobile) return undefined;
 
     const handleMove = (e) => {
       const rect = trackEl.getBoundingClientRect();
@@ -69,7 +79,19 @@ const HeroPremiumVisual = ({ trackRef }) => {
       trackEl.removeEventListener("mouseenter", handleEnter);
       trackEl.removeEventListener("mouseleave", handleLeave);
     };
-  }, [trackRef, mouseX, mouseY, hoverScale]);
+  }, [trackRef, mouseX, mouseY, hoverScale, isMobile]);
+
+  const ribbonMotionStyle = isMobile
+    ? { scale: 1 }
+    : {
+        x: ribbonX,
+        y: ribbonY,
+        rotateX: ribbonRotX,
+        rotateY: ribbonRotY,
+        rotateZ: ribbonRotZ,
+        scale: hoverScale,
+        transformPerspective: 1400,
+      };
 
   const particlePositions = [
     { left: "22%", top: "28%" },
@@ -196,20 +218,16 @@ const HeroPremiumVisual = ({ trackRef }) => {
         {/* Ribbon — premium 3D showcase */}
         <motion.div
           className="khp-visual__ribbon-wrap"
-          style={{
-            x: ribbonX,
-            y: ribbonY,
-            rotateX: ribbonRotX,
-            rotateY: ribbonRotY,
-            rotateZ: ribbonRotZ,
-            scale: hoverScale,
-            transformPerspective: 1400,
-          }}
+          style={ribbonMotionStyle}
         >
           <motion.div
             className="khp-visual__ribbon-inner"
-            animate={{ y: [0, -10, 0] }}
-            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+            animate={isMobile ? undefined : { y: [0, -10, 0] }}
+            transition={
+              isMobile
+                ? undefined
+                : { duration: 7, repeat: Infinity, ease: "easeInOut" }
+            }
           >
             {/* Multi-layer glow — 10% parallax */}
             <motion.div

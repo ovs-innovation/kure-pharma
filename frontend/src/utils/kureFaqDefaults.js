@@ -1,3 +1,5 @@
+import { KURE_ADDRESS_WITH_COUNTRY } from "./kureContactInfo";
+
 export const kureDefaultFaqItems = [
   {
     question: "Where does Kure Pharma deliver medicines?",
@@ -37,7 +39,7 @@ export const kureDefaultFaqItems = [
   {
     question: "How can I contact Kure Pharma for support?",
     answer:
-      "Phone: +91 99119 72234 | Email: Kure.export@gmail.com | Address: B-1/D, Saurav Vihar, Jaitpur, Badarpur, New Delhi – 110044, India.",
+      `Phone: +91 99119 72234 | Email: Kure.export@gmail.com | Address: ${KURE_ADDRESS_WITH_COUNTRY}.`,
   },
 ];
 

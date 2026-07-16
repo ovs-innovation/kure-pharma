@@ -30,9 +30,9 @@ export const CATEGORY_INDIAN_BRAND_IMAGES = {
 };
 
 export const THERAPEUTICS_SHOWCASE = {
-  image: "/products/hertuma.png",
-  label: "Hertraz",
-  sublabel: "Indian branded oncology medicine",
+  image: "/app/mido.jpeg",
+  label: "Midostar®",
+  sublabel: "Zydus specialty oncology · Midostaurin 25 mg",
 };
 
 export const isGenericProductImage = (src) =>

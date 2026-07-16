@@ -1,3 +1,10 @@
+import {
+  KURE_ADDRESS,
+  KURE_ADDRESS_LINES,
+  KURE_ADDRESS_WITH_COUNTRY,
+  KURE_DELIVERY_PICKUP,
+} from "./kureContactInfo";
+
 export const storeCustomization = {
   navbar: {
     categories_menu_status: true,
@@ -324,16 +331,16 @@ export const storeCustomization = {
       de: "Ort",
     },
     address_box_address_one: {
-      en: "B-1/D GROUND FLOOR SAURAV VIHAR",
-      de: "B-1/D GROUND FLOOR SAURAV VIHAR",
+      en: KURE_ADDRESS_LINES[0],
+      de: KURE_ADDRESS_LINES[0],
     },
     address_box_address_two: {
-      en: "JAITPUR NEAR CHOKAN MANDIR, BADARPUR",
-      de: "JAITPUR NEAR CHOKAN MANDIR, BADARPUR",
+      en: KURE_ADDRESS_LINES[1],
+      de: KURE_ADDRESS_LINES[1],
     },
     address_box_address_three: {
-      en: "DELHI 110044, NEW DELHI, DELHI, 110044, IN",
-      de: "DELHI 110044, NEW DELHI, DELHI, 110044, IN",
+      en: KURE_ADDRESS_LINES[2],
+      de: KURE_ADDRESS_LINES[2],
     },
     form_title: {
       en: "For any suppoort just send your query ",
@@ -785,8 +792,8 @@ export const storeCustomization = {
     block4_logo:
       "https://res.cloudinary.com/dkuwefj17/image/upload/v1697688576/settings/logo-color_el4zmy.svg",
     block4_address: {
-      en: "B-1/D GROUND FLOOR SAURAV VIHAR, JAITPUR NEAR CHOKAN MANDIR, BADARPUR, DELHI 110044, NEW DELHI, DELHI, 110044, IN",
-      de: "B-1/D GROUND FLOOR SAURAV VIHAR, JAITPUR NEAR CHOKAN MANDIR, BADARPUR, DELHI 110044, NEW DELHI, DELHI, 110044, IN",
+      en: KURE_ADDRESS_WITH_COUNTRY,
+      de: KURE_ADDRESS_WITH_COUNTRY,
     },
     block4_phone: "+91 9717372217",
     block4_email: "hello@kurepharma.com",
@@ -826,8 +833,8 @@ export const storeCustomization = {
       de: "Garantiert 100 % biologisch aus Naturprodukten.",
     },
     card_description_seven: {
-      en: "Delivery from our pick point B-1/D GROUND FLOOR SAURAV VIHAR, JAITPUR NEAR CHOKAN MANDIR, BADARPUR, DELHI 110044, NEW DELHI, DELHI, 110044, IN.",
-      de: "Delivery from our pick point B-1/D GROUND FLOOR SAURAV VIHAR, JAITPUR NEAR CHOKAN MANDIR, BADARPUR, DELHI 110044, NEW DELHI, DELHI, 110044, IN.",
+      en: KURE_DELIVERY_PICKUP,
+      de: KURE_DELIVERY_PICKUP,
     },
   },
   seo: {

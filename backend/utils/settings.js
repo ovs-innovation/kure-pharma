@@ -1,9 +1,16 @@
+const {
+  KURE_ADDRESS,
+  KURE_ADDRESS_WITH_COUNTRY,
+  KURE_ADDRESS_MULTILINE,
+  KURE_DELIVERY_PICKUP,
+} = require("./kureContactInfo");
+
 const setting = [
   {
     setting: {
       number_of_image_per_product: "5",
       shop_name: "Kure Pharma",
-      address: "59 Station Rd, Purls Bridge, United Kingdom",
+      address: KURE_ADDRESS_WITH_COUNTRY,
       company_name: "Kure Pharma",
       vat_number: "47589",
       post_code: "2030",
@@ -549,8 +556,8 @@ const setting = [
         block4_logo:
           "https://res.cloudinary.com/dkuwefj17/image/upload/v1697688576/settings/logo-color_el4zmy.svg",
         block4_address: {
-          en: "B-1/D GROUND FLOOR SAURAV VIHAR, JAITPUR NEAR CHOKAN MANDIR, BADARPUR, DELHI 110044, NEW DELHI, DELHI, 110044, IN",
-          de: "B-1/D GROUND FLOOR SAURAV VIHAR, JAITPUR NEAR CHOKAN MANDIR, BADARPUR, DELHI 110044, NEW DELHI, DELHI, 110044, IN",
+          en: KURE_ADDRESS_WITH_COUNTRY,
+          de: KURE_ADDRESS_WITH_COUNTRY,
         },
         block4_phone: "+91 9717372217",
         block4_email: "ccruidk@test.com",
@@ -590,8 +597,8 @@ const setting = [
           de: "Garantiert 100 % biologisch aus Naturprodukten.",
         },
         card_description_seven: {
-          en: "Delivery from our pick point B-1/D GROUND FLOOR SAURAV VIHAR, JAITPUR NEAR CHOKAN MANDIR, BADARPUR, DELHI 110044, NEW DELHI, DELHI, 110044, IN.",
-          de: "Delivery from our pick point B-1/D GROUND FLOOR SAURAV VIHAR, JAITPUR NEAR CHOKAN MANDIR, BADARPUR, DELHI 110044, NEW DELHI, DELHI, 110044, IN.",
+          en: KURE_DELIVERY_PICKUP,
+          de: KURE_DELIVERY_PICKUP,
         },
       },
       seo: {

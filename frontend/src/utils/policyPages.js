@@ -6,13 +6,14 @@ export const POLICY_LINKS = [
   { id: "legal-disclaimer", href: "/legal-disclaimer", label: "Legal Disclaimer" },
 ];
 
+import { KURE_ADDRESS_WITH_COUNTRY } from "./kureContactInfo";
+
 export const KURE_POLICY_CONTACT = {
   company: "Kure Pharma",
   website: "kurepharma.com",
   phone: "+91 99119 72234",
   email: "Kure.export@gmail.com",
-  address:
-    "B-1/D, Saurav Vihar, Jaitpur, Badarpur, New Delhi – 110044, India",
+  address: KURE_ADDRESS_WITH_COUNTRY,
   cities:
     "Noida, Delhi NCR, Mumbai, Lucknow, Kolkata, Patna, Chandigarh & Pan-India",
 };

@@ -10,16 +10,15 @@ import { renderHomepageIcon } from "@utils/homepageIcons";
 import kureHomepageDefaults, {
   fallbackBrands,
 } from "@utils/kureHomepageDefaults";
+import { enrichBrandLogos } from "@utils/resolveBrandLogo";
 import SectionHeader from "@components/ui/SectionHeader";
 import FeaturedBrands from "@components/home/FeaturedBrands";
 import HomeHero from "@components/home/HomeHero";
-import PromoBanners from "@components/home/PromoBanners";
 import PopularCategories from "@components/home/PopularCategories";
 import TherapeuticsSection from "@components/home/TherapeuticsSection";
 import BreakthroughDrugs from "@components/home/BreakthroughDrugs";
 import SupplyBanners from "@components/home/SupplyBanners";
 import TherapyAccessGrid from "@components/home/TherapyAccessGrid";
-import SpecialtyTrust from "@components/home/SpecialtyTrust";
 import CredentialsStrip from "@components/home/CredentialsStrip";
 import CatalogProductImage from "@components/ui/CatalogProductImage";
 import CatalogReadMore from "@components/ui/CatalogReadMore";
@@ -120,7 +119,6 @@ const Home = ({ featuredProducts, allProducts, homepageSettings, brands }) => {
       ? homepageSettings.hero.slides
       : kureHomepageDefaults.hero.slides;
   const popularCategories = homepageSettings?.popularCategories?.items || [];
-  const promoBanners = homepageSettings?.promoBanners?.items || [];
   const therapeutics = homepageSettings?.therapeutics || {};
   const featuredBrands = brands || [];
 
@@ -232,9 +230,6 @@ const Home = ({ featuredProducts, allProducts, homepageSettings, brands }) => {
           </section>
         )}
 
-      {homepageSettings?.promoBanners?.enabled !== false &&
-        promoBanners.length > 0 && <PromoBanners items={promoBanners} />}
-
       <SupplyBanners onEnquire={() => setGenericEnquiryOpen(true)} />
 
       {homepageSettings?.therapeutics?.enabled !== false && (
@@ -242,8 +237,6 @@ const Home = ({ featuredProducts, allProducts, homepageSettings, brands }) => {
       )}
 
       <TherapyAccessGrid />
-
-      <SpecialtyTrust onEnquire={() => setGenericEnquiryOpen(true)} />
 
       {homepageSettings?.featuredBrands?.enabled !== false &&
         featuredBrands.length > 0 && (
@@ -442,6 +435,8 @@ export const getServerSideProps = async () => {
       brands = fallbackBrands;
     }
   }
+
+  brands = enrichBrandLogos(brands);
 
   let featured = featuredRes?.products || [];
   if (!featured.length) featured = allRes?.products?.slice(0, 12) || [];

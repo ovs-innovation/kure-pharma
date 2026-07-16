@@ -1,4 +1,5 @@
 const { popularCategoryItems } = require("./kureTherapeuticCategories");
+const { KURE_ADDRESS_MULTILINE } = require("./kureContactInfo");
 
 const kureHomepageDefaults = {
   seo: {
@@ -119,10 +120,10 @@ const kureHomepageDefaults = {
     titleHighlight: "Life-Saving",
     titleSuffix: "Therapeutics",
     description:
-      "Authenticated Indian & licensed specialty medicines from Zydus, Natco, Intas, Cipla, Sun Pharma and trusted partners — cold-chain delivered to hospitals and pharmacies across India.",
-    image: "/products/hertuma.png",
-    imageLabel: "Hertraz",
-    imageSubLabel: "Indian branded oncology medicine",
+      "We distribute fully authenticated, temperature-controlled specialty medicines sourced directly from trusted global manufacturers to hospitals, pharmacy chains, and clinical networks across India.",
+    image: "/app/mido.jpeg",
+    imageLabel: "Midostar®",
+    imageSubLabel: "Zydus specialty oncology · Midostaurin 25 mg",
   },
   featuredBrands: {
     enabled: true,
@@ -151,8 +152,7 @@ const kureHomepageDefaults = {
     phone: "+91 99119 72234",
     phoneHref: "tel:+919911972234",
     email: "Kure.export@gmail.com",
-    address:
-      "B-1/D, Saurav Vihar, Jaitpur,\nBadarpur, New Delhi – 110044",
+    address: KURE_ADDRESS_MULTILINE,
     hours: "Mon–Sat: 10 AM – 7 PM IST",
     whatsappUrl: "https://wa.me/919911972234",
     facebookUrl: "https://facebook.com",

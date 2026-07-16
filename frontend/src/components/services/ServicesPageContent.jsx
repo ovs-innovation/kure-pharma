@@ -1,14 +1,7 @@
 import { useState } from "react";
 import Link from "next/link";
-import PageHero from "@components/ui/PageHero";
-import SectionHeader from "@components/ui/SectionHeader";
+import { motion } from "framer-motion";
 import ProductEnquiryModal from "@components/modal/ProductEnquiryModal";
-import {
-  IconAwarenessRibbon,
-  IconCriticalCare,
-  IconHivRibbon,
-  IconImported,
-} from "@components/home/CategoryTherapyIcons";
 import {
   kurePharmaServices,
   kureServiceTourCities,
@@ -17,194 +10,210 @@ import {
 } from "@utils/kureServicesData";
 import {
   FiArrowRight,
-  FiCheckCircle,
-  FiGlobe,
+  FiChevronRight,
   FiMapPin,
   FiPhone,
-  FiShield,
-  FiTruck,
-  FiUsers,
 } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
-
-const SERVICE_ICONS = {
-  ribbon: IconAwarenessRibbon,
-  truck: FiTruck,
-  hospital: FiUsers,
-  heart: IconCriticalCare,
-  globe: IconImported,
-  shield: IconHivRibbon,
-};
 
 const generalEnquiryProduct = {
   _id: "general",
   name: "General Sourcing Enquiry",
-  shortDescription: "Tell us what medicines you need — our team responds within 24 hours.",
+  shortDescription:
+    "Tell us what medicines you need — our team responds within 24 hours.",
 };
+
+const fade = (delay = 0) => ({
+  initial: { opacity: 0, y: 14 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: "-40px" },
+  transition: { duration: 0.45, delay, ease: [0.22, 1, 0.36, 1] },
+});
 
 const ServicesPageContent = () => {
   const [enquiryOpen, setEnquiryOpen] = useState(false);
 
   return (
-    <>
-      <PageHero
-        breadcrumb="Services"
-        title="Therapeutic Supply"
-        highlight="Services Across India"
-        subtitle="From oncology and critical care to imported specialty medicines — CDSCO-compliant sourcing with cold chain delivery to hospitals and pharmacies nationwide."
-        bgImage="/hero-indian-distribution.png"
-      >
-        <div className="flex flex-wrap gap-3 mt-6">
-          <button
-            type="button"
-            onClick={() => setEnquiryOpen(true)}
-            className="kure-btn kure-btn-navy !text-xs !py-3 !px-5"
-          >
-            Send Enquiry <FiArrowRight className="w-4 h-4" />
-          </button>
-          <Link href="/products" className="kure-btn kure-btn-outline !text-xs !py-3 !px-5 !bg-white/10 !text-white !border-white/30 hover:!bg-white hover:!text-[#1A2E5B]">
-            Browse Products
-          </Link>
-        </div>
-      </PageHero>
+    <div className="ksv">
+      <section className="ksv-banner">
+        <div
+          className="ksv-banner__bg"
+          style={{ backgroundImage: "url(/hero-indian-distribution.png)" }}
+          aria-hidden
+        />
+        <div className="ksv-banner__overlay" aria-hidden />
+        <div className="ksv-banner__glow" aria-hidden />
+        <div className="ksv-wrap ksv-banner__inner">
+          <nav className="ksv-crumb" aria-label="Breadcrumb">
+            <Link href="/">Home</Link>
+            <FiChevronRight aria-hidden />
+            <span>Services</span>
+          </nav>
 
-      <section className="relative z-20 -mt-10">
-        <div className="kure-nav-container">
-          <div className="kure-services-stats">
-            {kureServiceHighlights.map((item) => (
-              <div key={item.label} className="kure-services-stats__item">
-                <strong>{item.value}</strong>
-                <span>{item.label}</span>
-              </div>
+          <motion.div className="ksv-banner__body" {...fade(0)}>
+            <p className="ksv-banner__tag">Kure Pharma · Bharat</p>
+            <h1 className="ksv-banner__title">
+              Therapeutic Supply
+              <span>Services Across India</span>
+            </h1>
+            <p className="ksv-banner__lead">
+              CDSCO-compliant oncology, critical care and specialty distribution
+              with cold chain logistics for hospitals and pharmacies.
+            </p>
+            <div className="ksv-banner__actions">
+              <button
+                type="button"
+                onClick={() => setEnquiryOpen(true)}
+                className="ksv-btn ksv-btn--gold"
+              >
+                Send Enquiry <FiArrowRight aria-hidden />
+              </button>
+              <Link href="/products" className="ksv-btn ksv-btn--ghost">
+                Browse Products
+              </Link>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      <div className="ksv-wrap ksv-stats-wrap">
+        <motion.div className="ksv-stats" {...fade(0.06)}>
+          {kureServiceHighlights.map((item) => (
+            <div key={item.label} className="ksv-stats__cell">
+              <strong>{item.value}</strong>
+              <span>{item.label}</span>
+            </div>
+          ))}
+        </motion.div>
+      </div>
+
+      <section className="ksv-main">
+        <div className="ksv-wrap">
+          <motion.header className="ksv-head" {...fade(0)}>
+            <p className="ksv-head__eyebrow">
+              <span aria-hidden />
+              What We Offer
+              <span aria-hidden />
+            </p>
+            <h2 className="ksv-head__title">
+              Pharmaceutical Distribution
+              <em>Services</em>
+            </h2>
+            <p className="ksv-head__sub">
+              End-to-end wholesale and distribution trusted by healthcare
+              institutions since 2016.
+            </p>
+          </motion.header>
+
+          <div className="ksv-cards">
+            {kurePharmaServices.map((service, i) => (
+              <motion.div
+                key={service.id}
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.35, delay: i * 0.04 }}
+              >
+                <Link
+                  href={service.href}
+                  className="ksv-card"
+                  style={{
+                    "--ksv-accent": service.color,
+                    "--ksv-bg": service.bg,
+                  }}
+                >
+                  <div className="ksv-card__media">
+                    <img
+                      src={service.image}
+                      alt=""
+                      className="ksv-card__img"
+                      draggable={false}
+                    />
+                  </div>
+                  <div className="ksv-card__body">
+                    <h3>{service.title}</h3>
+                    <p>{service.description}</p>
+                    <ul className="ksv-card__features">
+                      {service.features.map((f) => (
+                        <li key={f}>{f}</li>
+                      ))}
+                    </ul>
+                    <span className="ksv-card__link">
+                      View service <FiArrowRight aria-hidden />
+                    </span>
+                  </div>
+                </Link>
+              </motion.div>
             ))}
           </div>
-        </div>
-      </section>
 
-      <section className="kure-section kure-section-cream">
-        <div className="kure-nav-container">
-          <SectionHeader
-            eyebrow="What We Offer"
-            title="Complete Pharmaceutical Distribution Services"
-            subtitle="Trusted wholesale and distribution for hospitals, clinics and pharmacies — since 2016."
-          />
-          <div className="kure-services-grid">
-            {kurePharmaServices.map((service) => {
-              const Icon = SERVICE_ICONS[service.icon] || FiShield;
-              return (
-                <article
-                  key={service.id}
-                  className="kure-services-card"
-                  style={{ "--service-color": service.color, "--service-bg": service.bg }}
-                >
-                  <span className="kure-services-card__icon" aria-hidden>
-                    <Icon className="w-6 h-6" />
-                  </span>
-                  <h3>{service.title}</h3>
-                  <p>{service.description}</p>
-                  <ul className="kure-services-card__list">
-                    {service.features.map((feature) => (
-                      <li key={feature}>
-                        <FiCheckCircle className="w-3.5 h-3.5 shrink-0" />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </article>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      <section className="kure-section kure-section-white">
-        <div className="kure-nav-container">
-          <SectionHeader
-            eyebrow="Pan-India Network Tour"
-            title="Serving Healthcare Partners Across Bharat"
-            subtitle="Our distribution network covers major cities and extends to hospitals and pharmacies nationwide."
-          />
-          <div className="kure-services-tour">
-            <div className="kure-services-tour__map">
-              <div className="kure-services-tour__map-glow" aria-hidden />
-              <FiGlobe className="kure-services-tour__globe" aria-hidden />
-              <p className="kure-services-tour__map-label">Pan-India Coverage</p>
-              <div className="kure-services-tour__dots" aria-hidden>
-                <span /><span /><span /><span /><span />
-              </div>
+          <motion.div className="ksv-process" {...fade(0.08)}>
+            <div className="ksv-process__head">
+              <h3>How It Works</h3>
+              <p>From enquiry to delivery in four simple steps</p>
             </div>
-            <div className="kure-services-tour__cities">
-              {kureServiceTourCities.map((item) => (
-                <div
-                  key={item.city}
-                  className={`kure-services-tour__city ${item.hub ? "kure-services-tour__city--hub" : ""}`}
-                >
-                  <div className="kure-services-tour__city-head">
-                    <FiMapPin className="w-4 h-4 shrink-0" />
-                    <strong>{item.city}</strong>
-                    {item.hub && <span className="kure-services-tour__hub-badge">Hub</span>}
-                  </div>
-                  <p>{item.note}</p>
+            <div className="ksv-process__track">
+              {kureServiceProcess.map((step, i) => (
+                <div key={step.step} className="ksv-process__item">
+                  <span className="ksv-process__num">{step.step}</span>
+                  <h4>{step.title}</h4>
+                  <p>{step.description}</p>
+                  {i < kureServiceProcess.length - 1 && (
+                    <span className="ksv-process__connector" aria-hidden />
+                  )}
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
+          </motion.div>
 
-      <section className="kure-section kure-section-cream">
-        <div className="kure-nav-container">
-          <SectionHeader
-            eyebrow="How It Works"
-            title="Simple, Reliable Sourcing Process"
-            subtitle="From enquiry to delivery — transparent steps at every stage."
-          />
-          <div className="kure-services-process">
-            {kureServiceProcess.map((step, index) => (
-              <div key={step.step} className="kure-services-process__item">
-                <span className="kure-services-process__step">{step.step}</span>
-                <h3>{step.title}</h3>
-                <p>{step.description}</p>
-                {index < kureServiceProcess.length - 1 && (
-                  <span className="kure-services-process__line" aria-hidden />
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+          <motion.div className="ksv-network" {...fade(0.1)}>
+            <div className="ksv-network__label">
+              <FiMapPin aria-hidden />
+              <span>Pan-India delivery network</span>
+            </div>
+            <div className="ksv-network__chips">
+              {kureServiceTourCities.map((city) => (
+                <span
+                  key={city.city}
+                  className={`ksv-network__chip ${city.hub ? "ksv-network__chip--hub" : ""}`}
+                >
+                  {city.city}
+                  {city.hub && <small>Hub</small>}
+                </span>
+              ))}
+            </div>
+          </motion.div>
 
-      <section className="kure-section-navy py-14 lg:py-16">
-        <div className="kure-nav-container kure-services-cta">
-          <div>
-            <span className="kure-eyebrow !text-[#FF9933]">Get Started</span>
-            <h2 className="text-2xl sm:text-3xl font-black text-white mt-2 mb-3">
-              Need Medicine Sourcing Assistance?
-            </h2>
-            <p className="text-white/75 text-base max-w-xl">
-              Call us or send an enquiry — our team responds within 24 hours with availability and pricing.
-            </p>
-          </div>
-          <div className="kure-services-cta__actions">
-            <a href="tel:+919911972234" className="kure-btn bg-white text-[#1A2E5B] hover:bg-[#FFF9F0]">
-              <FiPhone className="w-4 h-4" /> +91 99119 72234
-            </a>
-            <a
-              href="https://wa.me/919911972234?text=Hello%20Kure%20Pharma%2C%20I%20need%20medicine%20sourcing%20help."
-              target="_blank"
-              rel="noopener noreferrer"
-              className="kure-btn bg-[#25D366] text-white hover:bg-[#20ba5a]"
-            >
-              <FaWhatsapp className="w-4 h-4" /> WhatsApp
-            </a>
-            <button
-              type="button"
-              onClick={() => setEnquiryOpen(true)}
-              className="kure-btn kure-btn-maroon cursor-pointer"
-            >
-              Send Enquiry <FiArrowRight className="w-4 h-4" />
-            </button>
-          </div>
+          <motion.div className="ksv-cta" {...fade(0.12)}>
+            <div className="ksv-cta__copy">
+              <p className="ksv-cta__tag">Get Started</p>
+              <h3>Need Medicine Sourcing Assistance?</h3>
+              <p>
+                Call us or send an enquiry — we respond within 24 hours with
+                availability and pricing.
+              </p>
+            </div>
+            <div className="ksv-cta__btns">
+              <a href="tel:+919911972234" className="ksv-btn ksv-btn--navy">
+                <FiPhone aria-hidden /> +91 99119 72234
+              </a>
+              <a
+                href="https://wa.me/919911972234?text=Hello%20Kure%20Pharma%2C%20I%20need%20medicine%20sourcing%20help."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ksv-btn ksv-btn--whatsapp"
+              >
+                <FaWhatsapp aria-hidden /> WhatsApp
+              </a>
+              <button
+                type="button"
+                onClick={() => setEnquiryOpen(true)}
+                className="ksv-btn ksv-btn--gold"
+              >
+                Send Enquiry <FiArrowRight aria-hidden />
+              </button>
+            </div>
+          </motion.div>
         </div>
       </section>
 
@@ -213,7 +222,7 @@ const ServicesPageContent = () => {
         setModalOpen={setEnquiryOpen}
         product={generalEnquiryProduct}
       />
-    </>
+    </div>
   );
 };
 

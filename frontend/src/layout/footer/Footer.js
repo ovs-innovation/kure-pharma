@@ -43,14 +43,11 @@ const Footer = () => {
       <div className="kure-container pt-14 pb-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-12 border-b border-white/10">
           <div className="lg:col-span-4 space-y-5">
-            <Link
-              href="/"
-              className="relative inline-flex items-center flex-shrink-0"
-            >
+            <Link href="/" className="kure-footer__logo">
               <img
-                src="/kure-logo.png"
+                src="/logo/kurelogo.png"
                 alt="Kure Pharma"
-                className="h-[88px] lg:h-[100px] w-auto object-contain -my-2 drop-shadow-sm"
+                className="kure-footer__logo-img"
               />
             </Link>
             <p className="text-sm leading-relaxed text-blue-100/75 max-w-sm">

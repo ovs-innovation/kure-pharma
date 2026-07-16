@@ -82,7 +82,7 @@ const InvoiceForPrint = ({ data, printRef, globalSetting }) => {
                   {globalSetting?.company_name || "ECOMPASS LLP"}
                 </div>
                 <div style={{ fontSize: "12px", color: "#333", lineHeight: "1.5", maxWidth: "450px" }}>
-                  {globalSetting?.address || "#47, New Anaj Mandi Sector 16, Faridabad - 121002, Haryana, India"}
+                  {globalSetting?.address || "H655+4CW, Balbir Saxena Marg, Yusuf Sarai, New Delhi, Delhi 110049, India"}
                   <br />
                   {globalSetting?.email || "ecompassllp@gmail.com"} | 
                   GSTIN: {globalSetting?.vat_number || "06AAIFE7762K1Z0"}

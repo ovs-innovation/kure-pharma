@@ -95,18 +95,15 @@ const Navbar = () => {
       >
         <div className="kure-nav-container">
           <div className="kure-navbar__inner">
-            <Link
-              href="/"
-              className="kure-navbar__logo"
-            >
+            <Link href="/" className="kure-navbar__logo">
               <img
-                src="/kure-logo.png"
+                src="/logo/kurelogo.png"
                 alt="Kure Pharma"
-                className="h-[4rem] sm:h-[4.25rem] lg:h-[5.5rem] w-auto max-w-[12rem] sm:max-w-[13rem] lg:max-w-[15rem] object-contain lg:-my-3"
+                className="kure-navbar__logo-img"
               />
             </Link>
 
-            <nav className="kure-navbar__nav hidden lg:flex">
+            <nav className="kure-navbar__nav kure-navbar__desktop">
               {navLinks.map((item) => (
                 <Link
                   key={item.href}
@@ -120,7 +117,7 @@ const Navbar = () => {
 
             <form
               onSubmit={handleSearch}
-              className="kure-nav-search hidden md:flex kure-navbar__search"
+              className="kure-nav-search kure-navbar__search kure-navbar__desktop"
             >
               <FiSearch className="kure-nav-search__icon" aria-hidden />
               <input
@@ -133,7 +130,7 @@ const Navbar = () => {
               />
             </form>
 
-            <div className="kure-navbar__actions hidden md:flex">
+            <div className="kure-navbar__actions kure-navbar__desktop">
               <a href="tel:+919911972234" className="kure-navbar__phone">
                 <span className="kure-navbar__phone-icon">
                   <FiPhoneCall className="w-4 h-4" />
@@ -157,11 +154,7 @@ const Navbar = () => {
               aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileMenuOpen}
             >
-              {mobileMenuOpen ? (
-                <FiX className="w-6 h-6" />
-              ) : (
-                <FiMenu className="w-6 h-6" />
-              )}
+              <FiMenu className="w-6 h-6" />
             </button>
           </div>
         </div>
@@ -182,11 +175,15 @@ const Navbar = () => {
             aria-label="Mobile navigation"
           >
             <div className="kure-mobile-menu__header">
-              <Link href="/" className="flex items-center shrink-0" onClick={closeMobileMenu}>
+              <Link
+                href="/"
+                className="kure-mobile-menu__logo-link"
+                onClick={closeMobileMenu}
+              >
                 <img
-                  src="/kure-logo.png"
+                  src="/logo/kurelogo.png"
                   alt="Kure Pharma"
-                  className="h-11 w-auto object-contain"
+                  className="kure-mobile-menu__logo"
                 />
               </Link>
               <button
@@ -199,7 +196,10 @@ const Navbar = () => {
               </button>
             </div>
 
-            <form onSubmit={handleSearch} className="kure-nav-search px-4 pb-3 md:hidden">
+            <form
+              onSubmit={handleSearch}
+              className="kure-mobile-menu__search kure-nav-search"
+            >
               <FiSearch className="kure-nav-search__icon" aria-hidden />
               <input
                 type="search"
@@ -237,9 +237,10 @@ const Navbar = () => {
                   closeMobileMenu();
                   setGenericEnquiryOpen(true);
                 }}
-                className="kure-btn kure-btn-primary w-full"
+                className="kure-nav-cta w-full justify-center"
               >
                 Send Enquiry
+                <FiArrowRight className="w-3.5 h-3.5" aria-hidden />
               </button>
             </div>
           </div>

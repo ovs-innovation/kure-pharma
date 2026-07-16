@@ -40,7 +40,7 @@ const SplashLoader = () => {
 
           {/* Actual Kure Pharma Logo */}
           <img
-            src="/kure-logo.png"
+            src="/logo/kurelogo.png"
             alt="Kure Pharma"
             className="w-40 h-auto object-contain relative z-10 animate-kure-logo-pulse"
           />

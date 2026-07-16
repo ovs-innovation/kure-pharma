@@ -1,11 +1,14 @@
 import { useState } from "react";
+import { resolveBrandLogo } from "@utils/resolveBrandLogo";
 
-const BrandLogo = ({ logo, name }) => {
+const BrandLogo = ({ brand }) => {
   const [imgError, setImgError] = useState(false);
+  const logo = resolveBrandLogo(brand);
+  const name = brand?.name || "Brand";
 
   if (imgError || !logo) {
     return (
-      <span className="text-xs font-black tracking-tight text-center leading-tight text-gray-500 px-1">
+      <span className="kure-brand-wordmark" aria-label={name}>
         {name}
       </span>
     );
@@ -15,7 +18,7 @@ const BrandLogo = ({ logo, name }) => {
     <img
       src={logo}
       alt={name}
-      className="w-full h-full object-contain"
+      className="kure-brand-logo"
       loading="lazy"
       onError={() => setImgError(true)}
     />
@@ -23,8 +26,8 @@ const BrandLogo = ({ logo, name }) => {
 };
 
 const BrandCard = ({ brand }) => (
-  <div className="kure-brands-marquee-item kure-card flex flex-col items-center justify-center p-3">
-    <BrandLogo logo={brand.logo} name={brand.name} />
+  <div className="kure-brand-card">
+    <BrandLogo brand={brand} />
   </div>
 );
 
@@ -34,7 +37,7 @@ const FeaturedBrands = ({ brands }) => {
   const loopBrands = [...brands, ...brands];
 
   return (
-    <>
+    <div className="kure-featured-brands">
       {/* Mobile & tablet — auto scroll */}
       <div className="kure-brands-marquee lg:hidden" aria-label="Featured brands">
         <div className="kure-brands-marquee-fade kure-brands-marquee-fade--left" />
@@ -47,17 +50,12 @@ const FeaturedBrands = ({ brands }) => {
       </div>
 
       {/* Desktop — static grid */}
-      <div className="hidden lg:flex flex-wrap items-center justify-center gap-4">
+      <div className="kure-brands-grid hidden lg:grid">
         {brands.map((brand, idx) => (
-          <div
-            key={brand._id || idx}
-            className="kure-card w-32 h-32 flex flex-col items-center justify-center p-4 flex-shrink-0"
-          >
-            <BrandLogo logo={brand.logo} name={brand.name} />
-          </div>
+          <BrandCard key={brand._id || idx} brand={brand} />
         ))}
       </div>
-    </>
+    </div>
   );
 };
 

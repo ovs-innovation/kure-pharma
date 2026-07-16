@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 //internal import
 import OrderTable from "@components/order/OrderTable";
-import useUtilsFunction from "@hooks/useUtilsFunction";
+import { KURE_ADDRESS_WITH_COUNTRY } from "@utils/kureContactInfo";
 
 const Invoice = ({ data, printRef, globalSetting, currency }) => {
   // console.log('invoice data',data)
@@ -45,14 +45,13 @@ const Invoice = ({ data, printRef, globalSetting, currency }) => {
                 <Image
                   width={110}
                   height={40}
-                  src="/kure-logo.png"
+                  src="/logo/kurelogo.png"
                   alt="Kure Pharma"
                 />
               </Link>
             </h2>
             <p className="text-sm text-gray-500">
-              {globalSetting?.address ||
-                "B-1/D GROUND FLOOR SAURAV VIHAR, JAITPUR NEAR CHOKAN MANDIR, BADARPUR, DELHI 110044, NEW DELHI, DELHI, 110044, IN"}
+              {globalSetting?.address || KURE_ADDRESS_WITH_COUNTRY}
             </p>
           </div>
         </div>

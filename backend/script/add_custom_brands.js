@@ -6,6 +6,7 @@ const customBrands = [
   {
     name: "Curemart Pharma",
     slug: "curemart-pharma",
+    logo: "/brands/curemart-pharma.svg",
     country: "India",
     featured: true,
     status: "show",
@@ -14,6 +15,7 @@ const customBrands = [
   {
     name: "Cadila Pharmaceuticals",
     slug: "cadila-pharmaceuticals",
+    logo: "/brands/cadila.svg",
     country: "India",
     featured: true,
     status: "show",
@@ -22,6 +24,7 @@ const customBrands = [
   {
     name: "Deltamed",
     slug: "deltamed",
+    logo: "/brands/deltamed.svg",
     country: "India",
     featured: true,
     status: "show",
@@ -30,6 +33,7 @@ const customBrands = [
   {
     name: "Dr. Reddy's",
     slug: "dr-reddys",
+    logo: "/brands/dr-reddys.svg",
     country: "India",
     featured: true,
     status: "show",
@@ -38,6 +42,7 @@ const customBrands = [
   {
     name: "Zydus",
     slug: "zydus",
+    logo: "/brands/zydus.svg",
     country: "India",
     featured: true,
     status: "show",
@@ -46,6 +51,7 @@ const customBrands = [
   {
     name: "BDR Pharmaceuticals",
     slug: "bdr-pharmaceuticals",
+    logo: "/brands/bdr.svg",
     country: "India",
     featured: true,
     status: "show",
@@ -68,9 +74,12 @@ const addBrands = async () => {
         console.log(`Added brand: ${b.name}`);
         addedCount++;
       } else {
+        exists.name = b.name;
+        exists.logo = b.logo;
         exists.featured = true;
         exists.country = "India";
         exists.status = "show";
+        exists.sortOrder = b.sortOrder;
         await exists.save();
         console.log(`Updated existing brand: ${b.name}`);
         skippedCount++;

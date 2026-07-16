@@ -2,13 +2,11 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import {
   FiArrowRight,
-  FiAward,
   FiHeadphones,
-  FiShield,
-  FiThermometer,
   FiTruck,
   FiUsers,
 } from "react-icons/fi";
+import { popularCategoryItems } from "@utils/kureTherapeuticCategories";
 
 const IconHospital = (props) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" {...props}>
@@ -20,28 +18,6 @@ const IconHospital = (props) => (
     />
   </svg>
 );
-import { popularCategoryItems } from "@utils/kureTherapeuticCategories";
-
-const TRUST_BADGES = [
-  {
-    icon: FiShield,
-    iconClass: "kcs-badge__icon--gold",
-    title: "CDSCO Compliant",
-    sub: "Regulatory approved",
-  },
-  {
-    icon: FiThermometer,
-    iconClass: "kcs-badge__icon--blue",
-    title: "Cold Chain Logistics",
-    sub: "Temperature controlled",
-  },
-  {
-    icon: FiAward,
-    iconClass: "kcs-badge__icon--green",
-    title: "Quality Assured",
-    sub: "100% genuine medicines",
-  },
-];
 
 const TRUST_BAR = [
   {
@@ -114,49 +90,22 @@ const PopularCategories = ({ items = [] }) => {
   return (
     <section className="kcs" aria-label="Pharmaceutical categories">
       <div className="kcs__container">
-        <div className="kcs-hero">
-          <motion.div className="kcs-hero__copy" {...fade(0)}>
-            <p className="kcs__eyebrow">
-              Our Specialties
-              <span className="kcs__eyebrow-line" aria-hidden />
-            </p>
-            <h2 className="kcs__title">
-              Explore Our Pharmaceutical
-              <span className="kcs__title-gold">Categories</span>
-            </h2>
-            <p className="kcs__desc">
-              Discover our comprehensive range of oncology, specialty and
-              life-saving medicines trusted by healthcare institutions across
-              India.
-            </p>
-
-            <ul className="kcs-badges">
-              {TRUST_BADGES.map((b) => {
-                const Icon = b.icon;
-                return (
-                  <li key={b.title} className="kcs-badge">
-                    <span className={`kcs-badge__icon ${b.iconClass}`}>
-                      <Icon strokeWidth={2.2} aria-hidden />
-                    </span>
-                    <span className="kcs-badge__text">
-                      <strong>{b.title}</strong>
-                      <span>{b.sub}</span>
-                    </span>
-                  </li>
-                );
-              })}
-            </ul>
-          </motion.div>
-
-          <motion.div className="kcs-hero__visual" {...fade(0.08)}>
-            <img
-              src="/categories/hero-scene.png"
-              alt="Kure Pharma oncology care products"
-              className="kcs-hero__img"
-              draggable={false}
-            />
-          </motion.div>
-        </div>
+        <motion.header className="kcs__header" {...fade(0)}>
+          <p className="kcs__eyebrow">
+            <span className="kcs__eyebrow-line" aria-hidden />
+            Our Specialties
+            <span className="kcs__eyebrow-line" aria-hidden />
+          </p>
+          <h2 className="kcs__title">
+            Explore Our Pharmaceutical
+            <span className="kcs__title-gold">Categories</span>
+          </h2>
+          <p className="kcs__desc">
+            Discover our comprehensive range of oncology, specialty and
+            life-saving medicines trusted by healthcare institutions across
+            India.
+          </p>
+        </motion.header>
 
         <div className="kcs__grid">
           {categories.map((cat, i) => {
@@ -187,9 +136,6 @@ const PopularCategories = ({ items = [] }) => {
                   </div>
 
                   <h3 className="kcs-card__title">{cat.displayName}</h3>
-                  <p className="kcs-card__count">
-                    <strong>{cat.productCount}</strong> Products
-                  </p>
                   <span className="kcs-card__cta">
                     Explore <FiArrowRight aria-hidden />
                   </span>

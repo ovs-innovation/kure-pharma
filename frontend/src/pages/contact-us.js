@@ -21,6 +21,7 @@ import {
   KURE_ADDRESS_LINES,
   KURE_ADDRESS_MAP_EMBED,
 } from "@utils/kureContactInfo";
+import { kureTherapeuticCategories } from "@utils/kureTherapeuticCategories";
 
 const enquiryTypes = [
   ...kureTherapeuticCategories.map((item) => item.name),

@@ -6,6 +6,8 @@ export const kureTherapeuticCategories = [
     bgColor: "#FFF0F0",
     textColor: "#DC2626",
     icon: "anti-cancer",
+    productCount: "320+",
+    image: "/products/cancer_treatment_pack.png",
   },
   {
     name: "Oncology Drugs",
@@ -14,6 +16,8 @@ export const kureTherapeuticCategories = [
     bgColor: "#F3EEFF",
     textColor: "#7C3AED",
     icon: "oncology",
+    productCount: "250+",
+    image: "/products/oncology.png",
   },
   {
     name: "Critical Care Medicines",
@@ -22,6 +26,8 @@ export const kureTherapeuticCategories = [
     bgColor: "#FFF0F5",
     textColor: "#BE185D",
     icon: "critical-care",
+    productCount: "180+",
+    image: "/products/critical.png",
   },
   {
     name: "Lifesaving Drugs",
@@ -30,6 +36,8 @@ export const kureTherapeuticCategories = [
     bgColor: "#FFFBEA",
     textColor: "#D97706",
     icon: "lifesaving",
+    productCount: "180+",
+    image: "/products/lifesaving_emergency_box.png",
   },
   {
     name: "Imported medicine",
@@ -38,32 +46,40 @@ export const kureTherapeuticCategories = [
     bgColor: "#EDFFF5",
     textColor: "#059669",
     icon: "imported",
+    productCount: "120+",
+    image: "/products/imported.png",
   },
   {
     name: "HIV",
     category: "HIV",
     slug: "hiv",
     bgColor: "#FDF2F8",
-    textColor: "#9D174D",
+    textColor: "#DB2777",
     icon: "hiv",
+    productCount: "120+",
+    image: "/products/hiv.png",
   },
   {
     name: "Nephrology Medicine",
     category: "Nephrology Medicine",
     slug: "nephrology-medicine",
     bgColor: "#EFF7FF",
-    textColor: "#1D4ED8",
+    textColor: "#2563EB",
     icon: "nephrology",
+    productCount: "95+",
+    image: "/products/nephrology.png",
   },
 ];
 
 export const popularCategoryItems = kureTherapeuticCategories.map(
-  ({ name, category, bgColor, textColor, icon }) => ({
+  ({ name, category, bgColor, textColor, icon, productCount, image }) => ({
     name,
     category,
     bgColor,
     textColor,
     icon,
+    productCount,
+    image,
   }),
 );
 

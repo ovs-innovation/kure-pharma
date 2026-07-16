@@ -1,6 +1,7 @@
 import "@styles/custom.css";
 import "@styles/kure-design.css";
 import "@styles/kure-hero-premium.css";
+import "@styles/kure-categories-showcase.css";
 import { CartProvider } from "react-use-cart";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";

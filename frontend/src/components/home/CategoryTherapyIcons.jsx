@@ -11,6 +11,54 @@ const Svg = ({ children, className, viewBox = "0 0 24 24", size = 24 }) => (
   </svg>
 );
 
+/** Anti-cancer — capsule + awareness ribbon */
+export const IconAntiCancerCombo = ({ className }) => (
+  <Svg className={className} viewBox="0 0 24 24">
+    <rect x="3.5" y="9.5" width="10" height="5" rx="2.5" fill="currentColor" opacity="0.85" />
+    <rect x="8" y="9.5" width="5.5" height="5" rx="2.5" fill="currentColor" opacity="0.35" />
+    <path
+      d="M17.5 4.2c-1.2 1.6-2.9 3-2.9 5.2 0 1.8 1.2 3.2 2.9 3.9 1.7-.7 2.9-2.1 2.9-3.9 0-2.2-1.7-3.6-2.9-5.2z"
+      fill="currentColor"
+    />
+    <path
+      d="M15.2 9.8l-1.4 4.2 1.6-.9 2.1.9-1.4-4.2"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);
+
+/** Oncology — DNA double helix */
+export const IconDnaHelix = ({ className }) => (
+  <Svg className={className} viewBox="0 0 24 24">
+    {[0, 1, 2, 3, 4].map((i) => (
+      <g key={i}>
+        <circle cx={8 + (i % 2) * 8} cy={4 + i * 3.6} r="1.3" fill="currentColor" opacity={0.7 + (i % 2) * 0.2} />
+        <line
+          x1={8 + (i % 2) * 8}
+          y1={4 + i * 3.6}
+          x2={16 - (i % 2) * 8}
+          y2={4 + i * 3.6}
+          stroke="currentColor"
+          strokeWidth="0.9"
+          opacity="0.45"
+        />
+      </g>
+    ))}
+    <path
+      d="M8 4c2 2.5 2 6.5 0 9M16 4c-2 2.5-2 6.5 0 9"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.2"
+      strokeLinecap="round"
+      opacity="0.5"
+    />
+  </Svg>
+);
+
 /** Classic awareness ribbon — anti-cancer / oncology */
 export const IconAwarenessRibbon = ({ className }) => (
   <Svg className={className}>
@@ -163,8 +211,8 @@ export const IconNephrology = ({ className }) => (
 );
 
 export const CATEGORY_THERAPY_ICON_MAP = {
-  "anti-cancer": IconAwarenessRibbon,
-  oncology: IconOncologyRibbon,
+  "anti-cancer": IconAntiCancerCombo,
+  oncology: IconDnaHelix,
   "critical-care": IconCriticalCare,
   lifesaving: IconLifesaving,
   imported: IconImported,
@@ -175,8 +223,8 @@ export const CATEGORY_THERAPY_ICON_MAP = {
 };
 
 export const CATEGORY_THERAPY_ICON_BY_NAME = {
-  "Anti-Cancer Medicines": IconAwarenessRibbon,
-  "Oncology Drugs": IconOncologyRibbon,
+  "Anti-Cancer Medicines": IconAntiCancerCombo,
+  "Oncology Drugs": IconDnaHelix,
   "Critical Care Medicines": IconCriticalCare,
   "Lifesaving Drugs": IconLifesaving,
   "Imported medicine": IconImported,

@@ -71,7 +71,7 @@ const kureHomepageDefaults = {
   },
   popularCategories: {
     enabled: true,
-    title: "Popular Categories",
+    title: "Explore Our Pharmaceutical Categories",
     items: popularCategoryItems,
   },
   bestDeals: {

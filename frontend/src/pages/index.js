@@ -167,10 +167,7 @@ const Home = ({ featuredProducts, allProducts, homepageSettings, brands }) => {
 
       {homepageSettings?.popularCategories?.enabled !== false &&
         popularCategories.length > 0 && (
-          <PopularCategories
-            title={homepageSettings?.popularCategories?.title}
-            items={popularCategories}
-          />
+          <PopularCategories items={popularCategories} />
         )}
 
       <BreakthroughDrugs

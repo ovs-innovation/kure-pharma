@@ -1,240 +1,245 @@
+import { useRef } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import {
   FiArrowRight,
   FiAward,
-  FiHeadphones,
-  FiMapPin,
-  FiPackage,
+  FiCheck,
+  FiMail,
   FiPhone,
   FiShield,
-  FiTruck,
-  FiUsers,
+  FiThermometer,
+  FiGlobe,
+  FiZap,
 } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
 import { renderHomepageIcon } from "@utils/homepageIcons";
+import HeroPremiumVisual from "@components/home/HeroPremiumVisual";
+import kureHomepageDefaults from "@utils/kureHomepageDefaults";
 
-const DEFAULT_HERO_IMAGE = "/hero-indian-distribution.png";
+const defaultSlide = kureHomepageDefaults.hero.slides[0] || {};
 
-const DEFAULT_TRUST_ICONS = [
-  { icon: FiShield, label: "CDSCO Compliant" },
-  { icon: FiTruck, label: "Cold Chain Delivery" },
-  { icon: FiAward, label: "Quality Assured" },
-  { icon: FiMapPin, label: "Pan-India Network" },
+const TRUST_BADGES = [
+  { icon: FiShield, label: "CDSCO Certified" },
+  { icon: FiAward, label: "GDP Compliant" },
+  { icon: FiThermometer, label: "Cold Chain Logistics" },
+  { icon: FiCheck, label: "ISO Certified" },
+  { icon: FiGlobe, label: "Pan India Delivery" },
 ];
 
-const DEFAULT_STATS = [
-  { icon: FiUsers, value: "500+", label: "Happy Clients" },
-  { icon: FiPackage, value: "10,000+", label: "Products" },
-  { icon: FiAward, value: "50+", label: "Top Brands" },
-  { icon: FiShield, value: "8+", label: "Years of Trust" },
-];
-
-const DEFAULT_FEATURE_CARDS = [
+const FEATURE_CARDS = [
   {
     icon: "FiPackage",
-    title: "Wide Range",
+    title: "Wide Product Portfolio",
     description:
-      "Extensive portfolio of oncology, specialty and prescription medicines.",
+      "Comprehensive oncology & specialty therapeutics sourced from verified global manufacturers.",
   },
   {
     icon: "FiTruck",
-    title: "Timely Delivery",
-    description: "On-time delivery with temperature-controlled logistics.",
+    title: "Temperature Controlled Logistics",
+    description:
+      "GDP-compliant cold chain with real-time monitoring across every delivery corridor.",
   },
   {
     icon: "FiUsers",
-    title: "Trusted by Experts",
-    description: "Serving hospitals, clinics and pharmacies across India.",
+    title: "Trusted by Oncology Experts",
+    description:
+      "Preferred partner for cancer centres, hospitals and government institutions nationwide.",
   },
   {
     icon: "FiHeadphones",
-    title: "Dedicated Support",
-    description: "Responsive support for sourcing, pricing and availability.",
+    title: "24×7 Dedicated Support",
+    description:
+      "Round-the-clock pharmaceutical support for urgent procurement and clinical needs.",
   },
 ];
 
-const isMedicineProductImage = (url) => {
-  if (!url || typeof url !== "string") return false;
-  const normalized = url.toLowerCase();
-  return (
-    normalized.includes("/products/") ||
-    normalized.includes("medicine") ||
-    normalized.includes("injection") ||
-    normalized.includes("oncology_box") ||
-    normalized.includes("vial") ||
-    normalized.includes("capsule")
-  );
-};
+const CERT_STRIP = [
+  "CDSCO Registered",
+  "GDP Compliant",
+  "ISO 9001:2015",
+  "Cold Chain Certified",
+];
 
-const getHeroImage = (slide) => {
-  const candidates = [
-    slide?.bgImage,
-    slide?.heroScene,
-    slide?.sceneImage,
-    slide?.heroImage,
-  ];
-
-  const safeImage = candidates.find((url) => url && !isMedicineProductImage(url));
-  return safeImage || DEFAULT_HERO_IMAGE;
-};
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 28 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] },
+});
 
 const HomeHero = ({
   slides = [],
-  ctaPrimary = { text: "View Full Product Range", link: "/products" },
-  ctaSecondary = { text: "Send Enquiry" },
+  ctaPrimary = { text: "Explore Products", link: "/products" },
+  ctaSecondary = { text: "Request Quote" },
   onEnquiry,
   phone = "+91 99119 72234",
   whatsapp = "919911972234",
-  stats = DEFAULT_STATS,
-  featureCards = DEFAULT_FEATURE_CARDS,
+  email = "info@kurepharma.com",
   qualityBar,
 }) => {
-  const slide = slides[0] || {};
-  const heroImage = getHeroImage(slide);
+  const heroRef = useRef(null);
+  const slide = { ...defaultSlide, ...(slides[0] || {}) };
+  const showFeatures = qualityBar?.enabled !== false;
+  const cards = qualityBar?.items?.length ? qualityBar.items : FEATURE_CARDS;
 
-  const titleLine1 =
-    slide.titleLine1 || "Your Trusted Partner in Healthcare.";
-  const titleScript = slide.titleHighlight || "Across India.";
-  const subtitle =
-    slide.subtitle ||
-    "CDSCO-compliant sourcing for hospitals, pharmacies and clinics with reliable supply, quality assurance and pan-India delivery.";
-  const tagline =
-    slide.tagline ||
-    "Oncology & Specialty Medicines | Prescription Products";
-
-  const cards =
-    qualityBar?.items?.length > 0 ? qualityBar.items : featureCards;
-
-  const cities =
-    slide.cities ||
-    "Delhi NCR | Mumbai | Lucknow | Kolkata | Chandigarh | & Many More";
+  const phoneHref = phone ? `tel:${phone.replace(/\s+/g, "")}` : null;
+  const waHref = whatsapp
+    ? `https://wa.me/${whatsapp.replace(/\+/g, "").replace(/\s+/g, "")}?text=Hello%20Kure%20Pharma%2C%20I%20need%20a%20sourcing%20quote.`
+    : null;
 
   return (
-    <section className="kure-hero-exact" aria-label="Kure Pharma hero">
-      <div className="kure-container kure-hero-exact__body">
-        <div className="kure-hero-exact__main">
-          <div className="kure-hero-exact__copy">
-            <p className="kure-hero-exact__eyebrow">{tagline}</p>
+    <section className="khp" aria-label="Kure Pharma hero" ref={heroRef}>
+      {/* Background system */}
+      <div className="khp__bg" aria-hidden>
+        <div className="khp__bg-gradient" />
+        <div className="khp__bg-dots" />
+        <div className="khp__bg-radial khp__bg-radial--gold" />
+        <div className="khp__bg-radial khp__bg-radial--blue" />
+        {[...Array(8)].map((_, i) => (
+          <motion.span
+            key={i}
+            className="khp__bg-particle"
+            style={{ left: `${10 + i * 11}%`, top: `${15 + ((i * 17) % 70)}%` }}
+            animate={{ y: [0, -20, 0], opacity: [0.15, 0.45, 0.15] }}
+            transition={{
+              duration: 6 + i * 0.8,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: i * 0.4,
+            }}
+          />
+        ))}
+      </div>
 
-            <h1 className="kure-hero-exact__title">
-              {titleLine1}
-              <span className="kure-hero-exact__script">{titleScript}</span>
-            </h1>
+      <div className="khp__container">
+        <div className="khp__split">
+          {/* LEFT — Content */}
+          <div className="khp__left">
+            <motion.p className="khp__eyebrow" {...fadeUp(0)}>
+              {slide.tagline ||
+                "Oncology & Specialty Medicines · Prescription Products"}
+            </motion.p>
 
-            <p className="kure-hero-exact__desc">{subtitle}</p>
+            <motion.h1 className="khp__title" {...fadeUp(0.08)}>
+              Leading <span className="khp__gold">Oncology</span>
+              {" & Specialty Medicine"}
+              <br />
+              Distributor Across <span className="khp__gold">India</span>
+            </motion.h1>
 
-            <div className="kure-hero-exact__trust-grid">
-              {DEFAULT_TRUST_ICONS.map(({ icon: Icon, label }) => (
-                <div key={label} className="kure-hero-exact__trust-item">
-                  <span className="kure-hero-exact__trust-icon" aria-hidden>
-                    <Icon className="w-4 h-4" />
+            <motion.p className="khp__subtitle" {...fadeUp(0.16)}>
+              Serving Hospitals, Clinics, Cancer Centres &amp; Government
+              Institutions with CDSCO compliant cold-chain pharmaceutical
+              distribution.
+            </motion.p>
+
+            {/* Trust badges */}
+            <motion.div className="khp__trust" {...fadeUp(0.24)}>
+              {TRUST_BADGES.map(({ icon: Icon, label }) => (
+                <div key={label} className="khp__trust-item">
+                  <span className="khp__trust-icon">
+                    <Icon strokeWidth={2.2} />
                   </span>
-                  <span>{label}</span>
+                  <span className="khp__trust-label">{label}</span>
                 </div>
               ))}
-            </div>
+            </motion.div>
 
-            <div className="kure-hero-exact__cta-row">
+            {/* CTAs */}
+            <motion.div className="khp__cta-row" {...fadeUp(0.32)}>
               <Link
                 href={ctaPrimary.link || "/products"}
-                className="kure-hero-exact__cta-primary"
+                className="khp__btn khp__btn--primary"
               >
-                {ctaPrimary.text || "View Full Product Range"}
-                <FiArrowRight className="w-4 h-4" aria-hidden />
+                {ctaPrimary.text || "Explore Products"}
+                <FiArrowRight className="khp__btn-arrow" aria-hidden />
               </Link>
               <button
                 type="button"
                 onClick={onEnquiry}
-                className="kure-hero-exact__cta-secondary"
+                className="khp__btn khp__btn--secondary"
               >
-                {ctaSecondary.text || "Send Enquiry"}
+                {ctaSecondary.text || "Request Quote"}
+                <span className="khp__btn-arrow-wrap" aria-hidden>
+                  <FiArrowRight className="khp__btn-arrow khp__btn-arrow--secondary" />
+                </span>
               </button>
-            </div>
+            </motion.div>
 
-            <div className="kure-hero-exact__contact">
-              {phone && (
-                <a
-                  href={`tel:${phone.replace(/\s+/g, "")}`}
-                  className="kure-hero-exact__phone"
-                >
-                  <FiPhone className="w-3.5 h-3.5" aria-hidden />
+            {/* Contact strip */}
+            <motion.div className="khp__contact" {...fadeUp(0.38)}>
+              {phoneHref && (
+                <a href={phoneHref} className="khp__contact-link">
+                  <FiPhone aria-hidden />
                   {phone}
                 </a>
               )}
-              {phone && whatsapp && (
-                <span className="kure-hero-exact__contact-dot" aria-hidden />
-              )}
-              {whatsapp && (
+              {waHref && (
                 <a
-                  href={`https://wa.me/${whatsapp.replace(/\+/g, "").replace(/\s+/g, "")}?text=Hello%20Kure%20Pharma%2C%20I%20need%20a%20sourcing%20quote.`}
+                  href={waHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="kure-hero-exact__whatsapp-link"
+                  className="khp__contact-link khp__contact-link--wa"
                 >
-                  <FaWhatsapp className="w-3.5 h-3.5" aria-hidden />
+                  <FaWhatsapp aria-hidden />
                   WhatsApp
                 </a>
               )}
-            </div>
-          </div>
+              <a href={`mailto:${email}`} className="khp__contact-link">
+                <FiMail aria-hidden />
+                {email}
+              </a>
+              <span className="khp__contact-badge">
+                <FiZap aria-hidden />
+                Quick Response
+              </span>
+            </motion.div>
 
-          <div className="kure-hero-exact__visual">
-            <div className="kure-hero-exact__showcase">
-              <img
-                src={heroImage}
-                alt="Kure Pharma distribution facility"
-                className="kure-hero-exact__showcase-img"
-              />
-              <div className="kure-hero-exact__stats">
-                {stats.map(({ icon: Icon, value, label }) => (
-                  <div key={label} className="kure-hero-exact__stat">
-                    <span className="kure-hero-exact__stat-icon" aria-hidden>
-                      <Icon className="w-4 h-4" />
-                    </span>
-                    <div>
-                      <strong>{value}</strong>
-                      <span>{label}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {qualityBar?.enabled !== false && cards.length > 0 && (
-          <div className="kure-hero-exact__features">
-            {cards.map((item) => (
-              <div key={item.title} className="kure-hero-exact__feature-card">
-                <span className="kure-hero-exact__feature-icon" aria-hidden>
-                  {renderHomepageIcon(
-                    item.icon,
-                    "w-5 h-5 text-[#1A2E5B]",
-                  )}
+            {/* Certification strip */}
+            <motion.div className="khp__cert" {...fadeUp(0.5)}>
+              {CERT_STRIP.map((cert, i) => (
+                <span key={cert} className="khp__cert-item">
+                  {i > 0 && <span className="khp__cert-dot" aria-hidden />}
+                  {cert}
                 </span>
-                <h3>{item.title}</h3>
-                <p>{item.description}</p>
-                <span className="kure-hero-exact__feature-line" aria-hidden />
-              </div>
-            ))}
+              ))}
+            </motion.div>
           </div>
-        )}
-      </div>
 
-      <div className="kure-hero-exact__locations">
-        <div className="kure-container kure-hero-exact__locations-inner">
-          <p className="kure-hero-exact__cities">
-            <FiMapPin className="w-3.5 h-3.5 shrink-0" aria-hidden />
-            {cities}
-          </p>
-          <p className="kure-hero-exact__tagline">
-            <span className="kure-hero-exact__handshake" aria-hidden>
-              🤝
-            </span>
-            Building healthier tomorrows,{" "}
-            <em className="kure-hero-exact__script-inline">together.</em>
-          </p>
+          {/* RIGHT — Visual */}
+          <motion.div className="khp__right" {...fadeUp(0.2)}>
+            <HeroPremiumVisual trackRef={heroRef} />
+          </motion.div>
         </div>
+
+        {/* Feature cards */}
+        {showFeatures && cards.length > 0 && (
+          <motion.div
+            className="khp__features"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.8,
+              delay: 0.55,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+          >
+            {cards.map((item) => (
+              <motion.div
+                key={item.title}
+                className="khp-feature"
+                whileHover={{ y: -6, transition: { duration: 0.25 } }}
+              >
+                <span className="khp-feature__icon">
+                  {renderHomepageIcon(item.icon, "w-5 h-5")}
+                </span>
+                <h3 className="khp-feature__title">{item.title}</h3>
+                <p className="khp-feature__desc">{item.description}</p>
+                <span className="khp-feature__line" aria-hidden />
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
       </div>
     </section>
   );

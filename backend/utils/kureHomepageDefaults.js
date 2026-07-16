@@ -33,13 +33,11 @@ const kureHomepageDefaults = {
     slides: [
       {
         tagline: "Oncology & Specialty Medicines | Prescription Products",
-        titleLine1: "Your Trusted Partner in Healthcare.",
-        titleHighlight: "Across India.",
+        titleLine1: "Leading Pharmaceutical Wholesale",
+        titleGoldLine: "Distributors in India.",
+        titleLine2: "in India.",
         subtitle:
-          "CDSCO-compliant sourcing for hospitals, pharmacies and clinics with reliable supply, quality assurance and pan-India delivery.",
-        cities:
-          "Delhi NCR | Mumbai | Lucknow | Kolkata | Chandigarh | & Many More",
-        bgImage: "/hero-indian-distribution.png",
+          "CDSCO-compliant sourcing for hospitals, pharmacies and clinics. Noida | Delhi NCR | Mumbai | Lucknow | Kolkata | Pan-India delivery.",
       },
     ],
   },
@@ -49,8 +47,7 @@ const kureHomepageDefaults = {
       {
         icon: "FiPackage",
         title: "Wide Range",
-        description:
-          "Extensive portfolio of oncology, specialty and prescription medicines.",
+        description: "Extensive portfolio of oncology & specialty care products.",
       },
       {
         icon: "FiTruck",
@@ -60,13 +57,12 @@ const kureHomepageDefaults = {
       {
         icon: "FiUsers",
         title: "Trusted by Experts",
-        description: "Serving hospitals, clinics and pharmacies across India.",
+        description: "Serving hospitals, clinics & pharmacies across India.",
       },
       {
         icon: "FiHeadphones",
         title: "Dedicated Support",
-        description:
-          "Responsive support for sourcing, pricing and availability.",
+        description: "Responsive support for all your business needs.",
       },
     ],
   },

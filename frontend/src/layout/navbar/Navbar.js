@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import { FiMenu, FiX, FiPhoneCall, FiShield, FiTruck, FiAward, FiSearch } from "react-icons/fi";
+import { FiMenu, FiX, FiPhoneCall, FiShield, FiTruck, FiAward, FiSearch, FiArrowRight } from "react-icons/fi";
 import dynamic from "next/dynamic";
 import ProductEnquiryModal from "@components/modal/ProductEnquiryModal";
 
@@ -70,43 +70,43 @@ const Navbar = () => {
   return (
     <>
       <div className="kure-trust-strip hidden sm:block">
-        <div className="kure-container flex flex-wrap items-center justify-center gap-x-6 gap-y-1 py-1.5">
-          <span className="flex items-center gap-1.5">
-            <FiShield className="w-3.5 h-3.5 text-[#FF9933]" />
+        <div className="kure-nav-container kure-trust-strip__inner">
+          <span className="kure-trust-strip__item">
+            <FiShield className="w-3.5 h-3.5" />
             CDSCO Compliant Sourcing
           </span>
-          <span className="hidden md:inline text-white/30">|</span>
-          <span className="flex items-center gap-1.5">
-            <FiTruck className="w-3.5 h-3.5 text-[#FF9933]" />
+          <span className="kure-trust-strip__divider hidden md:inline" aria-hidden>|</span>
+          <span className="kure-trust-strip__item">
+            <FiTruck className="w-3.5 h-3.5" />
             Pan-India Cold Chain Delivery
           </span>
-          <span className="hidden lg:inline text-white/30">|</span>
-          <span className="hidden lg:flex items-center gap-1.5">
-            <FiAward className="w-3.5 h-3.5 text-[#FF9933]" />
+          <span className="kure-trust-strip__divider hidden lg:inline" aria-hidden>|</span>
+          <span className="kure-trust-strip__item hidden lg:flex">
+            <FiAward className="w-3.5 h-3.5" />
             Trusted Since 2016 · Delhi NCR
           </span>
         </div>
       </div>
 
       <header
-        className={`sticky top-0 z-50 bg-[#FFF9F0]/95 backdrop-blur-md transition-shadow duration-300 ${
-          isScrolled ? "shadow-lg shadow-[#1A2E5B]/8" : "border-b border-[#B8860B]/15"
+        className={`kure-navbar sticky top-0 z-50 transition-shadow duration-300 ${
+          isScrolled ? "kure-navbar--scrolled" : ""
         }`}
       >
-        <div className="kure-container">
-          <div className="flex items-center justify-between h-16 lg:h-[80px] gap-2 lg:gap-3">
+        <div className="kure-nav-container">
+          <div className="kure-navbar__inner">
             <Link
               href="/"
-              className="relative flex items-center flex-shrink-0 min-w-0 z-20 -ml-1 sm:-ml-1.5 lg:-ml-2"
+              className="kure-navbar__logo"
             >
               <img
                 src="/kure-logo.png"
                 alt="Kure Pharma"
-                className="h-[3.6rem] sm:h-[3.9rem] lg:h-[120px] w-auto max-w-[11rem] sm:max-w-[12.5rem] lg:max-w-none object-contain lg:-my-[1.25rem] drop-shadow-sm"
+                className="h-[4rem] sm:h-[4.25rem] lg:h-[5.5rem] w-auto max-w-[12rem] sm:max-w-[13rem] lg:max-w-[15rem] object-contain lg:-my-3"
               />
             </Link>
 
-            <nav className="hidden lg:flex items-center gap-0.5 flex-shrink-0">
+            <nav className="kure-navbar__nav hidden lg:flex">
               {navLinks.map((item) => (
                 <Link
                   key={item.href}
@@ -120,42 +120,40 @@ const Navbar = () => {
 
             <form
               onSubmit={handleSearch}
-              className="kure-nav-search hidden md:flex flex-1 min-w-0 max-w-[11rem] lg:max-w-[15rem] xl:max-w-[17rem]"
+              className="kure-nav-search hidden md:flex kure-navbar__search"
             >
               <FiSearch className="kure-nav-search__icon" aria-hidden />
               <input
                 type="search"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search medicines..."
+                placeholder="Search medicines, products..."
                 className="kure-nav-search__input"
-                aria-label="Search medicines"
+                aria-label="Search medicines and products"
               />
             </form>
 
-            <div className="hidden md:flex items-center gap-3 lg:gap-4 flex-shrink-0">
-              <a
-                href="tel:+919911972234"
-                className="flex items-center gap-2 text-sm font-bold text-[#1A2E5B] hover:text-[#8B1A2E] transition-colors"
-              >
-                <span className="w-9 h-9 rounded-full bg-[#1A2E5B]/8 flex items-center justify-center">
-                  <FiPhoneCall className="w-4 h-4 text-[#1A2E5B]" />
+            <div className="kure-navbar__actions hidden md:flex">
+              <a href="tel:+919911972234" className="kure-navbar__phone">
+                <span className="kure-navbar__phone-icon">
+                  <FiPhoneCall className="w-4 h-4" />
                 </span>
-                <span className="hidden xl:inline">+91 99119 72234</span>
+                <span className="hidden lg:inline">+91 99119 72234</span>
               </a>
               <button
                 type="button"
                 onClick={() => setGenericEnquiryOpen(true)}
-                className="kure-btn kure-btn-primary !py-2.5 !px-5 !text-xs"
+                className="kure-nav-cta"
               >
                 Send Enquiry
+                <FiArrowRight className="w-3.5 h-3.5" aria-hidden />
               </button>
             </div>
 
             <button
               type="button"
               onClick={() => setMobileMenuOpen((open) => !open)}
-              className="lg:hidden p-2.5 rounded-lg text-[#1A2E5B] hover:bg-[#1A2E5B]/8 border border-[#1A2E5B]/10 transition-colors shrink-0"
+              className="kure-navbar__menu-btn"
               aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileMenuOpen}
             >
@@ -170,7 +168,7 @@ const Navbar = () => {
       </header>
 
       {mobileMenuOpen && (
-        <div className="kure-mobile-menu lg:hidden" role="presentation">
+        <div className="kure-mobile-menu" role="presentation">
           <button
             type="button"
             className="kure-mobile-menu__overlay"
@@ -207,9 +205,9 @@ const Navbar = () => {
                 type="search"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search medicines..."
+                placeholder="Search medicines, products..."
                 className="kure-nav-search__input"
-                aria-label="Search medicines"
+                aria-label="Search medicines and products"
               />
             </form>
 

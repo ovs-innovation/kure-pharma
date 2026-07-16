@@ -30,7 +30,9 @@ const PopularCategories = ({ title = "Popular Categories", items = [] }) => {
               >
                 <div className="kure-cat-item__card">
                   <div className="kure-cat-circle">
-                    <span className="kure-cat-circle__icon-wrap">
+                    <span className="kure-cat-circle__ring kure-cat-circle__ring--outer" aria-hidden />
+                    <span className="kure-cat-circle__ring kure-cat-circle__ring--inner" aria-hidden />
+                    <span className="kure-cat-circle__icon-wrap kure-cat-circle__icon-wrap--therapy">
                       {renderCategoryTherapyIcon(cat)}
                     </span>
                   </div>

@@ -1,34 +1,8 @@
 import {
-  FiActivity,
-  FiTarget,
-  FiHeart,
-  FiShield,
-  FiZap,
-  FiGlobe,
-  FiDroplet,
-} from "react-icons/fi";
-
-const CATEGORY_ICONS = {
-  oncology: FiActivity,
-  "anti-cancer": FiTarget,
-  "critical-care": FiHeart,
-  immunotherapy: FiShield,
-  "targeted-therapy": FiTarget,
-  lifesaving: FiZap,
-  imported: FiGlobe,
-  hiv: FiShield,
-  nephrology: FiDroplet,
-};
-
-const CATEGORY_ICON_BY_NAME = {
-  "Anti-Cancer Medicines": FiTarget,
-  "Oncology Drugs": FiActivity,
-  "Critical Care Medicines": FiHeart,
-  "Lifesaving Drugs": FiZap,
-  "Imported medicine": FiGlobe,
-  HIV: FiShield,
-  "Nephrology Medicine": FiDroplet,
-};
+  CATEGORY_THERAPY_ICON_BY_NAME,
+  CATEGORY_THERAPY_ICON_MAP,
+  IconAwarenessRibbon,
+} from "@components/home/CategoryTherapyIcons";
 
 const normalizeKey = (value = "") =>
   value
@@ -38,34 +12,32 @@ const normalizeKey = (value = "") =>
     .replace(/^-|-$/g, "");
 
 export const getCategoryTherapyIcon = (category) => {
-  if (!category) return FiActivity;
+  if (!category) return IconAwarenessRibbon;
 
-  if (category.icon && CATEGORY_ICONS[category.icon]) {
-    return CATEGORY_ICONS[category.icon];
+  if (category.icon && CATEGORY_THERAPY_ICON_MAP[category.icon]) {
+    return CATEGORY_THERAPY_ICON_MAP[category.icon];
   }
 
-  if (CATEGORY_ICON_BY_NAME[category.name]) {
-    return CATEGORY_ICON_BY_NAME[category.name];
+  if (CATEGORY_THERAPY_ICON_BY_NAME[category.name]) {
+    return CATEGORY_THERAPY_ICON_BY_NAME[category.name];
   }
 
-  if (CATEGORY_ICON_BY_NAME[category.category]) {
-    return CATEGORY_ICON_BY_NAME[category.category];
+  if (CATEGORY_THERAPY_ICON_BY_NAME[category.category]) {
+    return CATEGORY_THERAPY_ICON_BY_NAME[category.category];
   }
 
   const key = normalizeKey(category.category || category.name);
-  if (key.includes("anti-cancer") || key.includes("anti-cancer-medicines")) {
-    return FiTarget;
-  }
-  if (key.includes("oncology")) return FiActivity;
-  if (key.includes("critical")) return FiHeart;
-  if (key.includes("lifesav")) return FiZap;
-  if (key.includes("imported")) return FiGlobe;
-  if (key === "hiv" || key.includes("hiv")) return FiShield;
-  if (key.includes("nephrology")) return FiDroplet;
-  if (key.includes("immuno")) return FiShield;
-  if (key.includes("target")) return FiTarget;
+  if (key.includes("anti-cancer")) return CATEGORY_THERAPY_ICON_MAP["anti-cancer"];
+  if (key.includes("oncology")) return CATEGORY_THERAPY_ICON_MAP.oncology;
+  if (key.includes("critical")) return CATEGORY_THERAPY_ICON_MAP["critical-care"];
+  if (key.includes("lifesav")) return CATEGORY_THERAPY_ICON_MAP.lifesaving;
+  if (key.includes("imported")) return CATEGORY_THERAPY_ICON_MAP.imported;
+  if (key === "hiv" || key.includes("hiv")) return CATEGORY_THERAPY_ICON_MAP.hiv;
+  if (key.includes("nephrology")) return CATEGORY_THERAPY_ICON_MAP.nephrology;
+  if (key.includes("immuno")) return CATEGORY_THERAPY_ICON_MAP.oncology;
+  if (key.includes("target")) return CATEGORY_THERAPY_ICON_MAP["anti-cancer"];
 
-  return FiActivity;
+  return IconAwarenessRibbon;
 };
 
 export const renderCategoryTherapyIcon = (

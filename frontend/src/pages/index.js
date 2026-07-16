@@ -79,19 +79,18 @@ const ProductCard = ({ prod, onEnquire, style = "default" }) => {
   const cardShell =
     "flex flex-col h-full border-2 border-[#c9a066]/55 rounded-sm bg-white overflow-hidden hover:border-[#b8860b]/80 hover:shadow-[0_6px_20px_rgba(184,134,11,0.12)] transition-all duration-300 group text-center";
 
-  const imageBlock = (
-    <CatalogProductImage src={imageUrl} alt={title} />
-  );
+  const imageBlock = <CatalogProductImage src={imageUrl} alt={title} />;
 
-  const titleBlock = (
-    <h3 className="kure-catalog-card-title">{title}</h3>
-  );
+  const titleBlock = <h3 className="kure-catalog-card-title">{title}</h3>;
 
   const readMore = <CatalogReadMore href={`/product/${prod.slug}`} />;
 
   if (style === "deal") {
     return (
-      <div className={`${cardShell} flex-shrink-0 kure-catalog-deal-card snap-start`} style={{ width: 232, minWidth: 232 }}>
+      <div
+        className={`${cardShell} flex-shrink-0 kure-catalog-deal-card snap-start`}
+        style={{ width: 232, minWidth: 232 }}
+      >
         {imageBlock}
         <div className="kure-catalog-card-body">
           {titleBlock}
@@ -116,7 +115,10 @@ const ProductCard = ({ prod, onEnquire, style = "default" }) => {
    PAGE COMPONENT
 ───────────────────────────────────────────── */
 const Home = ({ featuredProducts, allProducts, homepageSettings, brands }) => {
-  const slides = homepageSettings?.hero?.slides || [];
+  const slides =
+    homepageSettings?.hero?.slides?.length > 0
+      ? homepageSettings.hero.slides
+      : kureHomepageDefaults.hero.slides;
   const popularCategories = homepageSettings?.popularCategories?.items || [];
   const promoBanners = homepageSettings?.promoBanners?.items || [];
   const therapeutics = homepageSettings?.therapeutics || {};
@@ -234,9 +236,7 @@ const Home = ({ featuredProducts, allProducts, homepageSettings, brands }) => {
         )}
 
       {homepageSettings?.promoBanners?.enabled !== false &&
-        promoBanners.length > 0 && (
-          <PromoBanners items={promoBanners} />
-        )}
+        promoBanners.length > 0 && <PromoBanners items={promoBanners} />}
 
       <SupplyBanners onEnquire={() => setGenericEnquiryOpen(true)} />
 

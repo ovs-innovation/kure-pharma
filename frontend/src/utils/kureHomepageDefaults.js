@@ -26,20 +26,17 @@ const kureHomepageDefaults = {
         description: "Cold chain delivery logistics",
       },
     ],
-    ctaPrimary: { text: "View Full Product Range", link: "/products" },
-    ctaSecondary: { text: "Send Enquiry", action: "enquiry" },
+    ctaPrimary: { text: "Explore Products", link: "/products" },
+    ctaSecondary: { text: "Request Quote", action: "enquiry" },
     phone: "+91 99119 72234",
     whatsapp: "919911972234",
     slides: [
       {
         tagline: "Oncology & Specialty Medicines | Prescription Products",
-        titleLine1: "Your Trusted Partner in Healthcare.",
-        titleHighlight: "Across India.",
+        titleLine1: "Leading Pharmaceutical Wholesale",
+        titleGoldLine: "Distributors in India.",
         subtitle:
-          "CDSCO-compliant sourcing for hospitals, pharmacies and clinics with reliable supply, quality assurance and pan-India delivery.",
-        cities:
-          "Delhi NCR | Mumbai | Lucknow | Kolkata | Chandigarh | & Many More",
-        bgImage: "/hero-indian-distribution.png",
+          "CDSCO-compliant sourcing for hospitals, pharmacies and clinics. Noida | Delhi NCR | Mumbai | Lucknow | Kolkata | Pan-India delivery.",
       },
     ],
   },
@@ -48,25 +45,27 @@ const kureHomepageDefaults = {
     items: [
       {
         icon: "FiPackage",
-        title: "Wide Range",
+        title: "Wide Product Portfolio",
         description:
-          "Extensive portfolio of oncology, specialty and prescription medicines.",
+          "Comprehensive oncology & specialty therapeutics sourced from verified global manufacturers.",
       },
       {
         icon: "FiTruck",
-        title: "Timely Delivery",
-        description: "On-time delivery with temperature-controlled logistics.",
+        title: "Temperature Controlled Logistics",
+        description:
+          "GDP-compliant cold chain with real-time monitoring across every delivery corridor.",
       },
       {
         icon: "FiUsers",
-        title: "Trusted by Experts",
-        description: "Serving hospitals, clinics and pharmacies across India.",
+        title: "Trusted by Oncology Experts",
+        description:
+          "Preferred partner for cancer centres, hospitals and government institutions nationwide.",
       },
       {
         icon: "FiHeadphones",
-        title: "Dedicated Support",
+        title: "24×7 Dedicated Support",
         description:
-          "Responsive support for sourcing, pricing and availability.",
+          "Round-the-clock pharmaceutical support for urgent procurement and clinical needs.",
       },
     ],
   },
@@ -142,8 +141,7 @@ const kureHomepageDefaults = {
   bottomCta: {
     enabled: true,
     title: "Need Medicine Sourcing Assistance?",
-    subtitle:
-      "Call us or send an enquiry — our team responds within 24 hours.",
+    subtitle: "Call us or send an enquiry — our team responds within 24 hours.",
     phone: "+91 99119 72234",
     phoneHref: "tel:+919911972234",
     enquiryButtonText: "Send Enquiry",
@@ -155,8 +153,7 @@ const kureHomepageDefaults = {
     phone: "+91 99119 72234",
     phoneHref: "tel:+919911972234",
     email: "Kure.export@gmail.com",
-    address:
-      "B-1/D, Saurav Vihar, Jaitpur,\nBadarpur, New Delhi – 110044",
+    address: "B-1/D, Saurav Vihar, Jaitpur,\nBadarpur, New Delhi – 110044",
     hours: "Mon–Sat: 10 AM – 7 PM IST",
     whatsappUrl: "https://wa.me/919911972234",
     facebookUrl: "https://facebook.com",

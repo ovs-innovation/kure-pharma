@@ -20,7 +20,7 @@ const Layout = ({ title, description, children }) => {
     <>
       <ToastContainer />
 
-      <div className="font-sans overflow-x-hidden min-h-screen flex flex-col bg-[#FFF9F0] text-[#1C1814]">
+      <div className="font-sans overflow-x-hidden min-h-screen flex flex-col bg-[#fdfbf7] text-[#1C1814]">
         <Head>
           <title>
             {title ? `Kure Pharma | ${title}` : "Kure Pharma | Trusted Pharmaceutical Solutions"}

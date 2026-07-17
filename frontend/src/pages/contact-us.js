@@ -117,24 +117,34 @@ const ContactUs = () => {
               >
                 <card.icon className="w-6 h-6" />
               </div>
-              <div>
+              <div className="w-full">
                 <p className="text-xs font-black text-gray-400 uppercase tracking-widest mb-1">
                   {card.title}
                 </p>
-                {card.href ? (
-                  <a
-                    href={card.href}
-                    className={`text-sm font-bold ${card.color} hover:underline leading-relaxed`}
-                  >
-                    {card.lines.join("\n")}
-                  </a>
-                ) : (
-                  card.lines.map((line, j) => (
-                    <p key={j} className="text-sm font-semibold text-gray-700 leading-relaxed">
-                      {line}
+                <div className="min-h-[72px]">
+                  {card.href ? (
+                    <a
+                      href={card.href}
+                      className={`block text-sm font-semibold ${card.color} hover:underline leading-relaxed`}
+                    >
+                      {card.lines.map((line, j) => (
+                        <React.Fragment key={j}>
+                          {j > 0 && <br />}
+                          {line}
+                        </React.Fragment>
+                      ))}
+                    </a>
+                  ) : (
+                    <p className="text-sm font-semibold text-gray-700 leading-relaxed m-0">
+                      {card.lines.map((line, j) => (
+                        <React.Fragment key={j}>
+                          {j > 0 && <br />}
+                          {line}
+                        </React.Fragment>
+                      ))}
                     </p>
-                  ))
-                )}
+                  )}
+                </div>
               </div>
             </motion.div>
           ))}

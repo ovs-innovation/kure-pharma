@@ -164,6 +164,7 @@ const Home = ({ featuredProducts, allProducts, homepageSettings, brands }) => {
           onEnquiry={() => setGenericEnquiryOpen(true)}
           phone={homepageSettings?.hero?.phone}
           whatsapp={homepageSettings?.hero?.whatsapp}
+          email={homepageSettings?.footer?.email || "Kure.export@gmail.com"}
           qualityBar={homepageSettings?.qualityBar}
         />
       )}

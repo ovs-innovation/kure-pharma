@@ -74,7 +74,7 @@ const HomeHero = ({
   onEnquiry,
   phone = "+91 99119 72234",
   whatsapp = "919911972234",
-  email = "info@kurepharma.com",
+  email = "Kure.export@gmail.com",
   qualityBar,
 }) => {
   const heroRef = useRef(null);

@@ -12,7 +12,7 @@ export const KURE_ADDRESS_LINES = [
   "Delhi 110049, India",
 ];
 
-export const KURE_ADDRESS_MAP_EMBED = `https://www.google.com/maps?q=${encodeURIComponent(KURE_ADDRESS)}&output=embed`;
+export const KURE_ADDRESS_MAP_EMBED = `https://www.google.com/maps?q=${encodeURIComponent("Kure Pharma, " + KURE_ADDRESS_WITH_COUNTRY)}&output=embed`;
 
 export const KURE_DELIVERY_PICKUP = `Delivery from our pick point ${KURE_ADDRESS_WITH_COUNTRY}.`;
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -17,6 +17,9 @@ import {
 } from "react-icons/fi";
 import Layout from "@layout/Layout";
 import PageHero from "@components/ui/PageHero";
+import useUtilsFunction from "@hooks/useUtilsFunction";
+import ProductServices from "@services/ProductServices";
+import { getProductImageSrc } from "@utils/productImage";
 
 /* ─── Brand tokens ────────────────────────────────────────
    navy   : #1A2E5B  (deep traditional navy — like classic Indian pharma letterheads)
@@ -30,8 +33,34 @@ const MAROON = "#8B1A2E";
 const GOLD   = "#B8860B";
 const CREAM  = "#FFF9F0";
 
+const FALLBACK_PRODUCTS = [
+  { title: { en: "Midostar" }, description: { en: "Indicated for newly diagnosed acute myeloid leukemia (AML) that is FLT3 mutation-positive, in combination with standard induction and consolidation chemotherapy." }, slug: "midostar", image: ["/products/capsule_bottle.png"], manufacturer: "Zydus" },
+  { title: { en: "Intazumab" }, description: { en: "HER2-targeted therapy for metastatic breast cancer, used in combination with trastuzumab and docetaxel." }, slug: "intazumab", image: ["/products/injection_vial.png"], manufacturer: "Intas" },
+  { title: { en: "Ibruzee" }, description: { en: "Used for treating patients with Mantle Cell Lymphoma (MCL), Chronic Lymphocytic Leukemia (CLL), and Waldenstrom's." }, slug: "ibruzee", image: ["/products/targeted_therapy_pack.png"], manufacturer: "Zee Laboratories" },
+  { title: { en: "Somalinx LAR" }, description: { en: "Long-acting release suspension for severe diarrhea and flushing episodes associated with metastatic carcinoid tumors." }, slug: "somalinx-lar", image: ["/products/critical_care_injection.png"], manufacturer: "Emcure" },
+  { title: { en: "Mediopa" }, description: { en: "Alkylating agent indicated to reduce the risk of graft rejection when used in conjunction with high-dose chemotherapy." }, slug: "mediopa", image: ["/products/injection_vial.png"], manufacturer: "Oncology Division" },
+  { title: { en: "Tucanat" }, description: { en: "Oral tyrosine kinase inhibitor indicated in combination with trastuzumab and capecitabine for advanced breast cancer." }, slug: "tucanat", image: ["/products/targeted_therapy_pack.png"], manufacturer: "Natco" },
+];
+
 const AboutUsRedesign = () => {
   const [activeTab, setActiveTab] = useState("story");
+  const [products, setProducts] = useState([]);
+  const { showingTranslateValue } = useUtilsFunction();
+
+  useEffect(() => {
+    ProductServices.getAllProducts({ limit: 6 })
+      .then((res) => {
+        if (res && Array.isArray(res.products) && res.products.length > 0) {
+          setProducts(res.products);
+        } else {
+          setProducts(FALLBACK_PRODUCTS);
+        }
+      })
+      .catch((err) => {
+        console.error("Failed to load products in About Us:", err);
+        setProducts(FALLBACK_PRODUCTS);
+      });
+  }, []);
 
   return (
     <Layout
@@ -42,7 +71,7 @@ const AboutUsRedesign = () => {
         breadcrumb="About Us"
         title="About"
         highlight="Kure Pharma"
-        subtitle="Established in 2016 — a trusted name in pharmaceutical distribution under the leadership of Mr. Hitesh Sharma."
+        subtitle="Established in 2016 under the visionary leadership of Mr. Hitesh Sharma, Kure Pharma stands as a trusted benchmark in pharmaceutical distribution, delivering authentic oncology, critical care, and lifesaving medicines across India."
         bgImage="/about-hero-indian.png"
       />
       {/* ── 2. STATS CARD ── */}
@@ -167,12 +196,15 @@ const AboutUsRedesign = () => {
                       transition={{ duration: 0.25 }}
                       className="space-y-4"
                     >
-                      <h3 className="text-lg font-black" style={{ color: NAVY }}>Established in 2016</h3>
+                      <h3 className="text-lg font-black" style={{ color: NAVY }}>Our History &amp; Leadership</h3>
                       <p className="text-gray-600 text-sm sm:text-base leading-relaxed font-medium">
-                        Established in 2016, Kure Pharma has emerged as a trusted name in the pharmaceutical industry under the leadership of <strong>Mr. Hitesh Sharma</strong>. We are engaged as a Trader, Wholesaler/Distributor, Retailer, and Supplier of Services, offering a comprehensive range of Pharmaceutical Tablets, Injectable Medicines, Anti-Cancer Medicines, Oncology Drugs, Critical Care Medicines, and Specialty Pharmaceuticals.
+                        Established in 2016 under the visionary leadership of <strong>Mr. Hitesh Sharma</strong>, Kure Pharma has developed into a premier name in the pharmaceutical distribution sector across India. Over the last nine years, our organization has specialized in the sourcing and distribution of highly critical medical formulations, serving as a vital link in the healthcare supply chain. We operate as a trusted Wholesaler, Distributor, Supplier, and Retailer of critical life-saving drugs, including specialized Oncology/Anti-Cancer drugs, ICU Injectables, Nephrology formulations, HIV therapeutics, and approved specialty imported medicines.
                       </p>
                       <p className="text-gray-600 text-sm sm:text-base leading-relaxed font-medium">
-                        Our commitment to quality, authenticity, and timely delivery has enabled us to serve hospitals, healthcare institutions, pharmacies, and distributors. We strive to make life-saving medicines more accessible through ethical business practices, competitive pricing, and dependable customer support while maintaining the highest standards of quality and compliance.
+                        Under the strategic guidance of Mr. Hitesh Sharma, we have built strong, direct partnerships with leading CDSCO-compliant manufacturers and authorized importers. This enables us to maintain a reliable inventory of fully authenticated, high-quality pharmaceutical products at competitive price points. Our operations are governed by a strict quality assurance protocol, ensuring that every batch of critical medicine we distribute is backed by proper verification and batch analysis certification.
+                      </p>
+                      <p className="text-gray-600 text-sm sm:text-base leading-relaxed font-medium">
+                        Recognizing the highly sensitive nature of specialty pharmaceuticals, Kure Pharma has integrated state-of-the-art cold-chain logistics and GDP-compliant shipping networks. This ensures that temperature-sensitive injections and biologics maintain their absolute potency and bio-structure from procurement to final destination. Today, we proudly support a vast network of corporate hospitals, regional clinics, retail pharmacies, and distributors, keeping patient safety and immediate accessibility at the heart of our mission.
                       </p>
                     </motion.div>
                   )}
@@ -294,39 +326,46 @@ const AboutUsRedesign = () => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {[
-              { title: "Pharmaceutical Tablets",   desc: "Oral formulations, targeted therapy tablets, and prescription medicines sourced from trusted Indian manufacturers.", image: "/products/ramiven.png" },
-              { title: "Injectable Medicines",     desc: "ICU-grade injectables, biologics, and infusion formulations with cold-chain handling where required.",                 image: "/products/adcetris.png" },
-              { title: "Anti-Cancer Medicines",    desc: "Authenticated anti-cancer medicines for hospitals, oncology centres, and specialty pharmacies.",                    image: "/products/ramiven.png"  },
-              { title: "Oncology Drugs",           desc: "Oncology biologics, monoclonal antibodies, and targeted cancer therapies from licensed suppliers.",                 image: "/products/hertuma.png"  },
-              { title: "Critical Care Medicines",  desc: "Life-critical ICU medicines and emergency injectables for hospitals and healthcare institutions.",                  image: "/products/darzalex.png" },
-              { title: "Specialty Pharmaceuticals", desc: "Imported specialty drugs, HIV, nephrology, and rare-disease medicines with regulatory compliance.",              image: "/products/tagrisso.png" },
-            ].map((cat, idx) => (
-              <div
-                key={idx}
-                className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col group"
-                style={{ borderTop: `3px solid ${idx % 2 === 0 ? NAVY : MAROON}` }}
-              >
-                {/* big product image */}
-                <div className="w-full h-44 flex items-center justify-center rounded-lg mb-5 overflow-hidden" style={{ background: "#F4F6FC" }}>
-                  <img
-                    src={cat.image}
-                    alt={cat.title}
-                    className="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform duration-300"
-                    onError={(e) => { e.target.style.display = "none"; }}
-                  />
-                </div>
-                <h4 className="text-base font-black text-gray-900 mb-2">{cat.title}</h4>
-                <p className="text-xs text-gray-500 font-medium leading-relaxed flex-1">{cat.desc}</p>
-                <Link
-                  href="/products"
-                  className="inline-flex items-center gap-1 mt-5 text-xs font-black uppercase tracking-wider transition-colors"
-                  style={{ color: NAVY }}
+            {products.map((prod, idx) => {
+              const name = showingTranslateValue(prod.title) || prod.name || "";
+              const desc = showingTranslateValue(prod.description) || prod.uses || "";
+              const imageUrl = getProductImageSrc(prod);
+              const manufacturer = prod.manufacturer || "";
+
+              return (
+                <div
+                  key={prod._id || idx}
+                  className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col group"
+                  style={{ borderTop: `3px solid ${idx % 2 === 0 ? NAVY : MAROON}` }}
                 >
-                  Browse Range <FiChevronRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-            ))}
+                  {/* product image */}
+                  <div className="w-full h-44 flex items-center justify-center rounded-lg mb-5 overflow-hidden" style={{ background: "#F4F6FC" }}>
+                    <img
+                      src={imageUrl}
+                      alt={name}
+                      className="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform duration-300"
+                      onError={(e) => { e.target.style.display = "none"; }}
+                    />
+                  </div>
+                  {manufacturer && (
+                    <span className="text-[10px] font-black uppercase tracking-wider text-gray-400 mb-1">
+                      {manufacturer}
+                    </span>
+                  )}
+                  <h4 className="text-base font-black text-gray-900 mb-2">{name}</h4>
+                  <p className="text-xs text-gray-500 font-medium leading-relaxed flex-1">
+                    {desc.length > 140 ? `${desc.slice(0, 137)}...` : desc}
+                  </p>
+                  <Link
+                    href={`/product/${prod.slug}`}
+                    className="inline-flex items-center gap-1 mt-5 text-xs font-black uppercase tracking-wider transition-colors"
+                    style={{ color: NAVY }}
+                  >
+                    View Details <FiChevronRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>

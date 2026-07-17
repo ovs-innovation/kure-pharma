@@ -6,7 +6,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "3080:3000"
+      - "3060:3000"
     environment:
       - NODE_ENV=production
     env_file:
@@ -18,7 +18,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "3081:5000"
+      - "3061:5000"
     environment:
       - NODE_ENV=production
       - PORT=5000
@@ -31,7 +31,7 @@ services:
       context: ./admin
       dockerfile: Dockerfile
     ports:
-      - "3082:80"
+      - "3062:80"
     env_file:
       - ./admin/.env
     restart: unless-stopped

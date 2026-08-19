@@ -21,7 +21,7 @@ const buildCompanyInfo = (globalSetting = {}) => ({
     globalSetting.from_email ||
     globalSetting.email ||
     process.env.EMAIL_USER ||
-    "info@kurepharma.com",
+    "Kure.export@gmail.com",
 });
 
 const buildInvoicePayload = (order, globalSetting = {}) => {

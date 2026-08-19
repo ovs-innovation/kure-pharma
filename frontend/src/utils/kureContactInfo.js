@@ -1,15 +1,15 @@
 export const KURE_ADDRESS =
-  "H655+4CW, Balbir Saxena Marg, Yusuf Sarai, New Delhi, Delhi 110049";
+  "Flat No 308, 3rd Floor Rakesh Deep, Commercial Plot No 11, Yusuf Sarai Community Centre, New Delhi-110049";
 
 export const KURE_ADDRESS_WITH_COUNTRY = `${KURE_ADDRESS}, India`;
 
 export const KURE_ADDRESS_MULTILINE =
-  "H655+4CW, Balbir Saxena Marg,\nYusuf Sarai, New Delhi,\nDelhi 110049, India";
+  "Flat No 308, 3rd Floor Rakesh Deep,\nCommercial Plot No 11, Yusuf Sarai Community Centre,\nNew Delhi-110049, India";
 
 export const KURE_ADDRESS_LINES = [
-  "H655+4CW, Balbir Saxena Marg,",
-  "Yusuf Sarai, New Delhi,",
-  "Delhi 110049, India",
+  "Flat No 308, 3rd Floor Rakesh Deep,",
+  "Commercial Plot No 11, Yusuf Sarai Community Centre,",
+  "New Delhi-110049, India",
 ];
 
 export const KURE_ADDRESS_MAP_EMBED = `https://www.google.com/maps?q=${encodeURIComponent("Kure Pharma, " + KURE_ADDRESS_WITH_COUNTRY)}&output=embed`;

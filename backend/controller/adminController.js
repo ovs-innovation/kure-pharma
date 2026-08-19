@@ -103,7 +103,7 @@ const forgetPassword = async (req, res) => {
         <a href=${process.env.ADMIN_URL}/auth/reset-password/${token}  style="background:#22c55e;color:white;border:1px solid #22c55e; padding: 10px 15px; border-radius: 4px; text-decoration:none;">Reset Password </a>
 
         
-        <p style="margin-top: 35px;">If you did not initiate this request, please contact us immediately at hello@kurepharma.com</p>
+        <p style="margin-top: 35px;">If you did not initiate this request, please contact us immediately at Kure.export@gmail.com</p>
 
         <p style="margin-bottom:0px;">Thank you</p>
         <strong>Kure Pharma Team</strong>

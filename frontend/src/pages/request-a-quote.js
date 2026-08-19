@@ -380,10 +380,10 @@ const RequestAQuote = () => {
                   Our specialists are ready to help you with your Test & Tag requirements. Call us now for immediate assistance!
                 </p>
                 <a
-                  href="tel:+919717372217"
+                  href="tel:+919911972234"
                   className="inline-flex items-center justify-center w-full px-6 py-4 rounded-xl bg-white text-pink-700 font-bold  transition-all shadow-lg active:scale-95 text-lg"
                 >
-                  +91 9717372217
+                  +91 99119 72234
                 </a>
               </div>
 

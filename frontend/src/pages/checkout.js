@@ -465,7 +465,7 @@ const Checkout = () => {
                           <input
                             {...register("phoneNumber", { required: "Phone number is required" })}
                             className="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-4 text-sm font-medium focus:ring-2 focus:ring-[#0b1d3d] outline-none transition-all"
-                            placeholder="+91 9717372217"
+                            placeholder="+91 99119 72234"
                           />
                           {errors.phoneNumber && (
                             <p className="text-red-500 text-[10px] font-bold uppercase">

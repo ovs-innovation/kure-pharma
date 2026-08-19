@@ -101,12 +101,12 @@ const OrderInvoice = () => {
               <div style={{ width: "55%" }}>
                 <img src={kureLogo} alt="Logo" style={{ width: "220px", objectFit: "contain", marginBottom: "15px" }} />
                 <div style={{ fontWeight: "700", fontSize: "16px", marginBottom: "5px" }}>
-                  {globalSetting?.company_name || "ECOMPASS LLP"}
+                  {globalSetting?.company_name || "Kure Pharma"}
                 </div>
                 <div style={{ fontSize: "12px", color: "#333", lineHeight: "1.5", maxWidth: "450px" }}>
-                  {globalSetting?.address || "H655+4CW, Balbir Saxena Marg, Yusuf Sarai, New Delhi, Delhi 110049, India"}
+                  {globalSetting?.address || "Flat No 308, 3rd Floor Rakesh Deep, Commercial Plot No 11, Yusuf Sarai Community Centre, New Delhi-110049, India"}
                   <br />
-                  {globalSetting?.email || "ecompassllp@gmail.com"} |
+                  {globalSetting?.email || "Kure.export@gmail.com"} |
                   <br />
                   GSTIN: {globalSetting?.vat_number || "06AAIFE7762K1Z0"}
                 </div>

@@ -488,7 +488,7 @@ const sendEmailInvoiceToCustomer = async (req, res) => {
     };
 
     const body = {
-      from: req.body.company_info?.from_email || "info@kurepharma.com",
+      from: req.body.company_info?.from_email || "Kure.export@gmail.com",
       to: user.email,
       subject: `Your Order - ${req.body.invoice} at ${req.body.company_info.company}`,
       html: customerInvoiceEmailBody(option),

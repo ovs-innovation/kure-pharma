@@ -83,9 +83,9 @@ const InvoiceForDownload = ({ data, currency, globalSetting, showDateFormat, get
         <View style={S.headerRow}>
           <View style={{ width: "55%" }}>
             <Image src={kureLogo} style={S.logo} />
-            <Text style={S.companyName}>{globalSetting?.company_name || "ECOMPASS LLP"}</Text>
-            <Text style={S.companyInfoText}>{globalSetting?.address || "H655+4CW, Balbir Saxena Marg, Yusuf Sarai, New Delhi, Delhi 110049, India"}</Text>
-            <Text style={S.companyInfoText}>{`${globalSetting?.email || "ecompassllp@gmail.com"} | GSTIN: ${globalSetting?.vat_number || "06AAIFE7762K1Z0"}`}</Text>
+            <Text style={S.companyName}>{globalSetting?.company_name || "Kure Pharma"}</Text>
+            <Text style={S.companyInfoText}>{globalSetting?.address || "Flat No 308, 3rd Floor Rakesh Deep, Commercial Plot No 11, Yusuf Sarai Community Centre, New Delhi-110049, India"}</Text>
+            <Text style={S.companyInfoText}>{`${globalSetting?.email || "Kure.export@gmail.com"} | GSTIN: ${globalSetting?.vat_number || "06AAIFE7762K1Z0"}`}</Text>
           </View>
           <View style={S.headerRight}>
             <Text style={S.poTitle}>Purchase Order</Text>

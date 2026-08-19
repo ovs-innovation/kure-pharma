@@ -66,7 +66,7 @@ export const storeCustomization = {
       en: "Checkout",
       de: "Kasse",
     },
-    phone: "+91 9717372217",
+    phone: "+91 99119 72234",
     logo: "https://res.cloudinary.com/dkuwefj17/image/upload/v1697687802/settings/logo-light_hls14v.svg",
   },
   home: {
@@ -307,8 +307,8 @@ export const storeCustomization = {
       de: "Schreiben Sie uns eine E-Mail",
     },
     email_box_email: {
-      en: "hello@kurepharma.com",
-      de: "hello@kurepharma.com",
+      en: "Kure.export@gmail.com",
+      de: "Kure.export@gmail.com",
     },
     email_box_text: {
       en: "Interactively grow empowered for process-centric total linkage. ",
@@ -319,8 +319,8 @@ export const storeCustomization = {
       de: "Rufen Sie uns an",
     },
     call_box_phone: {
-      en: "+91 9717372217",
-      de: "+91 9717372217",
+      en: "+91 99119 72234",
+      de: "+91 99119 72234",
     },
     call_box_text: {
       en: "Distinctively disseminate focused solutions clicks-and-mortar ministate. ",
@@ -795,16 +795,16 @@ export const storeCustomization = {
       en: KURE_ADDRESS_WITH_COUNTRY,
       de: KURE_ADDRESS_WITH_COUNTRY,
     },
-    block4_phone: "+91 9717372217",
-    block4_email: "hello@kurepharma.com",
+    block4_phone: "+91 99119 72234",
+    block4_email: "Kure.export@gmail.com",
     social_facebook: "https://www.facebook.com/",
     social_twitter: "https://twitter.com/",
-    social_pinterest: "https://www.pinterest.com/",
+    social_instagram: "https://www.instagram.com/",
     social_linkedin: "https://www.linkedin.com/",
     social_whatsapp: "https://web.whatsapp.com/",
     payment_method_img:
       "https://res.cloudinary.com/dkuwefj17/image/upload/v1697688607/settings/payment-logo_qhslgz.webp",
-    bottom_contact: "+91 9717372217",
+    bottom_contact: "+91 99119 72234",
   },
   slug: {
     right_box_status: true,

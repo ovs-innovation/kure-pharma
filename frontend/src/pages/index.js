@@ -374,11 +374,13 @@ const Home = ({ featuredProducts, allProducts, homepageSettings, brands }) => {
             <div className="flex flex-col sm:flex-row gap-3 flex-shrink-0">
               <a
                 href={
-                  homepageSettings?.bottomCta?.phoneHref || "tel:+919911972234"
+                  homepageSettings?.bottomCta?.phoneHref && !homepageSettings?.bottomCta?.phoneHref?.includes("99107") && !homepageSettings?.bottomCta?.phoneHref?.includes("9717")
+                    ? homepageSettings.bottomCta.phoneHref
+                    : "tel:+919911972234"
                 }
                 className="kure-btn bg-white text-[#1A2E5B] hover:bg-[#FFF9F0]"
               >
-                📞 {homepageSettings?.bottomCta?.phone}
+                📞 {homepageSettings?.bottomCta?.phone && !homepageSettings?.bottomCta?.phone?.includes("99107") && !homepageSettings?.bottomCta?.phone?.includes("9717") ? homepageSettings.bottomCta.phone : "+91 99119 72234"}
               </a>
               <button
                 onClick={() => setGenericEnquiryOpen(true)}

@@ -184,7 +184,7 @@ const getStoreCustomizationSetting = async (req, res) => {
       return res.status(404).send({ message: "Settings not found" });
     }
 
-    res.send(storeCustomizationSetting.setting);
+    res.send(sanitizePhoneNumbers(storeCustomizationSetting.setting));
   } catch (err) {
     res.status(500).send({ message: err.message });
   }
@@ -235,15 +235,23 @@ const updateStoreCustomizationSetting = async (req, res) => {
   }
 };
 
-const kureHomepageDefaults = require("../utils/kureHomepageDefaults");
+const sanitizePhoneNumbers = (obj) => {
+  if (!obj) return obj;
+  let str = JSON.stringify(obj);
+  str = str.replace(/\+91\s*99107\s*68201/g, "+91 99119 72234");
+  str = str.replace(/9910768201/g, "9911972234");
+  str = str.replace(/\+91\s*9717372217/g, "+91 99119 72234");
+  str = str.replace(/9717372217/g, "9911972234");
+  return JSON.parse(str);
+};
 
 const getKureHomepageSetting = async (req, res) => {
   try {
     const doc = await Setting.findOne({ name: "kureHomepageSetting" });
     if (!doc?.setting) {
-      return res.send(kureHomepageDefaults);
+      return res.send(sanitizePhoneNumbers(kureHomepageDefaults));
     }
-    res.send({ ...kureHomepageDefaults, ...doc.setting });
+    res.send(sanitizePhoneNumbers({ ...kureHomepageDefaults, ...doc.setting }));
   } catch (err) {
     res.status(500).send({ message: err.message });
   }

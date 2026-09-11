@@ -1,4 +1,4 @@
-﻿import { Input, Textarea } from "@windmill/react-ui";
+import { Input, Textarea } from "@windmill/react-ui";
 import React, { useEffect, useState } from "react";
 import { Scrollbars } from "react-custom-scrollbars-2";
 import { Modal } from "react-responsive-modal";
@@ -394,6 +394,51 @@ const ProductDrawer = ({ id }) => {
                   <option value="Pre Order">Pre Order</option>
                   <option value="Coming Soon">Coming Soon</option>
                   </select>
+                </div>
+              </div>
+
+            <SectionHeader title="Pricing & Order Quantity" />
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label="Unit / Sale Price (₹)" />
+                <div className="col-span-8 sm:col-span-4">
+                  <InputArea
+                    register={register}
+                    label="Price"
+                    name="price"
+                    type="number"
+                    placeholder="e.g. 5400 (leave 0 if Price on Request)"
+                  />
+                  <Error errorName={errors.price} />
+                  <p className="text-xs text-gray-400 mt-1">Leave 0 if price is provided on enquiry.</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label="Original Price / MRP (₹)" />
+                <div className="col-span-8 sm:col-span-4">
+                  <InputArea
+                    register={register}
+                    label="Original Price"
+                    name="originalPrice"
+                    type="number"
+                    placeholder="e.g. 6000 (optional, shown crossed out)"
+                  />
+                  <Error errorName={errors.originalPrice} />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-6 gap-3 md:gap-5 xl:gap-6 lg:gap-6 mb-6">
+                <LabelArea label="Min Order Quantity" />
+                <div className="col-span-8 sm:col-span-4">
+                  <InputArea
+                    register={register}
+                    label="Min Order Qty"
+                    name="minOrderQuantity"
+                    type="number"
+                    placeholder="1"
+                  />
+                  <Error errorName={errors.minOrderQuantity} />
                 </div>
               </div>
 

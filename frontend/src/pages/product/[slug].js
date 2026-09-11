@@ -69,7 +69,7 @@ const getDetailProductImage = (prod) => {
 };
 
 const ProductScreen = ({ product, relatedProducts }) => {
-  const { showingTranslateValue } = useUtilsFunction();
+  const { showingTranslateValue, currency } = useUtilsFunction();
   const [activeTab, setActiveTab] = useState("description");
   const [activeImageIdx, setActiveImageIdx] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -79,6 +79,10 @@ const ProductScreen = ({ product, relatedProducts }) => {
     reset,
     formState: { errors },
   } = useForm();
+
+  const price = Number(product?.price || product?.prices?.price || 0);
+  const originalPrice = Number(product?.originalPrice ?? product?.prices?.originalPrice ?? 0);
+  const showOriginalPrice = originalPrice > price;
 
   const productFaqs = useMemo(() => {
     const custom = Array.isArray(product?.productFaqs)
@@ -169,6 +173,7 @@ const ProductScreen = ({ product, relatedProducts }) => {
           composition: product.composition || "",
           strength: product.strength || "",
           dosageForm: product.dosageForm || "",
+          price: price || 0,
         },
         message: data.message,
         enquiryType: 'single',
@@ -285,6 +290,34 @@ const ProductScreen = ({ product, relatedProducts }) => {
                     <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight leading-tight mt-3">
                       {productName}
                     </h1>
+
+                    {/* Pricing Block */}
+                    <div className="mt-3.5 flex items-baseline gap-3 flex-wrap">
+                      {price > 0 ? (
+                        <>
+                          <span className="text-2xl sm:text-3xl font-black text-[#0F4C81]">
+                            {currency}{Number(price).toLocaleString('en-IN')}
+                          </span>
+                          {showOriginalPrice && (
+                            <span className="text-base text-slate-400 line-through font-semibold">
+                              {currency}{Number(originalPrice).toLocaleString('en-IN')}
+                            </span>
+                          )}
+                          <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200/60 px-2.5 py-1 rounded-md uppercase tracking-wider">
+                            Inclusive of GST
+                          </span>
+                        </>
+                      ) : (
+                        <div className="inline-flex items-center gap-2 bg-slate-50 border border-slate-200/80 rounded-xl px-3.5 py-1.5">
+                          <span className="text-xs sm:text-sm font-extrabold text-[#0F4C81]">
+                            Price on Request
+                          </span>
+                          <span className="text-[10px] text-slate-400 font-medium">
+                            · Institutional & Export Pricing
+                          </span>
+                        </div>
+                      )}
+                    </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 border-t border-b border-slate-100 py-5">
@@ -316,6 +349,12 @@ const ProductScreen = ({ product, relatedProducts }) => {
                       <div className="space-y-1">
                         <span className="text-[10px] font-bold text-slate-450 uppercase tracking-wider block">Route</span>
                         <span className="text-sm font-bold text-slate-700">{product.route}</span>
+                      </div>
+                    )}
+                    {Number(product.minOrderQuantity) > 1 && (
+                      <div className="space-y-1">
+                        <span className="text-[10px] font-bold text-slate-450 uppercase tracking-wider block">Min Order Qty</span>
+                        <span className="text-sm font-bold text-slate-700">{product.minOrderQuantity} Units</span>
                       </div>
                     )}
                     {product.coldChain && (
@@ -670,6 +709,17 @@ const ProductScreen = ({ product, relatedProducts }) => {
                       <CatalogProductImage src={pImg} alt={pTitle} />
                       <div className="kure-catalog-card-body">
                         <h4 className="kure-catalog-card-title">{pTitle}</h4>
+                        <div className="kure-catalog-card-price-wrap px-2 mb-2 min-h-[1.5rem] flex items-center justify-center gap-1.5 flex-wrap">
+                          {Number(p.price) > 0 ? (
+                            <span className="text-sm font-black text-[#1A2E5B]">
+                              {currency}{Number(p.price).toLocaleString('en-IN')}
+                            </span>
+                          ) : (
+                            <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider bg-gray-100 px-2 py-0.5 rounded">
+                              Price on Request
+                            </span>
+                          )}
+                        </div>
                         <CatalogReadMore href={`/product/${p.slug}`} />
                       </div>
                     </div>

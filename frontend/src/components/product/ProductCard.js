@@ -192,6 +192,27 @@ const ProductCard = ({
             >
               {productTitle}
             </h2>
+
+            {/* Price row */}
+            <div className="kure-catalog-card-price-wrap px-2 mb-2 min-h-[1.5rem] flex items-center justify-center gap-1.5 flex-wrap">
+              {price > 0 ? (
+                <>
+                  <span className="text-sm sm:text-[15px] font-black text-[#1A2E5B]">
+                    {currency}{Number(price).toLocaleString('en-IN')}
+                  </span>
+                  {showOriginalPrice && (
+                    <span className="text-[11px] text-gray-400 line-through font-medium">
+                      {currency}{Number(originalPrice).toLocaleString('en-IN')}
+                    </span>
+                  )}
+                </>
+              ) : (
+                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider bg-gray-100 px-2 py-0.5 rounded">
+                  Price on Request
+                </span>
+              )}
+            </div>
+
             <CatalogReadMore href={productPath || "/products"} />
           </div>
         </div>
@@ -316,6 +337,31 @@ const ProductCard = ({
               <span className="text-[8px] uppercase tracking-wider text-slate-400 font-bold mb-0.5">Manufacturer</span>
               <span className="font-extrabold text-slate-700 truncate">{product.manufacturer || "N/A"}</span>
             </div>
+          </div>
+
+          {/* Price display */}
+          <div className="flex items-center justify-between gap-2 mb-3 pt-1">
+            {price > 0 ? (
+              <div className="flex items-baseline gap-1.5 flex-wrap">
+                <span className="text-sm font-black text-[#1A2E5B]">
+                  {currency}{Number(price).toLocaleString('en-IN')}
+                </span>
+                {showOriginalPrice && (
+                  <span className="text-[10px] text-gray-400 line-through font-medium">
+                    {currency}{Number(originalPrice).toLocaleString('en-IN')}
+                  </span>
+                )}
+              </div>
+            ) : (
+              <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider bg-gray-100 px-2 py-0.5 rounded">
+                Price on Request
+              </span>
+            )}
+            {Number(product?.minOrderQuantity) > 1 && (
+              <span className="text-[9px] font-semibold text-gray-400">
+                MOQ: {product.minOrderQuantity}
+              </span>
+            )}
           </div>
 
           {/* Action Buttons */}

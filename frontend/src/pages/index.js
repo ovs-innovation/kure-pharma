@@ -23,6 +23,7 @@ import TherapyAccessGrid from "@components/home/TherapyAccessGrid";
 import CredentialsStrip from "@components/home/CredentialsStrip";
 import CatalogProductImage from "@components/ui/CatalogProductImage";
 import CatalogReadMore from "@components/ui/CatalogReadMore";
+import useUtilsFunction from "@hooks/useUtilsFunction";
 import {
   FiArrowRight,
   FiChevronRight,
@@ -73,8 +74,12 @@ const catBgMap = {
 };
 
 const ProductCard = ({ prod, onEnquire, style = "default" }) => {
+  const { currency } = useUtilsFunction();
   const imageUrl = getProductImageSrc(prod);
   const title = getTitleString(prod.title) || prod.name || "";
+  const price = Number(prod?.price || 0);
+  const originalPrice = Number(prod?.originalPrice || 0);
+  const showOriginalPrice = originalPrice > price;
 
   const cardShell =
     "flex flex-col h-full border-2 border-[#c9a066]/55 rounded-sm bg-white overflow-hidden hover:border-[#b8860b]/80 hover:shadow-[0_6px_20px_rgba(184,134,11,0.12)] transition-all duration-300 group text-center";
@@ -82,6 +87,27 @@ const ProductCard = ({ prod, onEnquire, style = "default" }) => {
   const imageBlock = <CatalogProductImage src={imageUrl} alt={title} />;
 
   const titleBlock = <h3 className="kure-catalog-card-title">{title}</h3>;
+
+  const priceBlock = (
+    <div className="kure-catalog-card-price-wrap px-2 mb-2 min-h-[1.5rem] flex items-center justify-center gap-1.5 flex-wrap">
+      {price > 0 ? (
+        <>
+          <span className="text-sm font-black text-[#1A2E5B]">
+            {currency}{Number(price).toLocaleString('en-IN')}
+          </span>
+          {showOriginalPrice && (
+            <span className="text-[11px] text-gray-400 line-through font-medium">
+              {currency}{Number(originalPrice).toLocaleString('en-IN')}
+            </span>
+          )}
+        </>
+      ) : (
+        <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider bg-gray-100 px-2 py-0.5 rounded">
+          Price on Request
+        </span>
+      )}
+    </div>
+  );
 
   const readMore = <CatalogReadMore href={`/product/${prod.slug}`} />;
 
@@ -94,6 +120,7 @@ const ProductCard = ({ prod, onEnquire, style = "default" }) => {
         {imageBlock}
         <div className="kure-catalog-card-body">
           {titleBlock}
+          {priceBlock}
           {readMore}
         </div>
       </div>
@@ -105,6 +132,7 @@ const ProductCard = ({ prod, onEnquire, style = "default" }) => {
       {imageBlock}
       <div className="kure-catalog-card-body">
         {titleBlock}
+        {priceBlock}
         {readMore}
       </div>
     </div>

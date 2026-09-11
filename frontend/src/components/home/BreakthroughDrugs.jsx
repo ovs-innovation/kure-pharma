@@ -5,6 +5,7 @@ import CatalogReadMore from "@components/ui/CatalogReadMore";
 import { getProductImageSrc } from "@utils/productImage";
 import { breakthroughDrugs } from "@utils/kureHomepageRichContent";
 import { filterStorefrontProducts } from "@utils/storefrontProducts";
+import useUtilsFunction from "@hooks/useUtilsFunction";
 
 const cardShell =
   "group flex flex-col h-full w-full min-w-0 border-2 border-[#c9a066]/55 rounded-sm bg-white overflow-hidden hover:border-[#b8860b]/80 hover:shadow-[0_6px_20px_rgba(184,134,11,0.12)] transition-all duration-300 text-center";
@@ -31,6 +32,7 @@ const BreakthroughDrugs = ({ products = [], onEnquire }) => {
 
   if (!items.length) return null;
 
+  const { currency } = useUtilsFunction();
   return (
     <section className="kure-section kure-section-white kure-breakthrough">
       <div className="kure-container">
@@ -51,6 +53,7 @@ const BreakthroughDrugs = ({ products = [], onEnquire }) => {
               product.strength ||
               product.dosageForm ||
               "";
+            const prodPrice = Number(product.price || 0);
 
             return (
               <Link key={product._id} href={href} className={cardShell}>
@@ -63,6 +66,17 @@ const BreakthroughDrugs = ({ products = [], onEnquire }) => {
                   {subtitle ? (
                     <p className="kure-breakthrough__composition">{subtitle}</p>
                   ) : null}
+                  <div className="kure-catalog-card-price-wrap px-2 mb-2 min-h-[1.5rem] flex items-center justify-center gap-1.5 flex-wrap">
+                    {prodPrice > 0 ? (
+                      <span className="text-sm font-black text-[#1A2E5B]">
+                        {currency}{Number(prodPrice).toLocaleString('en-IN')}
+                      </span>
+                    ) : (
+                      <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider bg-gray-100 px-2 py-0.5 rounded">
+                        Price on Request
+                      </span>
+                    )}
+                  </div>
                   <CatalogReadMore href={href} />
                 </div>
               </Link>

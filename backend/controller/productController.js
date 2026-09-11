@@ -237,8 +237,9 @@ const updateProduct = async (req, res) => {
       product.quantityTiers = Array.isArray(req.body.quantityTiers)
         ? req.body.quantityTiers
         : product.quantityTiers;
-      product.deliveryCharge = Number(req.body.deliveryCharge || 0);
-      product.originalPrice = Number(req.body.originalPrice) || 0;
+      if (req.body.originalPrice !== undefined) {
+        product.originalPrice = Number(req.body.originalPrice) || 0;
+      }
 
       // Copy B2B Pharma fields
       product.composition = req.body.composition;
@@ -269,8 +270,8 @@ const updateProduct = async (req, res) => {
       product.seoKeywords = req.body.seoKeywords || "";
 
       // Recalculate basePrice if price and gstPercentage are present
-      const currentPrice = Number(req.body.price || product.price || 0);
-      const currentGst = Number(req.body.gstPercentage || product.gstPercentage || 0);
+      const currentPrice = req.body.price !== undefined ? (Number(req.body.price) || 0) : (product.price || 0);
+      const currentGst = req.body.gstPercentage !== undefined ? (Number(req.body.gstPercentage) || 0) : (product.gstPercentage || 0);
       product.basePrice = currentGst > 0 ? currentPrice / (1 + currentGst / 100) : currentPrice;
       product.price = currentPrice;
 

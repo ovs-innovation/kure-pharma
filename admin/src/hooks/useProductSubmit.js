@@ -201,7 +201,11 @@ const useProductSubmit = (id, selectedServices = []) => {
         ? data.slug
         : data.title.toLowerCase().replace(/[^A-Z0-9]+/gi, "-");
 
-      const productData = {
+        const parsedPrice = data.price !== undefined && data.price !== "" ? Math.max(0, Number(data.price) || 0) : 0;
+        const parsedOriginalPrice = data.originalPrice !== undefined && data.originalPrice !== "" ? Math.max(0, Number(data.originalPrice) || 0) : parsedPrice;
+        const parsedMinOrderQty = data.minOrderQuantity !== undefined && data.minOrderQuantity !== "" ? Math.max(1, parseInt(data.minOrderQuantity, 10) || 1) : 1;
+
+        const productData = {
         title: {
           ...titleTranslates,
           [language]: data.title,
@@ -243,11 +247,11 @@ const useProductSubmit = (id, selectedServices = []) => {
         productFaqs: productFaqs || [],
         isCombination: false,
         variants: [],
-        basePrice: 0,
+        basePrice: parsedPrice,
         gstPercentage: 0,
-        price: 0,
-        originalPrice: 0,
-        minOrderQuantity: 1,
+        price: parsedPrice,
+        originalPrice: parsedOriginalPrice,
+        minOrderQuantity: parsedMinOrderQty,
         maxOrderQuantity: 0,
         quantityTiers: [],
         deliveryCharge: 0,
@@ -275,6 +279,10 @@ const useProductSubmit = (id, selectedServices = []) => {
           ? resData.services.map((s) => (typeof s === "object" ? s._id : s))
           : [];
 
+        const editPrice = data.price !== undefined && data.price !== "" ? Math.max(0, Number(data.price) || 0) : (Number(resData.price) || 0);
+        const editOriginalPrice = data.originalPrice !== undefined && data.originalPrice !== "" ? Math.max(0, Number(data.originalPrice) || 0) : (Number(resData.originalPrice) || editPrice);
+        const editMinOrderQty = data.minOrderQuantity !== undefined && data.minOrderQuantity !== "" ? Math.max(1, parseInt(data.minOrderQuantity, 10) || 1) : (resData.minOrderQuantity ?? 1);
+
         Object.assign(productData, {
           productId: resData.productId || "",
           sku: resData.sku || "",
@@ -282,11 +290,11 @@ const useProductSubmit = (id, selectedServices = []) => {
           tag: parseProductTags(resData.tag),
           isCombination: Boolean(resData.isCombination),
           variants: Array.isArray(resData.variants) ? resData.variants : [],
-          basePrice: Number(resData.basePrice) || 0,
+          basePrice: editPrice,
           gstPercentage: Number(resData.gstPercentage) || 0,
-          price: Number(resData.price) || 0,
-          originalPrice: Number(resData.originalPrice) || 0,
-          minOrderQuantity: resData.minOrderQuantity ?? 1,
+          price: editPrice,
+          originalPrice: editOriginalPrice,
+          minOrderQuantity: editMinOrderQty,
           maxOrderQuantity: resData.maxOrderQuantity ?? 0,
           quantityTiers: Array.isArray(resData.quantityTiers)
             ? resData.quantityTiers

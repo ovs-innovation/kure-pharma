@@ -129,18 +129,23 @@ const ProductDetails = () => {
                   </span>
                 </p> */}
               </div>
-              {/* <div className="font-serif product-price font-bold dark:text-gray-400">
-                <span className="inline-block text-2xl">
+              <div className="font-serif product-price font-bold dark:text-gray-400 mb-3">
+                <span className="inline-block text-2xl text-emerald-600">
                   {currency}
-                  {getNumberTwo(data?.prices?.price)}
-                  {data?.prices?.discount >= 1 && (
+                  {getNumberTwo(data?.price || 0)}
+                  {Number(data?.originalPrice) > Number(data?.price) && (
                     <del className="text-gray-400 dark:text-gray-500 text-lg pl-2">
                       {currency}
-                      {getNumberTwo(data?.prices?.originalPrice)}
+                      {getNumberTwo(data?.originalPrice)}
                     </del>
                   )}
                 </span>
-              </div> */}
+                {Number(data?.minOrderQuantity) > 1 && (
+                  <span className="text-xs font-semibold text-gray-500 block mt-1">
+                    MOQ: {data.minOrderQuantity} units
+                  </span>
+                )}
+              </div>
               <div className="mb-4 flex flex-wrap items-center gap-3">
                 {(() => {
                   const status = getAdminStockStatus(
